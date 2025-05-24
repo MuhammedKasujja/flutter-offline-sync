@@ -1,0 +1,28 @@
+name: flutter_offline_sync
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  connectivity_plus: ^6.1.4
+  dio: ^5.8.0+1
+  logger: ^2.5.0
+  objectbox: ^4.2.0
+  objectbox_flutter_libs: ^4.2.0
+  path_provider: ^2.1.5
+  path: ^1.9.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.15
+  objectbox_generator: ^4.2.0
+
+flutter:
+  uses-material-design: true
