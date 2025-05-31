@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_offline_sync/constants.dart';
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'network_exception.freezed.dart';
