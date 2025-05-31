@@ -1,0 +1,51 @@
+import 'package:dio/dio.dart';
+import 'package:flutter_offline_sync/src/api/api_response.dart';
+import 'package:flutter_offline_sync/src/data/services/network_exception.dart';
+import 'package:flutter_offline_sync/src/utils/logger.dart';
+
+class ApiClient {
+  final Dio _dio;
+
+  ApiClient({required Dio dio}) : _dio = dio;
+
+  /// Handle all `Post` requests using this method
+  Future<ApiResponse<T>> post<T, K>(
+    String url, {
+    dynamic data = const {},
+    bool requiresToken = true,
+  }) async {
+    try {
+      final response = await _dio.post(url, data: data);
+
+      if (response.statusCode == 200) {
+        return ApiResponse<T>.success(response.data);
+      }
+      return ApiResponse.error(response.data['error'] ?? '');
+    } catch (error, stackTrace) {
+      logger.error({'Error': error, 'StackTrace': stackTrace});
+      return ApiResponse.error(
+        NetworkException.getErrorMessage(
+          NetworkException.getDioException(error),
+        ),
+      );
+    }
+  }
+
+  /// Handle all `Get` requests using this method
+  Future<ApiResponse<T>> get<T>(String endpoit) async {
+    try {
+      final response = await _dio.get(endpoit);
+      if (response.statusCode == 200) {
+        return ApiResponse<T>.success(response.data);
+      }
+      return ApiResponse.error(response.data['error'] ?? '');
+    } catch (error, stackTrace) {
+      logger.error({'Error': error, 'StackTrace': stackTrace});
+      return ApiResponse.error(
+        NetworkException.getErrorMessage(
+          NetworkException.getDioException(error),
+        ),
+      );
+    }
+  }
+}
