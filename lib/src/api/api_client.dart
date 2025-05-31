@@ -10,12 +10,11 @@ class ApiClient {
 
   /// Handle all `Post` requests using this method
   Future<ApiResponse<T>> post<T, K>(
-    String url, {
+    String endpoint, {
     dynamic data = const {},
-    bool requiresToken = true,
   }) async {
     try {
-      final response = await _dio.post(url, data: data);
+      final response = await _dio.post(endpoint, data: data);
 
       if (response.statusCode == 200) {
         return ApiResponse<T>.success(response.data);
@@ -32,9 +31,15 @@ class ApiClient {
   }
 
   /// Handle all `Get` requests using this method
-  Future<ApiResponse<T>> get<T>(String endpoit) async {
+  Future<ApiResponse<T>> get<T>(
+    String endpoint, {
+    dynamic queryParameters = const {},
+  }) async {
     try {
-      final response = await _dio.get(endpoit);
+      final response = await _dio.get(
+        endpoint,
+        queryParameters: queryParameters,
+      );
       if (response.statusCode == 200) {
         return ApiResponse<T>.success(response.data);
       }
