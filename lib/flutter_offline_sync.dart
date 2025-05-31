@@ -1,5 +1,3 @@
-library flutter_offline_sync;
-
 export 'src/data/models/data_entity.dart';
 export 'src/data/models/sync_request.dart';
 
