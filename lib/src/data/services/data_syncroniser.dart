@@ -6,6 +6,7 @@ import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 
+// TODO: Using Isolates to handle data syncronization to remove work on the main thread
 class DataSyncroniser extends IDataSyncroniser {
   final SyncRequest _request;
 

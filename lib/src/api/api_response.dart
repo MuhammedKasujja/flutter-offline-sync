@@ -42,6 +42,8 @@ class ApiResponse<T> {
 
   bool get isSuccess => status == true;
 
+  bool get isError => status == false || error != null;
+
   ApiResponse<T> copyWith({
     bool? status,
     T? data,
