@@ -9,13 +9,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  logger: ^2.5.0
+  objectbox: ^4.3.0
+  objectbox_flutter_libs: ^4.3.0
   flutter_offline_sync:
     path: ../
+  path_provider: ^2.1.5
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  build_runner: 
+  objectbox_generator: ^4.3.0
+  json_serializable: ^6.9.5
 
 flutter:
   uses-material-design: true
