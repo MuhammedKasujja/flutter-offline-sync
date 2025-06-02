@@ -1,9 +1,18 @@
 import 'package:example/data/objectbox.dart';
 import 'package:example/ui/users_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterSync.init(
+    setup: SyncRequest(
+      baseUrl: '',
+      syncRemoteEndpoint: 'uploads',
+      syncLocalEndpoint: 'local',
+      authToken: '',
+    ),
+  );
   await ObjectBox.create(databaseName: 'offline_sync_example');
   runApp(const MainApp());
 }
