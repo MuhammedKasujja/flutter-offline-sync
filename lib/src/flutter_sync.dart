@@ -44,6 +44,11 @@ class FlutterSync {
     _initialized = true;
   }
 
+  static Future<void> setAuthToken(String authToken) async {
+    _singleton._request.authToken = authToken;
+    restart();
+  }
+
   static FlutterSync get instance {
     if (!_initialized) {
       throw Exception(
