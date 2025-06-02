@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_offline_sync/objectbox.g.dart';
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
@@ -40,7 +41,7 @@ class ObjectBox {
 
   static Future<String> _getDBPath() async {
     final docsDir = await getApplicationDocumentsDirectory();
-    return p.join(docsDir.path, "offline-sync-db");
+    return p.join(docsDir.path, kSyncDatabase);
   }
 
   static Future<void> deleteDb() async {

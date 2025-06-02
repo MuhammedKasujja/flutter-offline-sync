@@ -1,3 +1,5 @@
+const kSyncDatabase = 'offline-sync-db';
+
 /// API errors start ///
 const kErrorRequestCancelled = "Request Cancelled";
 const kErrorUnauthorisedRequest = "Unauthorised request";
