@@ -38,6 +38,7 @@ class _UsersScreenState extends State<UsersScreen> {
         ],
       ),
       body: ListView.builder(
+        itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
           return ListTile(
