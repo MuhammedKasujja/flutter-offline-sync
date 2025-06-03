@@ -2,6 +2,7 @@ import 'package:example/data/models/user_model.dart';
 import 'package:example/database.dart';
 import 'package:example/ui/user_edit_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({super.key});
@@ -26,6 +27,15 @@ class _UsersScreenState extends State<UsersScreen> {
       appBar: AppBar(
         title: Text('Users'),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SyncDataViewer()),
+              );
+            },
+            icon: Icon(Icons.preview),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
