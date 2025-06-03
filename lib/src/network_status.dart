@@ -22,7 +22,8 @@ Stream<bool> networkStatus(Ref ref) async* {
 
   // Optional: periodic re-check (e.g., every 15s) in case system doesn’t emit events
   final timer = Timer.periodic(const Duration(seconds: 5), (_) async {
-    controller.add(await _hasInternet());
+    final isConnected = await _hasInternet();
+    controller.add(isConnected);
   });
 
   ref.onDispose(() {
@@ -31,7 +32,8 @@ Stream<bool> networkStatus(Ref ref) async* {
     controller.close();
   });
 
-  yield* controller.stream.distinct(); // emits only if changed
+  // yield* controller.stream.distinct(); // emits only if changed
+  yield* controller.stream;
 }
 
 Future<bool> _hasInternet() async {

@@ -38,3 +38,24 @@ class SyncManager extends _$SyncManager {
     // }
   }
 }
+
+Future<void> retryWithBackoff(
+  Future<void> Function() action, {
+  int maxRetries = 5,
+  Duration initialDelay = const Duration(seconds: 2),
+}) async {
+  int retryCount = 0;
+
+  while (retryCount < maxRetries) {
+    try {
+      await action();
+      return;
+    } catch (e) {
+      retryCount++;
+      if (retryCount >= maxRetries) rethrow;
+
+      final delay = Duration(seconds: initialDelay.inSeconds * (1 << (retryCount - 1)));
+      await Future.delayed(delay);
+    }
+  }
+}
