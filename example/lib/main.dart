@@ -1,6 +1,7 @@
 import 'package:example/data/objectbox.dart';
 import 'package:example/ui/users_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 
 void main() async {
@@ -10,7 +11,6 @@ void main() async {
       baseUrl: '',
       syncRemoteEndpoint: 'uploads',
       syncLocalEndpoint: 'local',
-      authToken: '',
     ),
   );
   await ObjectBox.create(databaseName: 'offline_sync_example');
@@ -22,9 +22,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: UsersScreen(),
+    return FlutterSyncProvider(
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: UsersScreen(),
+      ),
     );
   }
 }

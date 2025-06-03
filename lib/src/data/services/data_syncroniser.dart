@@ -31,17 +31,26 @@ class DataSyncroniser extends IDataSyncroniser {
 
   @override
   Future<ApiResponse> syncLocalUpdates() async {
-    final box = getBox<DataEntity>();
+    final updates = await getPendingLocalUpdates();
 
-    final updates = await box.getAllAsync();
-    final List<Map<String, dynamic>> map =
-        updates.map((data) => data.toJson()).toList();
+    if (updates.isEmpty) {
+      return ApiResponse.error('No updates found');
+    }
 
-    return _apiClient.post(_request.syncLocalEndpoint, data: map);
+    return _apiClient.post(_request.syncLocalEndpoint, data: updates);
   }
 
   @override
   Future<ApiResponse<DataEntity>> syncRemoteUpdates() {
     return _apiClient.get(_request.syncRemoteEndpoint);
+  }
+
+  Future<List<Map<String, dynamic>>> getPendingLocalUpdates() async {
+    final box = getBox<DataEntity>();
+    final updates = await box.getAllAsync();
+    final List<Map<String, dynamic>> pendingUpdates =
+        updates.map((data) => data.toJson()).toList();
+
+    return pendingUpdates;
   }
 }

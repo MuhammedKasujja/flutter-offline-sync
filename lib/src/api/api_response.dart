@@ -13,14 +13,14 @@
 ///
 
 class ApiResponse<T> {
-  bool status;
+  bool success;
   T? data;
   String? message;
   String? error;
   int? code;
 
   ApiResponse({
-    required this.status,
+    required this.success,
     this.data,
     this.message,
     this.error,
@@ -28,21 +28,21 @@ class ApiResponse<T> {
   });
 
   factory ApiResponse.error(String? error) {
-    return ApiResponse(status: false, error: error, message: error);
+    return ApiResponse(success: false, error: error);
   }
 
   factory ApiResponse.success(Map<String, dynamic> json) {
     return ApiResponse(
       code: json['code'],
       message: json['message'],
-      status: true,
-      data: json['data']
+      success: true,
+      data: json['data'],
     );
   }
 
-  bool get isSuccess => status == true;
+  bool get isSuccess => success == true;
 
-  bool get isError => status == false || error != null;
+  bool get isError => success == false || error != null;
 
   ApiResponse<T> copyWith({
     bool? status,
@@ -52,11 +52,26 @@ class ApiResponse<T> {
     int? code,
   }) {
     return ApiResponse(
-      status: status ?? this.status,
+      success: status ?? this.success,
       data: data ?? this.data,
       message: message ?? this.message,
       error: error ?? this.error,
       code: code ?? this.code,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{'success': success};
+
+    if (message != null) {
+      map['message'] = message;
+    }
+    if (error != null) {
+      map['error'] = error;
+    }
+    if (data != null) {
+      map['data'] = data;
+    }
+    return map;
   }
 }
