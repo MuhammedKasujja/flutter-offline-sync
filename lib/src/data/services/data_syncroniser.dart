@@ -16,17 +16,18 @@ class DataSyncroniser extends IDataSyncroniser {
     _apiClient = ApiClient(
       dio: Dio(
         BaseOptions(
-          baseUrl: request.baseUrl,
+          baseUrl: _request.baseUrl,
           contentType: 'application/json',
-          headers: {
-            request.authToken != null
-                    ? 'Authorization'
-                    : 'Bearer ${request.authToken}':
-                '',
-          },
+          headers: _headers,
         ),
       ),
     );
+  }
+  Map<String, dynamic>? get _headers {
+    if (_request.authToken != null && _request.authToken!.isNotEmpty) {
+      return {'Authorization': 'Bearer ${_request.authToken}'};
+    }
+    return null;
   }
 
   @override

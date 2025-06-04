@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterSync.init(
     setup: SyncRequest(
-      baseUrl: 'http://dev.lenderly.portal/client',
+      baseUrl: 'https://fc8b-102-222-234-234.ngrok-free.app/client',
       syncRemoteEndpoint: 'uploads',
       syncLocalEndpoint: 'local',
     ),
