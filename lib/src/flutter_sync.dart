@@ -6,6 +6,8 @@ class FlutterSync {
 
   late final DataSyncroniser _syncroniser;
 
+  Map<String, dynamic> _requestExtras = {};
+
   late SyncRequest _request;
 
   static bool _initialized = false;
@@ -25,6 +27,7 @@ class FlutterSync {
           syncLocalEndpoint: setup.syncLocalEndpoint,
           authToken: setup.authToken,
         ),
+        extras: _singleton._requestExtras,
       );
       _singleton._syncroniser = syncroniser;
       _initialized = true;
@@ -39,6 +42,7 @@ class FlutterSync {
         syncLocalEndpoint: _singleton._request.syncLocalEndpoint,
         authToken: _singleton._request.authToken,
       ),
+      extras: _singleton._requestExtras,
     );
     _singleton._syncroniser = syncroniser;
     _initialized = true;
@@ -47,6 +51,11 @@ class FlutterSync {
   static Future<void> setAuthToken(String authToken) async {
     _singleton._request.authToken = authToken;
     restart();
+  }
+
+  /// More data to go along with data upload request
+  static Future<void> setRequestExtras(Map<String, dynamic> extras) async {
+    _singleton._requestExtras = extras;
   }
 
   static FlutterSync get instance {

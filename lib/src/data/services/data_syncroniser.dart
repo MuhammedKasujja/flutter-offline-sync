@@ -12,7 +12,11 @@ class DataSyncroniser extends IDataSyncroniser {
 
   late final ApiClient _apiClient;
 
-  DataSyncroniser({required SyncRequest request}) : _request = request {
+  final Map<String, dynamic>? _extras;
+
+  DataSyncroniser({required SyncRequest request, Map<String, dynamic>? extras})
+    : _request = request,
+      _extras = extras {
     _apiClient = ApiClient(
       dio: Dio(
         BaseOptions(
@@ -38,7 +42,13 @@ class DataSyncroniser extends IDataSyncroniser {
       return ApiResponse.error('No updates found');
     }
 
-    return _apiClient.post(_request.syncLocalEndpoint, data: updates);
+    final Map<String, dynamic> updateMap = {'data': updates};
+
+    if (_extras != null) {
+      updateMap.addAll(_extras);
+    }
+
+    return _apiClient.post(_request.syncLocalEndpoint, data: updateMap);
   }
 
   @override
