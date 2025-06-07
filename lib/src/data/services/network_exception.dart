@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -101,8 +102,10 @@ abstract class NetworkException with _$NetworkException {
                       const NetworkException.serviceUnavailable();
                   break;
                 default:
-                  final message = error.response?.data['message'];
-                  networkExceptions = NetworkException.defaultError(message);
+                  final response = ApiResponse.fromError(error.response?.data);
+                  networkExceptions = NetworkException.defaultError(
+                    response.error!,
+                  );
               }
               break;
             case DioExceptionType.sendTimeout:

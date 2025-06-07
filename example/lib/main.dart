@@ -8,9 +8,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterSync.init(
     setup: SyncRequest(
-      baseUrl: 'https://fc8b-102-222-234-234.ngrok-free.app/client',
+      baseUrl: 'http://192.168.225.100:8000/api/',
       syncRemoteEndpoint: 'uploads',
-      syncLocalEndpoint: 'local',
+      syncLocalEndpoint: 'upload-updates',
     ),
   );
   await ObjectBox.create(databaseName: 'offline_sync_example');

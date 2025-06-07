@@ -40,6 +40,19 @@ class ApiResponse<T> {
     );
   }
 
+  factory ApiResponse.fromJson(Map<String, dynamic> json) {
+    return ApiResponse(
+      code: json['code'],
+      message: json['message'],
+      success: json['success'],
+      data: json['data'],
+    );
+  }
+
+  factory ApiResponse.fromError(Map<String, dynamic> json) {
+    return ApiResponse(success: false, error: json['error']);
+  }
+
   bool get isSuccess => success == true;
 
   bool get isError => success == false || error != null;

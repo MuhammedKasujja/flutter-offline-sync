@@ -44,7 +44,7 @@ class ApiClient {
       if (response.statusCode == 200) {
         return ApiResponse<T>.success(response.data);
       }
-      return ApiResponse.error(response.data['error'] ?? '');
+      return ApiResponse.fromError(response.data);
     } catch (error, stackTrace) {
       logger.error({'Error': error, 'StackTrace': stackTrace});
       return ApiResponse.error(

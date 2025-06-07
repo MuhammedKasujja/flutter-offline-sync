@@ -22,6 +22,7 @@ class _UsersScreenState extends State<UsersScreen> {
     FlutterSync.setRequestExtras({
       'user_id': 89,
       'account_id': 'GVE56W7698EHN4873748',
+      'creator_id': '67890' 
     });
     super.initState();
   }
