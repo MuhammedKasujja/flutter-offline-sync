@@ -20,7 +20,7 @@ class _UsersScreenState extends State<UsersScreen> {
     users = box.getAll();
     FlutterSync.setAuthToken('E98HFJE9FE90JFFF9843');
     FlutterSync.setRequestExtras({
-      'user_id': 89,
+      'user_id': 1,
       'account_id': 'GVE56W7698EHN4873748',
       'creator_id': '67890' 
     });

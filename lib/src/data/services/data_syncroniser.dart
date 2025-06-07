@@ -2,9 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
-import 'package:flutter_offline_sync/src/utils/data.dart';
+import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 // TODO: Using Isolates to handle data syncronization to remove work on the main thread
@@ -14,6 +15,8 @@ class DataSyncroniser extends IDataSyncroniser {
   late final ApiClient _apiClient;
 
   Map<String, dynamic>? extras;
+
+  late final ISyncRepository _syncRepository;
 
   DataSyncroniser({required SyncRequest request}) : _request = request {
     _apiClient = ApiClient(
@@ -25,6 +28,7 @@ class DataSyncroniser extends IDataSyncroniser {
         ),
       ),
     );
+    _syncRepository = SyncRepository();
   }
   Map<String, dynamic>? get _headers {
     logger.debug({'AuthToken': _request.authToken});
@@ -36,7 +40,7 @@ class DataSyncroniser extends IDataSyncroniser {
 
   @override
   Future<ApiResponse> syncLocalUpdates({Map<String, dynamic>? extras}) async {
-    final updates = await getPendingLocalUpdates();
+    final updates = await _syncRepository.getPendingLocalUpdates();
 
     if (updates.isEmpty) {
       return ApiResponse.error('No updates found');
@@ -58,17 +62,12 @@ class DataSyncroniser extends IDataSyncroniser {
     return _apiClient.get(_request.syncRemoteEndpoint);
   }
 
-  Future<List<Map<String, dynamic>>> getPendingLocalUpdates() async {
-    final box = getBox<DataEntity>();
-    final updates = await box.getAllAsync();
-    final List<Map<String, dynamic>> pendingUpdates =
-        updates.map((data) => data.toJson()).toList();
-
-    return pendingUpdates;
-  }
-
   @override
   Future addRequestExtras(Map<String, dynamic> extras) async {
     this.extras = extras;
+  }
+
+  Future<void> clearUpdatesTable() async {
+    return _syncRepository.clearUpdatesTable();
   }
 }

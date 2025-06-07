@@ -9,4 +9,6 @@ abstract class IDataSyncroniser {
   Future<ApiResponse<DataEntity>> syncRemoteUpdates();
 
   Future addRequestExtras(Map<String, dynamic> extras);
+
+  Future<void> clearUpdatesTable();
 }

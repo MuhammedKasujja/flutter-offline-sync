@@ -13,4 +13,10 @@ class SyncRepository implements ISyncRepository {
 
     return pendingUpdates;
   }
+
+  @override
+  Future<void> clearUpdatesTable() async {
+    final box = getBox<DataEntity>();
+    box.removeAll();
+  }
 }

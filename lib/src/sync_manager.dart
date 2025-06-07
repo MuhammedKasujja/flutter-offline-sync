@@ -28,6 +28,10 @@ class SyncManager extends _$SyncManager {
       extras: FlutterSync.instance.requestExtras,
     );
     logger.info({'Sync Ended': response.toJson()});
+
+    if (response.success) {
+      await _repo.clearUpdatesTable();
+    }
     // final pendingTasks = await _repo.getPendingUpdates();
 
     // for (final task in pendingTasks) {
