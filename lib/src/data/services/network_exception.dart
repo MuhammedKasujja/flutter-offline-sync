@@ -48,7 +48,7 @@ abstract class NetworkException with _$NetworkException {
   ///
   /// return a defined [error] thrown by the [exception]
   ///
-  static NetworkException getDioException(error) {
+  static NetworkException getDioException(dynamic error) {
     logger.warning(error);
     if (error is Exception) {
       try {
@@ -79,10 +79,7 @@ abstract class NetworkException with _$NetworkException {
                       const NetworkException.unauthorisedRequest();
                   break;
                 case 404:
-                  // networkExceptions = const NetworkException.notFound();
-                  networkExceptions = NetworkException.defaultError(
-                    error.response?.data['message'] ?? '',
-                  );
+                  networkExceptions = const NetworkException.notFound();
                   break;
                 case 409:
                   networkExceptions = const NetworkException.conflict();
@@ -124,8 +121,8 @@ abstract class NetworkException with _$NetworkException {
       } on FormatException catch (e) {
         logger.debug({'FormatException': e});
         return const NetworkException.formatException();
-      } catch (ex) {
-        logger.debug({"Error Format": ex});
+      } catch (ex, stackTrace) {
+        logger.debug({"Error Format": ex, 'stackTrace': stackTrace});
         return const NetworkException.unexpectedError();
       }
     } else {
