@@ -13,6 +13,7 @@ class ApiClient {
     String endpoint, {
     dynamic data = const {},
   }) async {
+    logger.error({'RequestData': data});
     try {
       final response = await _dio.post(endpoint, data: data);
 

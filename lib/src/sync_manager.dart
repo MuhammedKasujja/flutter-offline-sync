@@ -24,7 +24,9 @@ class SyncManager extends _$SyncManager {
 
   Future<void> _startSync() async {
     logger.info('Sync started');
-    final response = await _repo.syncLocalUpdates();
+    final response = await _repo.syncLocalUpdates(
+      extras: FlutterSync.instance.requestExtras,
+    );
     logger.info({'Sync Ended': response.toJson()});
     // final pendingTasks = await _repo.getPendingUpdates();
 
@@ -54,7 +56,9 @@ Future<void> retryWithBackoff(
       retryCount++;
       if (retryCount >= maxRetries) rethrow;
 
-      final delay = Duration(seconds: initialDelay.inSeconds * (1 << (retryCount - 1)));
+      final delay = Duration(
+        seconds: initialDelay.inSeconds * (1 << (retryCount - 1)),
+      );
       await Future.delayed(delay);
     }
   }

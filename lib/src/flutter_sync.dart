@@ -4,9 +4,11 @@ import 'package:flutter_offline_sync/src/data/object_box.dart';
 class FlutterSync {
   static final FlutterSync _singleton = FlutterSync._init();
 
-  late final DataSyncroniser _syncroniser;
+  late DataSyncroniser _syncroniser;
 
-  Map<String, dynamic> _requestExtras = {};
+  late Map<String, dynamic> _requestExtras = {};
+
+  Map<String, dynamic> get requestExtras => _requestExtras;
 
   late SyncRequest _request;
 
@@ -27,7 +29,6 @@ class FlutterSync {
           syncLocalEndpoint: setup.syncLocalEndpoint,
           authToken: setup.authToken,
         ),
-        extras: _singleton._requestExtras,
       );
       _singleton._syncroniser = syncroniser;
       _initialized = true;
@@ -42,7 +43,6 @@ class FlutterSync {
         syncLocalEndpoint: _singleton._request.syncLocalEndpoint,
         authToken: _singleton._request.authToken,
       ),
-      extras: _singleton._requestExtras,
     );
     _singleton._syncroniser = syncroniser;
     _initialized = true;
@@ -56,6 +56,8 @@ class FlutterSync {
   /// More data to go along with data upload request
   static Future<void> setRequestExtras(Map<String, dynamic> extras) async {
     _singleton._requestExtras = extras;
+    _singleton._syncroniser.addRequestExtras(extras);
+    restart();
   }
 
   static FlutterSync get instance {

@@ -18,6 +18,11 @@ class _UsersScreenState extends State<UsersScreen> {
   void initState() {
     final box = getBox<UserModel>();
     users = box.getAll();
+    FlutterSync.setAuthToken('E98HFJE9FE90JFFF9843');
+    FlutterSync.setRequestExtras({
+      'user_id': 89,
+      'account_id': 'GVE56W7698EHN4873748',
+    });
     super.initState();
   }
 

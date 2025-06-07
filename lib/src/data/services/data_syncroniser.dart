@@ -5,6 +5,7 @@ import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
+import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 // TODO: Using Isolates to handle data syncronization to remove work on the main thread
 class DataSyncroniser extends IDataSyncroniser {
@@ -12,11 +13,9 @@ class DataSyncroniser extends IDataSyncroniser {
 
   late final ApiClient _apiClient;
 
-  final Map<String, dynamic>? _extras;
+  Map<String, dynamic>? extras;
 
-  DataSyncroniser({required SyncRequest request, Map<String, dynamic>? extras})
-    : _request = request,
-      _extras = extras {
+  DataSyncroniser({required SyncRequest request}) : _request = request {
     _apiClient = ApiClient(
       dio: Dio(
         BaseOptions(
@@ -28,6 +27,7 @@ class DataSyncroniser extends IDataSyncroniser {
     );
   }
   Map<String, dynamic>? get _headers {
+    logger.debug({'AuthToken': _request.authToken});
     if (_request.authToken != null && _request.authToken!.isNotEmpty) {
       return {'Authorization': 'Bearer ${_request.authToken}'};
     }
@@ -35,18 +35,20 @@ class DataSyncroniser extends IDataSyncroniser {
   }
 
   @override
-  Future<ApiResponse> syncLocalUpdates() async {
+  Future<ApiResponse> syncLocalUpdates({Map<String, dynamic>? extras}) async {
     final updates = await getPendingLocalUpdates();
 
     if (updates.isEmpty) {
       return ApiResponse.error('No updates found');
     }
 
-    final Map<String, dynamic> updateMap = {'data': updates};
+    final Map<String, dynamic> updateMap = {};
 
-    if (_extras != null) {
-      updateMap.addAll(_extras);
+    if (extras != null) {
+      updateMap.addAll(extras);
     }
+
+    updateMap.addAll({'data': updates});
 
     return _apiClient.post(_request.syncLocalEndpoint, data: updateMap);
   }
@@ -63,5 +65,10 @@ class DataSyncroniser extends IDataSyncroniser {
         updates.map((data) => data.toJson()).toList();
 
     return pendingUpdates;
+  }
+
+  @override
+  Future addRequestExtras(Map<String, dynamic> extras) async {
+    this.extras = extras;
   }
 }
