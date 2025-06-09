@@ -21,9 +21,7 @@ class UserModel extends DataAdapter {
     required this.email,
     required this.name,
     this.phone,
-  }) {
-    super.tableName = 'users';
-  }
+  }) : super(modelName: 'UserModel', tableName: 'users');
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

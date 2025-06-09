@@ -12,10 +12,9 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   email: json['email'] as String,
   name: json['name'] as String,
   phone: json['phone'] as String?,
-)..tableName = json['table_name'] as String;
+);
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-  'table_name': instance.tableName,
   'id': instance.id,
   'name': instance.name,
   'age': instance.age,

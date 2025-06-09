@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8095617417935777367",
-      "lastPropertyId": "5:1640554381242179226",
+      "lastPropertyId": "6:1307755361691726201",
       "name": "DataEntity",
       "properties": [
         {
@@ -32,6 +32,11 @@
         {
           "id": "5:1640554381242179226",
           "name": "operation",
+          "type": 9
+        },
+        {
+          "id": "6:1307755361691726201",
+          "name": "entity",
           "type": 9
         }
       ],

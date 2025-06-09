@@ -5,7 +5,13 @@ import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 
 class DataAdapter extends IDataAdapter {
-  late final String tableName;
+   final String tableName;
+   final String modelName;
+
+  DataAdapter({required this.modelName, required this.tableName}) {
+    assert(tableName.isNotEmpty, 'Table name is required');
+    assert(modelName.isNotEmpty, 'Model name is required');
+  }
 
   @override
   Future<DataEntity?> queueCreate({required Map<String, dynamic> data}) async {
@@ -14,6 +20,7 @@ class DataAdapter extends IDataAdapter {
         data: jsonEncode(data),
         tableName: tableName,
         operation: 'create',
+        entity: modelName,
       ),
     );
   }
@@ -25,6 +32,7 @@ class DataAdapter extends IDataAdapter {
         data: jsonEncode({"entityId": entityId}),
         tableName: tableName,
         operation: 'delete',
+        entity: modelName,
       ),
     );
   }
@@ -36,6 +44,7 @@ class DataAdapter extends IDataAdapter {
         data: jsonEncode({"entityId": entityId}),
         tableName: tableName,
         operation: 'deleteCreate',
+        entity: modelName,
       ),
     );
   }
@@ -51,6 +60,7 @@ class DataAdapter extends IDataAdapter {
         tableName: tableName,
         entityId: entityId,
         operation: 'update',
+        entity: modelName,
       ),
     );
   }

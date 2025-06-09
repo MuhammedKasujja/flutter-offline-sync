@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 8095617417935777367),
     name: 'DataEntity',
-    lastPropertyId: const obx_int.IdUid(5, 1640554381242179226),
+    lastPropertyId: const obx_int.IdUid(6, 1307755361691726201),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -52,6 +52,12 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(5, 1640554381242179226),
         name: 'operation',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 1307755361691726201),
+        name: 'entity',
         type: 9,
         flags: 0,
       ),
@@ -128,12 +134,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
             ? null
             : fbb.writeString(object.entityId!);
         final operationOffset = fbb.writeString(object.operation);
-        fbb.startTable(6);
+        final entityOffset = fbb.writeString(object.entity);
+        fbb.startTable(7);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, dataOffset);
         fbb.addOffset(2, tableNameOffset);
         fbb.addOffset(3, entityIdOffset);
         fbb.addOffset(4, operationOffset);
+        fbb.addOffset(5, entityOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -158,12 +166,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final operationParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 12, '');
+        final entityParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 14, '');
         final object = DataEntity(
           id: idParam,
           data: dataParam,
           tableName: tableNameParam,
           entityId: entityIdParam,
           operation: operationParam,
+          entity: entityParam,
         );
 
         return object;
@@ -199,5 +211,10 @@ class DataEntity_ {
   /// See [DataEntity.operation].
   static final operation = obx.QueryStringProperty<DataEntity>(
     _entities[0].properties[4],
+  );
+
+  /// See [DataEntity.entity].
+  static final entity = obx.QueryStringProperty<DataEntity>(
+    _entities[0].properties[5],
   );
 }

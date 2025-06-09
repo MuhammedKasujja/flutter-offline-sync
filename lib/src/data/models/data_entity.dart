@@ -9,6 +9,7 @@ class DataEntity {
   int id;
   String data;
   String tableName;
+  String entity;
 
   /// Entity ID this change relates to.
   String? entityId;
@@ -20,12 +21,14 @@ class DataEntity {
     required this.tableName,
     this.entityId,
     required this.operation,
+    required this.entity,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'table': tableName,
       'entityId': entityId,
+      'entity': entity,
       'data': jsonDecode(data),
       'operation': operation,
     };
