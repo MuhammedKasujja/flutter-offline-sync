@@ -20,6 +20,7 @@ builders:
     auto_apply: dependents
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
+    # List of code generaators to skip to avoid errors loading entity.g.dart before this generator
     runs_before: [
       "json_serializable|json_serializable",
       "riverpod_generator|riverpod_generator",

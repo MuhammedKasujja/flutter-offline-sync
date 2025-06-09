@@ -16,6 +16,7 @@ class EntityRegistryBuilder implements Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
+    // ignore: deprecated_member_use
     final classes = <ClassElement>[];
 
     await for (final input in buildStep.findAssets(Glob('lib/**.dart'))) {
