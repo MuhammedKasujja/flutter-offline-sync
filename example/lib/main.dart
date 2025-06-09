@@ -6,6 +6,8 @@ import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await ObjectBox.create(databaseName: 'offline_sync_example');
+  
   await FlutterSync.init(
     setup: SyncRequest(
       baseUrl: 'http://192.168.225.100:8000/api/',
@@ -13,7 +15,6 @@ void main() async {
       syncLocalEndpoint: 'upload-updates',
     ),
   );
-  await ObjectBox.create(databaseName: 'offline_sync_example');
   runApp(const MainApp());
 }
 

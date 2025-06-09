@@ -1,5 +1,6 @@
 export 'src/data/models/data_entity.dart';
 export 'src/data/models/sync_request.dart';
+export 'src/generator/entity_registry.dart';
 
 export 'src/flutter_sync.dart';
 export 'src/data_viewer.dart';

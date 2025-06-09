@@ -4,3 +4,24 @@ targets:
       exclude:
         - "**/.plugin_symlinks/**"
         - "**/.symlinks/**"
+    builders:
+      flutter_offline_sync|entity_registry:
+        enabled: true
+    # builders:
+    #   flutter_offline_sync|entity_registry:
+    #     generate_for:
+    #       - lib/**.dart
+
+builders:
+  entity_registry:
+    import: "package:flutter_offline_sync/src/builder.dart"
+    builder_factories: ["entityRegistryBuilder"]
+    build_extensions: {"$lib$": ["generated/entity_registry.g.dart"]}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+    runs_before: [
+      "json_serializable|json_serializable",
+      "riverpod_generator|riverpod_generator",
+      "freezed|freezed"
+    ]
