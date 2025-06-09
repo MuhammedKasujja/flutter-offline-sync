@@ -19,4 +19,9 @@ class SyncRepository implements ISyncRepository {
     final box = getBox<DataEntity>();
     box.removeAll();
   }
+  
+  @override
+  Future<void> saveRemoteChanges(List<DataEntity> remoteDatachanges) async{
+    
+  }
 }

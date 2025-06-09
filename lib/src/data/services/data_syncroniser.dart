@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
@@ -58,8 +61,18 @@ class DataSyncroniser extends IDataSyncroniser {
   }
 
   @override
-  Future<ApiResponse<DataEntity>> syncRemoteUpdates() {
-    return _apiClient.get(_request.syncRemoteEndpoint);
+  Future<void> syncRemoteUpdates(List<DataEntity> updates) async {
+    if (updates.isEmpty) {
+      logger.info('No updates found');
+      return;
+    }
+    for (var remoteData in updates) {
+      FlutterSync.instance.entityRegistry.save(
+        remoteData.entity,
+        // TODO: pass this as JSON and make sure all models have fromJson method
+        jsonEncode(remoteData.data),
+      );
+    }
   }
 
   @override
@@ -67,7 +80,13 @@ class DataSyncroniser extends IDataSyncroniser {
     this.extras = extras;
   }
 
+  @override
   Future<void> clearUpdatesTable() async {
     return _syncRepository.clearUpdatesTable();
+  }
+
+  @override
+  Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() {
+    return _apiClient.get(_request.syncRemoteEndpoint);
   }
 }

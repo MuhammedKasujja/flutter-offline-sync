@@ -6,7 +6,9 @@ abstract class IDataSyncroniser {
   Future<ApiResponse> syncLocalUpdates({Map<String, dynamic>? extras});
 
   /// Get updates from the remote central server
-  Future<ApiResponse<DataEntity>> syncRemoteUpdates();
+  Future<void> syncRemoteUpdates(List<DataEntity> updates);
+
+  Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates();
 
   Future addRequestExtras(Map<String, dynamic> extras);
 

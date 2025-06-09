@@ -1,4 +1,5 @@
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'network_status.dart';
@@ -7,7 +8,7 @@ part 'sync_manager.g.dart';
 
 @Riverpod(keepAlive: true)
 class SyncManager extends _$SyncManager {
-  late final DataSyncroniser _repo;
+  late final IDataSyncroniser _repo;
 
   @override
   FutureOr<void> build() async {
@@ -17,6 +18,7 @@ class SyncManager extends _$SyncManager {
       next.whenData((isConnected) {
         if (isConnected) {
           _startSync();
+          _startSyncRemoteChanges();
         }
       });
     });
@@ -42,6 +44,14 @@ class SyncManager extends _$SyncManager {
     //     // log and retry later
     //   }
     // }
+  }
+
+  Future<void> _startSyncRemoteChanges() async {
+    final response = await _repo.fetchRemoteUpdates();
+    if (response.isSuccess) {
+      /// TODO: schedule/ run on a background thread
+      _repo.syncRemoteUpdates(response.data!);
+    }
   }
 }
 
