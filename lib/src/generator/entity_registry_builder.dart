@@ -52,13 +52,13 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("  '$entity': EntityHandler(");
       buffer.writeln("    boxFactory: (store) => store.box<$entity>(),");
       buffer.writeln(
-        "    putFunction: (store, obj) => store.box<$entity>().put(obj as $entity),",
+        "    putFunction: (store, json) => store.box<$entity>().put($entity.fromJson(json)),",
       );
       buffer.writeln(
         "    deleteFunction: (store, id) => store.box<$entity>().remove(id),",
       );
-      buffer.writeln("    updateFunction: (store, obj) {");
-      buffer.writeln("      final e = obj as $entity;");
+      buffer.writeln("    updateFunction: (store, json) {");
+      buffer.writeln("      final e = $entity.fromJson(json);");
       buffer.writeln(
         "      if (e.id == 0) throw Exception('Cannot update $entity without ID');",
       );

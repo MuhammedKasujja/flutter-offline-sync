@@ -6,7 +6,7 @@ part of 'sync_manager.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$syncManagerHash() => r'9d11f857054a82ea7bc942d78af21095585d76b6';
+String _$syncManagerHash() => r'd4d95324310f77210e0488da390b52f1b30a8965';
 
 /// See also [SyncManager].
 @ProviderFor(SyncManager)

@@ -8,10 +8,10 @@ import 'package:example/data/models/user_model.dart';
 final Map<String, EntityHandler> _generatedRegistry = {
   'UserModel': EntityHandler(
     boxFactory: (store) => store.box<UserModel>(),
-    putFunction: (store, obj) => store.box<UserModel>().put(obj as UserModel),
+    putFunction: (store, json) => store.box<UserModel>().put(UserModel.fromJson(json)),
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
-    updateFunction: (store, obj) {
-      final e = obj as UserModel;
+    updateFunction: (store, json) {
+      final e = UserModel.fromJson(json);
       if (e.id == 0) throw Exception('Cannot update UserModel without ID');
       return store.box<UserModel>().put(e);
     },

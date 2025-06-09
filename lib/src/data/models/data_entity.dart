@@ -33,4 +33,14 @@ class DataEntity {
       'operation': operation,
     };
   }
+
+  factory DataEntity.fromJson(Map<String, dynamic> json) {
+    return DataEntity(
+      data: json['data'],
+      tableName: json['table'],
+      operation: json['operation'],
+      entity: json['entity'],
+      entityId: json['entityId'],
+    );
+  }
 }
