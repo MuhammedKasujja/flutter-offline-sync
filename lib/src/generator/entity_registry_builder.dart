@@ -70,9 +70,9 @@ class EntityRegistryBuilder implements Builder {
     buffer.writeln('};');
 
     buffer.writeln(
-      '\nfinal class GeneratedEntityRegistry extends EntityRegistry {',
+      '\nfinal class ObjectboxSyncRegistry extends EntityRegistry {',
     );
-    buffer.writeln('  GeneratedEntityRegistry(super.store);');
+    buffer.writeln('  ObjectboxSyncRegistry(super.store);');
     buffer.writeln('\n  @override');
     buffer.writeln(
       '  EntityHandler? get(String name) => _generatedRegistry[name];',

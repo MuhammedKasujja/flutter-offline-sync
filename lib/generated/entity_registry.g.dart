@@ -18,8 +18,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
   ),
 };
 
-final class GeneratedEntityRegistry extends EntityRegistry {
-  GeneratedEntityRegistry(super.store);
+final class ObjectboxSyncRegistry extends EntityRegistry {
+  ObjectboxSyncRegistry(super.store);
 
   @override
   EntityHandler? get(String name) => _generatedRegistry[name];

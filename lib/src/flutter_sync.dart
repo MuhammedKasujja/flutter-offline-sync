@@ -6,6 +6,8 @@ class FlutterSync {
 
   late DataSyncroniser _syncroniser;
 
+  late EntityRegistry _entityRegistry;
+
   late Map<String, dynamic> _requestExtras = {};
 
   Map<String, dynamic> get requestExtras => _requestExtras;
@@ -18,7 +20,12 @@ class FlutterSync {
 
   DataSyncroniser get syncroniser => _syncroniser;
 
-  static Future<void> init({required SyncRequest setup}) async {
+  EntityRegistry get entityRegistry => _entityRegistry;
+
+  static Future<void> init({
+    required SyncRequest setup,
+    required EntityRegistry registry,
+  }) async {
     _singleton._request = setup;
     if (!_initialized) {
       await ObjectBox.create();
@@ -30,6 +37,7 @@ class FlutterSync {
           authToken: setup.authToken,
         ),
       );
+      _singleton._entityRegistry = registry;
       _singleton._syncroniser = syncroniser;
       _initialized = true;
     }
