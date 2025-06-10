@@ -14,6 +14,7 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'src/data/models/configuration_entity.dart';
 import 'src/data/models/data_entity.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -65,6 +66,28 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(2, 2751842997314007542),
+    name: 'ConfigurationEntity',
+    lastPropertyId: const obx_int.IdUid(2, 3186111696241817611),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 3629231878171608271),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 3186111696241817611),
+        name: 'currentDeviceId',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -105,7 +128,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(1, 8095617417935777367),
+    lastEntityId: const obx_int.IdUid(2, 2751842997314007542),
     lastIndexId: const obx_int.IdUid(0, 0),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -181,6 +204,44 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    ConfigurationEntity: obx_int.EntityDefinition<ConfigurationEntity>(
+      model: _entities[1],
+      toOneRelations: (ConfigurationEntity object) => [],
+      toManyRelations: (ConfigurationEntity object) => {},
+      getId: (ConfigurationEntity object) => object.id,
+      setId: (ConfigurationEntity object, int id) {
+        object.id = id;
+      },
+      objectToFB: (ConfigurationEntity object, fb.Builder fbb) {
+        final currentDeviceIdOffset = object.currentDeviceId == null
+            ? null
+            : fbb.writeString(object.currentDeviceId!);
+        fbb.startTable(3);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, currentDeviceIdOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final currentDeviceIdParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 6);
+        final object = ConfigurationEntity(
+          id: idParam,
+          currentDeviceId: currentDeviceIdParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -216,5 +277,18 @@ class DataEntity_ {
   /// See [DataEntity.entity].
   static final entity = obx.QueryStringProperty<DataEntity>(
     _entities[0].properties[5],
+  );
+}
+
+/// [ConfigurationEntity] entity fields to define ObjectBox queries.
+class ConfigurationEntity_ {
+  /// See [ConfigurationEntity.id].
+  static final id = obx.QueryIntegerProperty<ConfigurationEntity>(
+    _entities[1].properties[0],
+  );
+
+  /// See [ConfigurationEntity.currentDeviceId].
+  static final currentDeviceId = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[1],
   );
 }

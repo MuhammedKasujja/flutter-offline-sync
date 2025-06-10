@@ -7,7 +7,7 @@ import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
-import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
+import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
@@ -51,11 +51,15 @@ class DataSyncroniser extends IDataSyncroniser {
 
     final Map<String, dynamic> updateMap = {};
 
+    final deviceId = await ConfigService.getCurrentDeviceId();
+
     if (extras != null) {
       updateMap.addAll(extras);
     }
 
     updateMap.addAll({'data': updates});
+
+    updateMap.addAll({'deviceId': deviceId});
 
     return _apiClient.post(_request.syncLocalEndpoint, data: updateMap);
   }

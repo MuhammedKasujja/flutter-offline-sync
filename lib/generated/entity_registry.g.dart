@@ -4,6 +4,7 @@
 // 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
 
 final Map<String, EntityHandler> _generatedRegistry = {
   'DataEntity': EntityHandler(
@@ -14,6 +15,16 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final e = DataEntity.fromJson(json);
       if (e.id == 0) throw Exception('Cannot update DataEntity without ID');
       return store.box<DataEntity>().put(e);
+    },
+  ),
+  'ConfigurationEntity': EntityHandler(
+    boxFactory: (store) => store.box<ConfigurationEntity>(),
+    putFunction: (store, json) => store.box<ConfigurationEntity>().put(ConfigurationEntity.fromJson(json)),
+    deleteFunction: (store, id) => store.box<ConfigurationEntity>().remove(id),
+    updateFunction: (store, json) {
+      final e = ConfigurationEntity.fromJson(json);
+      if (e.id == 0) throw Exception('Cannot update ConfigurationEntity without ID');
+      return store.box<ConfigurationEntity>().put(e);
     },
   ),
 };

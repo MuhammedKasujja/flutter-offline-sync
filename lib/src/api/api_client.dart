@@ -9,7 +9,7 @@ class ApiClient {
   ApiClient({required Dio dio}) : _dio = dio;
 
   /// Handle all `Post` requests using this method
-  Future<ApiResponse<T>> post<T, K>(
+  Future<ApiResponse<T>> post<T>(
     String endpoint, {
     dynamic data = const {},
   }) async {

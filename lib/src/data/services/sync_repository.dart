@@ -1,4 +1,4 @@
-import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 
 import '../interfaces/sync_repository.dart';

@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_offline_sync/src/sync_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'data/services/configuration_service.dart';
+
 class FlutterSyncUtil extends ConsumerWidget {
   const FlutterSyncUtil({super.key, required this.child});
 
@@ -9,6 +11,7 @@ class FlutterSyncUtil extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ConfigService.saveCurrentDeviceId();
     // final state = ref.watch(networkStatusProvider);
     // return state.when(
     //   data: (data) {
