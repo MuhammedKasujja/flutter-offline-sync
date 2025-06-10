@@ -10,11 +10,18 @@ class RemoteConfigService extends IRemoteConfigService {
   @override
   Future<ApiResponse> saveUserSyncDevice(String userId) async {
     final settings = await ConfigService.getSettings();
+
+    if (settings?.addSyncDeviceEndpoint == null) {
+      throw Exception(
+        'Please configure add sync device endpoint and try again',
+      );
+    }
+
     return apiClient.post(
-      '/config/sync_device',
+      settings!.addSyncDeviceEndpoint!,
       data: {
-        'deviceId': settings?.currentDeviceId,
-        'accountKey': settings?.accountKey,
+        'deviceId': settings.currentDeviceId,
+        'accountKey': settings.accountKey,
         'userId': userId,
       },
     );

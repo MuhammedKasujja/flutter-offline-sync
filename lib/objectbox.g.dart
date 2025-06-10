@@ -69,7 +69,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 2751842997314007542),
     name: 'ConfigurationEntity',
-    lastPropertyId: const obx_int.IdUid(3, 2506227871816325925),
+    lastPropertyId: const obx_int.IdUid(7, 6841203765712350909),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -87,6 +87,30 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(3, 2506227871816325925),
         name: 'accountKey',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 8582917094621816919),
+        name: 'baseUrl',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 5903685566757609362),
+        name: 'remoteEndpoint',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 316672047324170772),
+        name: 'localEndpoint',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 6841203765712350909),
+        name: 'addSyncDeviceEndpoint',
         type: 9,
         flags: 0,
       ),
@@ -225,10 +249,26 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final accountKeyOffset = object.accountKey == null
             ? null
             : fbb.writeString(object.accountKey!);
-        fbb.startTable(4);
+        final baseUrlOffset = object.baseUrl == null
+            ? null
+            : fbb.writeString(object.baseUrl!);
+        final remoteEndpointOffset = object.remoteEndpoint == null
+            ? null
+            : fbb.writeString(object.remoteEndpoint!);
+        final localEndpointOffset = object.localEndpoint == null
+            ? null
+            : fbb.writeString(object.localEndpoint!);
+        final addSyncDeviceEndpointOffset = object.addSyncDeviceEndpoint == null
+            ? null
+            : fbb.writeString(object.addSyncDeviceEndpoint!);
+        fbb.startTable(8);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
         fbb.addOffset(2, accountKeyOffset);
+        fbb.addOffset(3, baseUrlOffset);
+        fbb.addOffset(4, remoteEndpointOffset);
+        fbb.addOffset(5, localEndpointOffset);
+        fbb.addOffset(6, addSyncDeviceEndpointOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -247,10 +287,26 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final accountKeyParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 8);
+        final baseUrlParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 10);
+        final remoteEndpointParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 12);
+        final localEndpointParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 14);
+        final addSyncDeviceEndpointParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 16);
         final object = ConfigurationEntity(
           id: idParam,
           currentDeviceId: currentDeviceIdParam,
           accountKey: accountKeyParam,
+          baseUrl: baseUrlParam,
+          remoteEndpoint: remoteEndpointParam,
+          localEndpoint: localEndpointParam,
+          addSyncDeviceEndpoint: addSyncDeviceEndpointParam,
         );
 
         return object;
@@ -310,4 +366,23 @@ class ConfigurationEntity_ {
   static final accountKey = obx.QueryStringProperty<ConfigurationEntity>(
     _entities[1].properties[2],
   );
+
+  /// See [ConfigurationEntity.baseUrl].
+  static final baseUrl = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[3],
+  );
+
+  /// See [ConfigurationEntity.remoteEndpoint].
+  static final remoteEndpoint = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[4],
+  );
+
+  /// See [ConfigurationEntity.localEndpoint].
+  static final localEndpoint = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[5],
+  );
+
+  /// See [ConfigurationEntity.addSyncDeviceEndpoint].
+  static final addSyncDeviceEndpoint =
+      obx.QueryStringProperty<ConfigurationEntity>(_entities[1].properties[6]);
 }

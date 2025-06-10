@@ -44,7 +44,7 @@
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "3:2506227871816325925",
+      "lastPropertyId": "7:6841203765712350909",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -61,6 +61,26 @@
         {
           "id": "3:2506227871816325925",
           "name": "accountKey",
+          "type": 9
+        },
+        {
+          "id": "4:8582917094621816919",
+          "name": "baseUrl",
+          "type": 9
+        },
+        {
+          "id": "5:5903685566757609362",
+          "name": "remoteEndpoint",
+          "type": 9
+        },
+        {
+          "id": "6:316672047324170772",
+          "name": "localEndpoint",
+          "type": 9
+        },
+        {
+          "id": "7:6841203765712350909",
+          "name": "addSyncDeviceEndpoint",
           "type": 9
         }
       ],
