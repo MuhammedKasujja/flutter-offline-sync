@@ -26,4 +26,16 @@ class ConfigurationEntity {
         currentDeviceId: json['currentDeviceId'],
         accountKey: json['accountKey'],
       );
+
+  bool get hasRemoteCredentials =>
+      accountKey != null &&
+      accountKey!.isNotEmpty &&
+      baseUrl != null &&
+      baseUrl!.isNotEmpty &&
+      remoteEndpoint != null &&
+      remoteEndpoint!.isNotEmpty &&
+      localEndpoint != null &&
+      localEndpoint!.isNotEmpty &&
+      addSyncDeviceEndpoint != null &&
+      addSyncDeviceEndpoint!.isNotEmpty;
 }

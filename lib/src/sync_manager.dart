@@ -1,5 +1,6 @@
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'network_status.dart';
@@ -15,10 +16,13 @@ class SyncManager extends _$SyncManager {
     _repo = FlutterSync.I.syncroniser;
 
     ref.listen<AsyncValue<bool>>(networkStatusProvider, (previous, next) {
-      next.whenData((isConnected) {
+      next.whenData((isConnected) async {
         if (isConnected) {
-          _startSync();
-          _startSyncRemoteChanges();
+          final config = await ConfigService.getSettings();
+          if (config != null && config.hasRemoteCredentials) {
+            _startSync();
+            _startSyncRemoteChanges();
+          }
         }
       });
     });
@@ -50,8 +54,10 @@ class SyncManager extends _$SyncManager {
     final response = await _repo.fetchRemoteUpdates();
     if (response.isSuccess) {
       /// TODO: schedule/ run on a background thread
-     await _repo.syncRemoteUpdates(response.data!);
-     logger.info({'Sync Remote updates': '${response.data?.length} total updates'});
+      await _repo.syncRemoteUpdates(response.data!);
+      logger.info({
+        'Sync Remote updates': '${response.data?.length} total updates',
+      });
     }
   }
 }
