@@ -91,22 +91,27 @@ class DataSyncroniser extends IDataSyncroniser {
 
   @override
   Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() async {
-    final deviceId = await ConfigService.getCurrentDeviceId();
+    try {
+      final deviceId = await ConfigService.getCurrentDeviceId();
 
-    final response = await _apiClient.get(
-      _request.syncRemoteEndpoint,
-      queryParameters: {'deviceId': deviceId},
-    );
+      final response = await _apiClient.get(
+        _request.syncRemoteEndpoint,
+        queryParameters: {'deviceId': deviceId},
+      );
 
-    if (response.isSuccess) {
-      final updatesList = (response.data as List).map(
-        (json) => DataEntity.fromJson(json),
-      );
-      return ApiResponse(
-        success: response.isSuccess,
-        data: updatesList.toList(),
-      );
+      if (response.isSuccess) {
+        final updatesList = (response.data as List).map(
+          (json) => DataEntity.fromJson(json),
+        );
+        return ApiResponse(
+          success: response.isSuccess,
+          data: updatesList.toList(),
+        );
+      }
+      return ApiResponse.error(response.error);
+    } catch (error, stackTrace) {
+      logger.error({error, stackTrace});
+      return ApiResponse.error(error.toString());
     }
-    return ApiResponse.error(response.error);
   }
 }

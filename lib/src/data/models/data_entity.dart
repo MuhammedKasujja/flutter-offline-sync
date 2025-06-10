@@ -26,7 +26,7 @@ class DataEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'table': tableName,
+      'tableName': tableName,
       'entityId': entityId,
       'entity': entity,
       'data': jsonDecode(data),
@@ -36,8 +36,8 @@ class DataEntity {
 
   factory DataEntity.fromJson(Map<String, dynamic> json) {
     return DataEntity(
-      data: json['data'],
-      tableName: json['table'],
+      data: jsonEncode(json['data']),
+      tableName: json['tableName'],
       operation: json['operation'],
       entity: json['entity'],
       entityId: json['entityId'],

@@ -11,7 +11,7 @@ void main() async {
 
   await FlutterSync.init(
     setup: SyncRequest(
-      baseUrl: 'http://192.168.225.100:8000/api/',
+      baseUrl: 'http://192.168.151.100:8000/api/',
       syncRemoteEndpoint: 'remote-uploads',
       syncLocalEndpoint: 'upload-updates',
     ),
