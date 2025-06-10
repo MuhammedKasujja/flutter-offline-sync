@@ -20,6 +20,7 @@ class ConfigService {
     config ??= ConfigurationEntity();
 
     config.currentDeviceId ??= Uuid().v4();
+    config.accountKey = 'JKDEYR79ER8OEJR0095';
 
     return saveSettings(config);
   }

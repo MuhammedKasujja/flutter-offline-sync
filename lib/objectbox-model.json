@@ -44,7 +44,7 @@
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "2:3186111696241817611",
+      "lastPropertyId": "3:2506227871816325925",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -56,6 +56,11 @@
         {
           "id": "2:3186111696241817611",
           "name": "currentDeviceId",
+          "type": 9
+        },
+        {
+          "id": "3:2506227871816325925",
+          "name": "accountKey",
           "type": 9
         }
       ],

@@ -92,11 +92,18 @@ class DataSyncroniser extends IDataSyncroniser {
   Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() async {
     logger.info('Getting remote updates');
     try {
-      final deviceId = await ConfigService.getCurrentDeviceId();
+      final settings = await ConfigService.getSettings();
+
+      if (settings?.accountKey == null) {
+        throw Exception('Account key is required to sync updates');
+      }
 
       final response = await _apiClient.get(
         _request.syncRemoteEndpoint,
-        queryParameters: {'deviceId': deviceId},
+        queryParameters: {
+          'deviceId': settings?.currentDeviceId,
+          'accountKey': settings?.accountKey,
+        },
       );
 
       if (response.isSuccess) {
