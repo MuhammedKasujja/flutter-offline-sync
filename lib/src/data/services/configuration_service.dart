@@ -22,9 +22,9 @@ class ConfigService {
     config.currentDeviceId ??= Uuid().v4();
     // TODO: remove demo settings
     config.accountKey = 'JKDEYR79ER8OEJR0095';
-    config.remoteEndpoint = '/remote-uploads';
-    config.localEndpoint = '/upload-updates';
-    config.addSyncDeviceEndpoint = '/config/sync_device';
+    config.remoteEndpoint = 'remote-uploads';
+    config.localEndpoint = 'upload-updates';
+    config.addSyncDeviceEndpoint = 'config/sync_device';
 
     return saveSettings(config);
   }

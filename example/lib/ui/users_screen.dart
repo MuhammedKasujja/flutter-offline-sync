@@ -39,7 +39,7 @@ class _UsersScreenState extends State<UsersScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SyncDataViewer()),
+                MaterialPageRoute(builder: (context) => SyncConfigurationsView()),
               );
             },
             icon: Icon(Icons.preview),

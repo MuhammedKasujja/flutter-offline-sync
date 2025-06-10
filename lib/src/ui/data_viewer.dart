@@ -6,20 +6,20 @@ class SyncDataViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Data Updates Viewer'), centerTitle: true),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: SyncRepository().getPendingLocalUpdates(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return _jsonViewer(snapshot.data);
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: FutureBuilder<List<Map<String, dynamic>>>(
+          future: SyncRepository().getPendingLocalUpdates(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return Center(child: Text('No local updates available'));
               }
-              return Center(child: CircularProgressIndicator());
-            },
-          ),
+              return _jsonViewer(snapshot.data);
+            }
+            return Center(child: CircularProgressIndicator());
+          },
         ),
       ),
     );
