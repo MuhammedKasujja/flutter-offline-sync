@@ -50,7 +50,8 @@ class SyncManager extends _$SyncManager {
     final response = await _repo.fetchRemoteUpdates();
     if (response.isSuccess) {
       /// TODO: schedule/ run on a background thread
-      _repo.syncRemoteUpdates(response.data!);
+     await _repo.syncRemoteUpdates(response.data!);
+     logger.info({'Sync Remote updates': '${response.data?.length} total updates'});
     }
   }
 }

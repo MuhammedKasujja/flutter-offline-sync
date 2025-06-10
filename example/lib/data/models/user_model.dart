@@ -8,7 +8,7 @@ part 'user_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
 class UserModel extends DataAdapter {
-  @Id()
+  @Id(assignable: true)
   int id;
   final String name;
   final int age;

@@ -16,15 +16,19 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   void initState() {
-    final box = getBox<UserModel>();
-    users = box.getAll();
+    fetchUsers();
     FlutterSync.setAuthToken('E98HFJE9FE90JFFF9843');
     FlutterSync.setRequestExtras({
       'user_id': 1,
       'account_id': 'GVE56W7698EHN4873748',
-      'creator_id': '67890' 
+      'creator_id': '67890',
     });
     super.initState();
+  }
+
+   fetchUsers() {
+    final box = getBox<UserModel>();
+    users = box.getAll();
   }
 
   @override
@@ -53,16 +57,19 @@ class _UsersScreenState extends State<UsersScreen> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          final user = users[index];
-          return ListTile(
-            title: Text(user.name),
-            subtitle: Text(user.email),
-            trailing: IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: () async => fetchUsers(),
+        child: ListView.builder(
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            final user = users[index];
+            return ListTile(
+              title: Text(user.name),
+              subtitle: Text(user.email),
+              trailing: IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+            );
+          },
+        ),
       ),
     );
   }

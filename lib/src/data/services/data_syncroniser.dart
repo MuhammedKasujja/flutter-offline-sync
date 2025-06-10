@@ -67,7 +67,7 @@ class DataSyncroniser extends IDataSyncroniser {
   @override
   Future<void> syncRemoteUpdates(List<DataEntity> updates) async {
     if (updates.isEmpty) {
-      logger.info('No updates found');
+      logger.info('No Remote updates found');
       return;
     }
     for (var remoteData in updates) {
@@ -91,6 +91,7 @@ class DataSyncroniser extends IDataSyncroniser {
 
   @override
   Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() async {
+    logger.info('Getting remote updates');
     try {
       final deviceId = await ConfigService.getCurrentDeviceId();
 
