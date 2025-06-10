@@ -86,7 +86,18 @@ class DataSyncroniser extends IDataSyncroniser {
   }
 
   @override
-  Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() {
-    return _apiClient.get(_request.syncRemoteEndpoint);
+  Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() async {
+    final response = await _apiClient.get(_request.syncRemoteEndpoint);
+
+    if (response.isSuccess) {
+      final updatesList = (response.data as List).map(
+        (x) => DataEntity.fromJson(x),
+      );
+      return ApiResponse(
+        success: response.isSuccess,
+        data: updatesList.toList(),
+      );
+    }
+    return ApiResponse.error(response.error);
   }
 }
