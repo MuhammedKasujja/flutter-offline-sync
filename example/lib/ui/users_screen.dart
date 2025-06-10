@@ -26,9 +26,11 @@ class _UsersScreenState extends State<UsersScreen> {
     super.initState();
   }
 
-   fetchUsers() {
+  fetchUsers() async {
     final box = getBox<UserModel>();
-    users = box.getAll();
+    setState(() {
+      users = box.getAll();
+    });
   }
 
   @override
@@ -47,8 +49,8 @@ class _UsersScreenState extends State<UsersScreen> {
             icon: Icon(Icons.preview),
           ),
           IconButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UserEditScreen()),
               );

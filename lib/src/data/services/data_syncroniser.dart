@@ -73,7 +73,6 @@ class DataSyncroniser extends IDataSyncroniser {
     for (var remoteData in updates) {
       FlutterSync.instance.entityRegistry.save(
         remoteData.entity,
-        // TODO: pass this as JSON and make sure all models have fromJson method
         jsonDecode(remoteData.data),
       );
     }
