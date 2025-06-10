@@ -29,4 +29,14 @@ class ConfigService {
 
     return config?.currentDeviceId;
   }
+
+  static Future<ConfigurationEntity?> regenerateDeviceId() async {
+    var config = await getSettings();
+    config ??= ConfigurationEntity();
+
+    config.currentDeviceId = null;
+    config.currentDeviceId = Uuid().v4();
+
+    return saveSettings(config);
+  }
 }
