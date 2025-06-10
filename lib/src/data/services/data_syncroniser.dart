@@ -51,7 +51,11 @@ class DataSyncroniser extends IDataSyncroniser {
 
     final Map<String, dynamic> updateMap = {};
 
-    final deviceId = await ConfigService.getCurrentDeviceId();
+    final settings = await ConfigService.getSettings();
+
+    if (settings?.accountKey == null) {
+      throw Exception('Account key is required to sync updates');
+    }
 
     if (extras != null) {
       updateMap.addAll(extras);
@@ -59,7 +63,10 @@ class DataSyncroniser extends IDataSyncroniser {
 
     updateMap.addAll({'data': updates});
 
-    updateMap.addAll({'deviceId': deviceId});
+    updateMap.addAll({
+      'deviceId': settings?.currentDeviceId,
+      'accountKey': settings?.accountKey,
+    });
 
     return _apiClient.post(_request.syncLocalEndpoint, data: updateMap);
   }

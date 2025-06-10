@@ -18,11 +18,7 @@ class _UsersScreenState extends State<UsersScreen> {
   void initState() {
     fetchUsers();
     FlutterSync.setAuthToken('E98HFJE9FE90JFFF9843');
-    FlutterSync.setRequestExtras({
-      'user_id': 1,
-      'account_key': 'JKDEYR79ER8OEJR0095',
-      'creator_id': '67890',
-    });
+    FlutterSync.setRequestExtras({'user_id': 1});
     super.initState();
   }
 
@@ -50,7 +46,7 @@ class _UsersScreenState extends State<UsersScreen> {
           ),
           IconButton(
             onPressed: () async {
-               Navigator.push(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UserEditScreen()),
               );
