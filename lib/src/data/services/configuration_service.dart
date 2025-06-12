@@ -28,6 +28,15 @@ class ConfigService {
     return saveSettings(config);
   }
 
+  static Future<ConfigurationEntity?> saveAuthToken(String? authToken) async {
+    var config = await getSettings();
+
+    config ??= ConfigurationEntity();
+    config.authToken = authToken;
+
+    return saveSettings(config);
+  }
+
   static Future<String?> getCurrentDeviceId() async {
     var config = await getSettings();
 

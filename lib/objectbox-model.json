@@ -44,7 +44,7 @@
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "7:6841203765712350909",
+      "lastPropertyId": "8:8711626558886932794",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -81,6 +81,11 @@
         {
           "id": "7:6841203765712350909",
           "name": "addSyncDeviceEndpoint",
+          "type": 9
+        },
+        {
+          "id": "8:8711626558886932794",
+          "name": "authToken",
           "type": 9
         }
       ],

@@ -1,6 +1,8 @@
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/data/object_box.dart';
 
+import 'data/services/configuration_service.dart';
+
 class FlutterSync {
   static final FlutterSync _singleton = FlutterSync._init();
 
@@ -34,7 +36,6 @@ class FlutterSync {
           baseUrl: setup.baseUrl,
           syncRemoteEndpoint: setup.syncRemoteEndpoint,
           syncLocalEndpoint: setup.syncLocalEndpoint,
-          authToken: setup.authToken,
         ),
       );
       _singleton._entityRegistry = registry;
@@ -49,15 +50,14 @@ class FlutterSync {
         baseUrl: _singleton._request.baseUrl,
         syncRemoteEndpoint: _singleton._request.syncRemoteEndpoint,
         syncLocalEndpoint: _singleton._request.syncLocalEndpoint,
-        authToken: _singleton._request.authToken,
       ),
     );
     _singleton._syncroniser = syncroniser;
     _initialized = true;
   }
 
-  static Future<void> setAuthToken(String authToken) async {
-    _singleton._request.authToken = authToken;
+  static Future<void> setAuthToken(String? authToken) async {
+    ConfigService.saveAuthToken(authToken);
     restart();
   }
 

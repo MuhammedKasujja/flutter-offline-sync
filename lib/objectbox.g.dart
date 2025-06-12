@@ -69,7 +69,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 2751842997314007542),
     name: 'ConfigurationEntity',
-    lastPropertyId: const obx_int.IdUid(7, 6841203765712350909),
+    lastPropertyId: const obx_int.IdUid(8, 8711626558886932794),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -111,6 +111,12 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(7, 6841203765712350909),
         name: 'addSyncDeviceEndpoint',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 8711626558886932794),
+        name: 'authToken',
         type: 9,
         flags: 0,
       ),
@@ -261,7 +267,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final addSyncDeviceEndpointOffset = object.addSyncDeviceEndpoint == null
             ? null
             : fbb.writeString(object.addSyncDeviceEndpoint!);
-        fbb.startTable(8);
+        final authTokenOffset = object.authToken == null
+            ? null
+            : fbb.writeString(object.authToken!);
+        fbb.startTable(9);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
         fbb.addOffset(2, accountKeyOffset);
@@ -269,6 +278,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(4, remoteEndpointOffset);
         fbb.addOffset(5, localEndpointOffset);
         fbb.addOffset(6, addSyncDeviceEndpointOffset);
+        fbb.addOffset(7, authTokenOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -299,6 +309,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final addSyncDeviceEndpointParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 16);
+        final authTokenParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 18);
         final object = ConfigurationEntity(
           id: idParam,
           currentDeviceId: currentDeviceIdParam,
@@ -307,6 +320,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           remoteEndpoint: remoteEndpointParam,
           localEndpoint: localEndpointParam,
           addSyncDeviceEndpoint: addSyncDeviceEndpointParam,
+          authToken: authTokenParam,
         );
 
         return object;
@@ -385,4 +399,9 @@ class ConfigurationEntity_ {
   /// See [ConfigurationEntity.addSyncDeviceEndpoint].
   static final addSyncDeviceEndpoint =
       obx.QueryStringProperty<ConfigurationEntity>(_entities[1].properties[6]);
+
+  /// See [ConfigurationEntity.authToken].
+  static final authToken = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[7],
+  );
 }
