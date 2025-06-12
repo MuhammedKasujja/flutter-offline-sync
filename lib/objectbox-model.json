@@ -90,9 +90,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:1757007729880252278",
+      "lastPropertyId": "3:687172485623488665",
+      "name": "SyncDeviceEntity",
+      "properties": [
+        {
+          "id": "1:6748703512524815105",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:877634275871827526",
+          "name": "deviceId",
+          "type": 9
+        },
+        {
+          "id": "3:687172485623488665",
+          "name": "userId",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:2751842997314007542",
+  "lastEntityId": "3:1757007729880252278",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -16,6 +16,7 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'src/data/models/configuration_entity.dart';
 import 'src/data/models/data_entity.dart';
+import 'src/data/models/sync_device_entity.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -124,6 +125,34 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(3, 1757007729880252278),
+    name: 'SyncDeviceEntity',
+    lastPropertyId: const obx_int.IdUid(3, 687172485623488665),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 6748703512524815105),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 877634275871827526),
+        name: 'deviceId',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 687172485623488665),
+        name: 'userId',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -164,7 +193,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(2, 2751842997314007542),
+    lastEntityId: const obx_int.IdUid(3, 1757007729880252278),
     lastIndexId: const obx_int.IdUid(0, 0),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -326,6 +355,48 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    SyncDeviceEntity: obx_int.EntityDefinition<SyncDeviceEntity>(
+      model: _entities[2],
+      toOneRelations: (SyncDeviceEntity object) => [],
+      toManyRelations: (SyncDeviceEntity object) => {},
+      getId: (SyncDeviceEntity object) => object.id,
+      setId: (SyncDeviceEntity object, int id) {
+        object.id = id;
+      },
+      objectToFB: (SyncDeviceEntity object, fb.Builder fbb) {
+        final deviceIdOffset = fbb.writeString(object.deviceId);
+        final userIdOffset = fbb.writeString(object.userId);
+        fbb.startTable(4);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, deviceIdOffset);
+        fbb.addOffset(2, userIdOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final deviceIdParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final userIdParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final object = SyncDeviceEntity(
+          id: idParam,
+          deviceId: deviceIdParam,
+          userId: userIdParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -403,5 +474,23 @@ class ConfigurationEntity_ {
   /// See [ConfigurationEntity.authToken].
   static final authToken = obx.QueryStringProperty<ConfigurationEntity>(
     _entities[1].properties[7],
+  );
+}
+
+/// [SyncDeviceEntity] entity fields to define ObjectBox queries.
+class SyncDeviceEntity_ {
+  /// See [SyncDeviceEntity.id].
+  static final id = obx.QueryIntegerProperty<SyncDeviceEntity>(
+    _entities[2].properties[0],
+  );
+
+  /// See [SyncDeviceEntity.deviceId].
+  static final deviceId = obx.QueryStringProperty<SyncDeviceEntity>(
+    _entities[2].properties[1],
+  );
+
+  /// See [SyncDeviceEntity.userId].
+  static final userId = obx.QueryStringProperty<SyncDeviceEntity>(
+    _entities[2].properties[2],
   );
 }
