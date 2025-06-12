@@ -20,4 +20,12 @@ const kErrorDefaultError = "Unknown error occured";
 const kErrorUnexpectedError = "Unexpected error occurred";
 const kErrorFileTooLarge = "Uploaded file is too large";
 
+const kDemoMode = true;
+
+const kDemoBaseUrl = 'http://192.168.151.100:8000/api/';
+const kDemoRemoteDownloadUrl = 'remote-uploads';
+const kDemoRemoteUploadUrl = 'upload-updates';
+const kDemoRemoteAddSyncDeviceUrl = 'config/sync_device';
+const kDemoAccountKey = 'JKDEYR79ER8OEJR0095';
+
 /// API errors end ///

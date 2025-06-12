@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
+
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
-import 'package:uuid/uuid.dart';
 
 final int _settingsId = 1;
 
@@ -16,15 +19,11 @@ class ConfigService {
   }
 
   static Future<ConfigurationEntity?> saveCurrentDeviceId() async {
-    var config = await getSettings();
+    var config = kDebugMode ? await _getDemoConfig() : await getSettings();
+
     config ??= ConfigurationEntity();
 
     config.currentDeviceId ??= Uuid().v4();
-    // TODO: remove demo settings
-    config.accountKey = 'JKDEYR79ER8OEJR0095';
-    // config.remoteEndpoint = 'remote-uploads';
-    // config.localEndpoint = 'upload-updates';
-    // config.addSyncDeviceEndpoint = 'config/sync_device';
 
     return saveSettings(config);
   }
@@ -43,5 +42,18 @@ class ConfigService {
     config.currentDeviceId = Uuid().v4();
 
     return saveSettings(config);
+  }
+
+  static Future<ConfigurationEntity?> _getDemoConfig() async {
+    final config = ConfigurationEntity();
+
+    config.currentDeviceId ??= Uuid().v4();
+    config.baseUrl = kDemoBaseUrl;
+    config.remoteEndpoint = kDemoRemoteDownloadUrl;
+    config.localEndpoint = kDemoRemoteUploadUrl;
+    config.addSyncDeviceEndpoint = kDemoRemoteAddSyncDeviceUrl;
+    config.accountKey = kDemoAccountKey;
+
+    return saveEntity(config);
   }
 }
