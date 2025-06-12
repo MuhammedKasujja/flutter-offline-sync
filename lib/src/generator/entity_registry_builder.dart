@@ -33,9 +33,13 @@ class EntityRegistryBuilder implements Builder {
     final buffer = StringBuffer();
 
     buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
-    buffer.writeln("// ");
-    buffer.writeln("// generated from object_registry package");
-    buffer.writeln("// ");
+    buffer.writeln(
+      "\n // **************************************************************************",
+    );
+    buffer.writeln("// FlutterSyncGenerator");
+    buffer.writeln(
+      "\n// **************************************************************************",
+    );
     buffer.writeln(
       "import 'package:flutter_offline_sync/flutter_offline_sync.dart';",
     );

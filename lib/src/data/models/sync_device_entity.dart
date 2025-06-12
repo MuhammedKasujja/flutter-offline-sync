@@ -16,4 +16,8 @@ class SyncDeviceEntity {
       userId: json['userId'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'deviceId': deviceId, 'userId': userId};
+  }
 }
