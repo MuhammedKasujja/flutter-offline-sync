@@ -1,7 +1,9 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// 
-// generated from object_registry package
-// 
+
+//**************************************************************************
+// FlutterSyncGenerator
+//**************************************************************************
+
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:example/data/models/user_model.dart';
 

@@ -34,14 +34,14 @@ class EntityRegistryBuilder implements Builder {
 
     buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     buffer.writeln(
-      "\n // **************************************************************************",
+      "\n//**************************************************************************",
     );
     buffer.writeln("// FlutterSyncGenerator");
     buffer.writeln(
-      "\n// **************************************************************************",
+      "//**************************************************************************",
     );
     buffer.writeln(
-      "import 'package:flutter_offline_sync/flutter_offline_sync.dart';",
+      "\nimport 'package:flutter_offline_sync/flutter_offline_sync.dart';",
     );
 
     for (final entity in classes) {
