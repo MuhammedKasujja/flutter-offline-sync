@@ -70,7 +70,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 2751842997314007542),
     name: 'ConfigurationEntity',
-    lastPropertyId: const obx_int.IdUid(8, 8711626558886932794),
+    lastPropertyId: const obx_int.IdUid(10, 2755131843964416427),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -118,6 +118,18 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(8, 8711626558886932794),
         name: 'authToken',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 7580051042323978735),
+        name: 'userId',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 2755131843964416427),
+        name: 'extras',
         type: 9,
         flags: 0,
       ),
@@ -299,7 +311,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final authTokenOffset = object.authToken == null
             ? null
             : fbb.writeString(object.authToken!);
-        fbb.startTable(9);
+        final userIdOffset = object.userId == null
+            ? null
+            : fbb.writeString(object.userId!);
+        final extrasOffset = object.extras == null
+            ? null
+            : fbb.writeString(object.extras!);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
         fbb.addOffset(2, accountKeyOffset);
@@ -308,6 +326,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(5, localEndpointOffset);
         fbb.addOffset(6, addSyncDeviceEndpointOffset);
         fbb.addOffset(7, authTokenOffset);
+        fbb.addOffset(8, userIdOffset);
+        fbb.addOffset(9, extrasOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -341,6 +361,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final authTokenParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 18);
+        final userIdParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 20);
+        final extrasParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 22);
         final object = ConfigurationEntity(
           id: idParam,
           currentDeviceId: currentDeviceIdParam,
@@ -350,6 +376,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           localEndpoint: localEndpointParam,
           addSyncDeviceEndpoint: addSyncDeviceEndpointParam,
           authToken: authTokenParam,
+          userId: userIdParam,
+          extras: extrasParam,
         );
 
         return object;
@@ -474,6 +502,16 @@ class ConfigurationEntity_ {
   /// See [ConfigurationEntity.authToken].
   static final authToken = obx.QueryStringProperty<ConfigurationEntity>(
     _entities[1].properties[7],
+  );
+
+  /// See [ConfigurationEntity.userId].
+  static final userId = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[8],
+  );
+
+  /// See [ConfigurationEntity.extras].
+  static final extras = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[9],
   );
 }
 

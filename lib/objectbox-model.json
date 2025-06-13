@@ -44,7 +44,7 @@
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "8:8711626558886932794",
+      "lastPropertyId": "10:2755131843964416427",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -86,6 +86,16 @@
         {
           "id": "8:8711626558886932794",
           "name": "authToken",
+          "type": 9
+        },
+        {
+          "id": "9:7580051042323978735",
+          "name": "userId",
+          "type": 9
+        },
+        {
+          "id": "10:2755131843964416427",
+          "name": "extras",
           "type": 9
         }
       ],

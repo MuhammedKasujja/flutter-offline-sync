@@ -11,6 +11,8 @@ class ConfigurationEntity {
   String? localEndpoint;
   String? addSyncDeviceEndpoint;
   String? authToken;
+  String? userId;
+  String? extras;
 
   ConfigurationEntity({
     this.id = 0,
@@ -21,6 +23,8 @@ class ConfigurationEntity {
     this.localEndpoint,
     this.addSyncDeviceEndpoint,
     this.authToken,
+    this.userId,
+    this.extras,
   });
 
   factory ConfigurationEntity.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +32,8 @@ class ConfigurationEntity {
         currentDeviceId: json['currentDeviceId'],
         accountKey: json['accountKey'],
         authToken: json['authToken'],
+        userId: json['userId'],
+        extras: json['extras'],
       );
 
   bool get hasRemoteCredentials =>
