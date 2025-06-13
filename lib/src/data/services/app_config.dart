@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_device_entity.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
-class ApiConfig {
+final class AppConfig {
   late ConfigurationEntity _config;
 
-  ApiConfig() {
-    _config = getBox<ConfigurationEntity>().getAll().first;
+  AppConfig() {
+    _config = getSettings();
   }
 
   ApiClient getClient() {
@@ -29,5 +30,13 @@ class ApiConfig {
       return {'Authorization': 'Bearer ${_config.authToken}'};
     }
     return null;
+  }
+
+  ConfigurationEntity getSettings() {
+    return getBox<ConfigurationEntity>().getAll().first;
+  }
+
+  Future<List<SyncDeviceEntity>> getSyncDevices() {
+    return getBox<SyncDeviceEntity>().getAllAsync();
   }
 }
