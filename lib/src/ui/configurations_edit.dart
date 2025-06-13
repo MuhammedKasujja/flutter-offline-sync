@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
-import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
+import 'package:flutter_offline_sync/src/data/services/app_config.dart';
+import 'package:flutter_offline_sync/src/utils/extensions.dart';
 
 class ConfigurationsEdit extends StatefulWidget {
   const ConfigurationsEdit({super.key});
@@ -21,21 +22,24 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     super.initState();
   }
 
-  void saveConfig() {
+  void saveConfig() async {
     final config = ConfigurationEntity();
     config.baseUrl = baseUrlController.text;
     config.localEndpoint = uploadUrlController.text;
     config.remoteEndpoint = downloadUrlController.text;
     config.addSyncDeviceEndpoint = addDeviceUrlController.text;
-    ConfigService.saveSettings(config);
+    await AppConfig.instance.saveSettings(config);
+    if (mounted) {
+      context.toast.success('Settings saved successfully');
+    }
   }
 
   Future viewSaveSettings() async {
-    final config = await ConfigService.getSettings();
-    baseUrlController.text = config?.baseUrl ?? '';
-    uploadUrlController.text = config?.localEndpoint ?? '';
-    downloadUrlController.text = config?.remoteEndpoint ?? '';
-    addDeviceUrlController.text = config?.addSyncDeviceEndpoint ?? '';
+    final settings = AppConfig.instance.getSettings();
+    baseUrlController.text = settings.baseUrl ?? '';
+    uploadUrlController.text = settings.localEndpoint ?? '';
+    downloadUrlController.text = settings.remoteEndpoint ?? '';
+    addDeviceUrlController.text = settings.addSyncDeviceEndpoint ?? '';
   }
 
   @override

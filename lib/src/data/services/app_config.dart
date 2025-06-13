@@ -3,6 +3,7 @@ import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_device_entity.dart';
+import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/data/services/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
@@ -59,6 +60,11 @@ final class AppConfig {
 
   Future<List<SyncDeviceEntity>> getSyncDevices() {
     return getBox<SyncDeviceEntity>().getAllAsync();
+  }
+ 
+  Future<void> saveSettings(ConfigurationEntity settings) async {
+    await ConfigService.saveSettings(settings);
+    await restart();
   }
 
   IDataSyncroniser get syncronizer {

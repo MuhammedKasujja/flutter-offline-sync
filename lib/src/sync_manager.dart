@@ -16,16 +16,18 @@ class SyncManager extends _$SyncManager {
 
   @override
   FutureOr<void> build() async {
-    ref.listen<AsyncValue<bool>>(networkStatusProvider, (previous, next) {
-      next.whenData((isConnected) async {
-        if (isConnected) {
-          final config = await ConfigService.getSettings();
-          if (config != null && config.hasRemoteCredentials) {
+    ref.listen<AsyncValue<bool>>(networkStatusProvider, (previous, next) async {
+      final config = await ConfigService.getSettings();
+      if (config != null && config.hasRemoteCredentials) {
+        next.whenData((isConnected) async {
+          if (isConnected) {
             _startSync();
             _startSyncRemoteChanges();
           }
-        }
-      });
+        });
+      } else {
+        logger.debug('Sync Config settings not available', level: LogLevel.db);
+      }
     });
   }
 

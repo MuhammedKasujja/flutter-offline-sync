@@ -20,7 +20,7 @@ enum SyncMode {
   bool get isSingle => this == single;
 }
 
-enum SyncRequestUpdatesMode {
+enum SyncRequestMode {
   /// No updates, [SyncClient.requestUpdates()] must be called manually.
   manual,
 
