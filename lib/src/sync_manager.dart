@@ -1,20 +1,21 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import 'network_status.dart';
 
 part 'sync_manager.g.dart';
 
 @Riverpod(keepAlive: true)
 class SyncManager extends _$SyncManager {
-  late final IDataSyncroniser _repo;
+  late IDataSyncroniser _repo;
 
   @override
   FutureOr<void> build() async {
-    _repo = FlutterSync.I.syncroniser;
-
     ref.listen<AsyncValue<bool>>(networkStatusProvider, (previous, next) {
       next.whenData((isConnected) async {
         if (isConnected) {
@@ -30,6 +31,7 @@ class SyncManager extends _$SyncManager {
 
   Future<void> _startSync() async {
     logger.info('Sync started');
+    _repo = AppConfig.instance.syncronizer;
     final response = await _repo.syncLocalUpdates(
       extras: FlutterSync.instance.requestExtras,
     );
@@ -51,6 +53,7 @@ class SyncManager extends _$SyncManager {
   }
 
   Future<void> _startSyncRemoteChanges() async {
+    _repo = AppConfig.instance.syncronizer;
     final response = await _repo.fetchRemoteUpdates();
     if (response.isSuccess) {
       /// TODO: schedule/ run on a background thread

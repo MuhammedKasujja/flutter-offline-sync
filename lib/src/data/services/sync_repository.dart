@@ -3,7 +3,7 @@ import 'package:flutter_offline_sync/src/utils/data.dart';
 
 import '../interfaces/sync_repository.dart';
 
-class SyncRepository implements ISyncRepository {
+class SyncRepositoryImp implements SyncRepository {
   @override
   Future<List<Map<String, dynamic>>> getPendingLocalUpdates() async {
     final box = getBox<DataEntity>();

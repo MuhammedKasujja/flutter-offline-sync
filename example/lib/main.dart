@@ -10,11 +10,6 @@ void main() async {
   await ObjectBox.create(databaseName: 'offline_sync_example');
 
   await FlutterSync.init(
-    setup: SyncRequest(
-      baseUrl: 'http://192.168.151.100:8000/api/',
-      syncRemoteEndpoint: 'remote-uploads',
-      syncLocalEndpoint: 'upload-updates',
-    ),
     registry: ObjectboxSyncRegistry(ObjectBox.instance.store),
   );
   runApp(const MainApp());

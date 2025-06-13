@@ -1,27 +1,48 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
+import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_device_entity.dart';
+import 'package:flutter_offline_sync/src/data/services/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 final class AppConfig {
   late ConfigurationEntity _config;
+  ApiClient? _apiClient;
 
-  AppConfig() {
-    _config = getSettings();
+  static final AppConfig _instance = AppConfig._internal();
+
+  static AppConfig get instance => _instance;
+
+  static AppConfig get I => _instance;
+
+  AppConfig._internal();
+
+  Future<void> init() {
+    return _initialized();
   }
 
-  ApiClient getClient() {
-    return ApiClient(
+  Future<void> restart() {
+    return _initialized();
+  }
+
+  Future _initialized() async {
+    _config = getSettings();
+    _apiClient ??= ApiClient(
       dio: Dio(
         BaseOptions(
-          baseUrl: _config.baseUrl!,
+          baseUrl: _config.baseUrl ?? '',
           contentType: 'application/json',
           headers: _headers,
         ),
       ),
     );
+  }
+
+  ApiClient getClient() {
+    return _apiClient!;
   }
 
   Map<String, dynamic>? get _headers {
@@ -38,5 +59,13 @@ final class AppConfig {
 
   Future<List<SyncDeviceEntity>> getSyncDevices() {
     return getBox<SyncDeviceEntity>().getAllAsync();
+  }
+
+  IDataSyncroniser get syncronizer {
+    return DataSyncroniser(
+      config: _config,
+      apiClient: getClient(),
+      syncRepository: SyncRepositoryImp(),
+    );
   }
 }

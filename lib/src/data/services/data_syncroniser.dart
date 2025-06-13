@@ -1,45 +1,27 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
-import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
-import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
-import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
+import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 // TODO: Using Isolates to handle data syncronization to remove work on the main thread
 class DataSyncroniser extends IDataSyncroniser {
-  final SyncRequest _request;
-
   late final ApiClient _apiClient;
+  late final ConfigurationEntity _config;
 
-  Map<String, dynamic>? extras;
+  late final SyncRepository _syncRepository;
 
-  late final ISyncRepository _syncRepository;
-
-  DataSyncroniser({required SyncRequest request}) : _request = request {
-    _apiClient = ApiClient(
-      dio: Dio(
-        BaseOptions(
-          baseUrl: _request.baseUrl,
-          contentType: 'application/json',
-          headers: _headers,
-        ),
-      ),
-    );
-    _syncRepository = SyncRepository();
-  }
-  Map<String, dynamic>? get _headers {
-    logger.debug({'AuthToken': _request.authToken});
-    if (_request.authToken != null && _request.authToken!.isNotEmpty) {
-      return {'Authorization': 'Bearer ${_request.authToken}'};
-    }
-    return null;
-  }
+  DataSyncroniser({
+    required ApiClient apiClient,
+    required ConfigurationEntity config,
+    required SyncRepository syncRepository,
+  }) : _apiClient = apiClient,
+       _config = config,
+       _syncRepository = syncRepository;
 
   @override
   Future<ApiResponse> syncLocalUpdates({Map<String, dynamic>? extras}) async {
@@ -51,9 +33,7 @@ class DataSyncroniser extends IDataSyncroniser {
 
     final Map<String, dynamic> updateMap = {};
 
-    final settings = await ConfigService.getSettings();
-
-    if (settings?.accountKey == null) {
+    if (_config.accountKey == null) {
       throw Exception('Account key is required to sync updates');
     }
 
@@ -64,11 +44,11 @@ class DataSyncroniser extends IDataSyncroniser {
     updateMap.addAll({'data': updates});
 
     updateMap.addAll({
-      'deviceId': settings?.currentDeviceId,
-      'accountKey': settings?.accountKey,
+      'deviceId': _config.currentDeviceId,
+      'accountKey': _config.accountKey,
     });
 
-    return _apiClient.post(_request.syncLocalEndpoint, data: updateMap);
+    return _apiClient.post(_config.localEndpoint!, data: updateMap);
   }
 
   @override
@@ -86,9 +66,7 @@ class DataSyncroniser extends IDataSyncroniser {
   }
 
   @override
-  Future addRequestExtras(Map<String, dynamic> extras) async {
-    this.extras = extras;
-  }
+  Future addRequestExtras(Map<String, dynamic> extras) async {}
 
   @override
   Future<void> clearUpdatesTable() async {
@@ -99,17 +77,15 @@ class DataSyncroniser extends IDataSyncroniser {
   Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() async {
     logger.info('Getting remote updates');
     try {
-      final settings = await ConfigService.getSettings();
-
-      if (settings?.accountKey == null) {
+      if (_config.accountKey == null) {
         throw Exception('Account key is required to sync updates');
       }
 
       final response = await _apiClient.get(
-        _request.syncRemoteEndpoint,
+        _config.remoteEndpoint ?? '',
         queryParameters: {
-          'deviceId': settings?.currentDeviceId,
-          'accountKey': settings?.accountKey,
+          'deviceId': _config.currentDeviceId,
+          'accountKey': _config.accountKey,
         },
       );
 
