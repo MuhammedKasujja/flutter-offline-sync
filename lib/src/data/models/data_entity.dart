@@ -31,6 +31,7 @@ class DataEntity {
       'entity': entity,
       'data': jsonDecode(data),
       'operation': operation,
+      'updateId': id,
     };
   }
 

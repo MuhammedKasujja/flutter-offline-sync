@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/utils/extensions.dart';
 
@@ -23,11 +22,12 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   }
 
   void saveConfig() async {
-    final config = ConfigurationEntity();
+    final config = AppConfig.instance.getSettings();
     config.baseUrl = baseUrlController.text;
     config.localEndpoint = uploadUrlController.text;
     config.remoteEndpoint = downloadUrlController.text;
     config.addSyncDeviceEndpoint = addDeviceUrlController.text;
+    config.accountKey = "7ZAMZ52GZGOQU1570WLLB2Z4IKOQYS21";
     await AppConfig.instance.saveSettings(config);
     if (mounted) {
       context.toast.success('Settings saved successfully');

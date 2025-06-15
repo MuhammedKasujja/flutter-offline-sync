@@ -44,6 +44,8 @@ class DataSyncroniser extends IDataSyncroniser {
     updateMap.addAll({'data': updates});
 
     updateMap.addAll({
+      "userId": _config.userId ?? '5600',
+      "updateId": 560,
       'deviceId': _config.currentDeviceId,
       'accountKey': _config.accountKey,
     });

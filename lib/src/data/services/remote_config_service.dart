@@ -8,7 +8,7 @@ class RemoteConfigService extends IRemoteConfigService {
   RemoteConfigService({required this.apiClient});
 
   @override
-  Future<ApiResponse> saveUserSyncDevice(String userId) async {
+  Future<ApiResponse> addSyncDevice({required String userId,required String userName}) async {
     final settings = await ConfigService.getSettings();
 
     if (settings?.addSyncDeviceEndpoint == null) {
@@ -23,11 +23,12 @@ class RemoteConfigService extends IRemoteConfigService {
         'deviceId': settings.currentDeviceId,
         'accountKey': settings.accountKey,
         'userId': userId,
+        'userName': userName,
       },
     );
   }
 }
 
 abstract class IRemoteConfigService {
-  Future<ApiResponse> saveUserSyncDevice(String userId);
+  Future<ApiResponse> addSyncDevice({required String userId,required String userName}) ;
 }

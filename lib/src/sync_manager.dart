@@ -23,10 +23,14 @@ class SyncManager extends _$SyncManager {
           if (isConnected) {
             _startSync();
             _startSyncRemoteChanges();
+          }else{
+            logger.debug("No internet connection");
           }
         });
       } else {
-        logger.debug('Sync Config settings not available', level: LogLevel.db);
+        logger.debug({
+          'Sync Config settings not available': config?.toJson(),
+        }, level: LogLevel.db);
       }
     });
   }

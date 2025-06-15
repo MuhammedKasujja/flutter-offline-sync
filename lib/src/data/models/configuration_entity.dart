@@ -36,15 +36,24 @@ class ConfigurationEntity {
         extras: json['extras'],
       );
 
+  Map<String, dynamic> toJson() {
+    return {
+      "currentDeviceId": currentDeviceId,
+      "accountKey": accountKey,
+      "authToken": authToken,
+      "userId": userId,
+      "extras": extras,
+      "baseUrl": baseUrl,
+      "remoteEndpoint": remoteEndpoint,
+      "localEndpoint": localEndpoint,
+      "addSyncDeviceEndpoint": addSyncDeviceEndpoint,
+    };
+  }
+
   bool get hasRemoteCredentials =>
-      accountKey != null &&
-      accountKey!.isNotEmpty &&
-      baseUrl != null &&
-      baseUrl!.isNotEmpty &&
-      remoteEndpoint != null &&
-      remoteEndpoint!.isNotEmpty &&
-      localEndpoint != null &&
-      localEndpoint!.isNotEmpty &&
-      addSyncDeviceEndpoint != null &&
-      addSyncDeviceEndpoint!.isNotEmpty;
+      (accountKey ?? '').isNotEmpty &&
+      (baseUrl ?? '').isNotEmpty &&
+      (remoteEndpoint ?? '').isNotEmpty &&
+      (localEndpoint ?? '').isNotEmpty &&
+      (addSyncDeviceEndpoint ?? '').isNotEmpty;
 }
