@@ -40,7 +40,11 @@ class ObjectBox {
   static ObjectBox get I => instance;
 
   static Future<String> _getDBPath() async {
-    final docsDir = await getApplicationDocumentsDirectory();
+    // final docsDir = await getApplicationDocumentsDirectory();
+    
+    // Recommended to use application support directory for databases
+    // to avoid deletion by user since documents directory can be cleared by the user.
+    final docsDir = await getApplicationSupportDirectory();
     return p.join(docsDir.path, kSyncDatabase);
   }
 
