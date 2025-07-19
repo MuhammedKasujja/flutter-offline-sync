@@ -8,7 +8,10 @@ class RemoteConfigService extends IRemoteConfigService {
   RemoteConfigService({required this.apiClient});
 
   @override
-  Future<ApiResponse> addSyncDevice({required String userId,required String userName}) async {
+  Future<ApiResponse> syncCurrentDevice({
+    required String userId,
+    required String userName,
+  }) async {
     final settings = await ConfigService.getSettings();
 
     if (settings?.addSyncDeviceEndpoint == null) {
@@ -27,8 +30,47 @@ class RemoteConfigService extends IRemoteConfigService {
       },
     );
   }
+
+  @override
+  Future<ApiResponse> deleteSyncDevice({required String deviceId}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> getSyncDevices() async {
+    final settings = await ConfigService.getSettings();
+    return apiClient.get(settings!.addSyncDeviceEndpoint!);
+  }
+
+  @override
+  Future<ApiResponse> addSyncDevice({
+    required String userId,
+    required String deviceId,
+    required String userName,
+  }) async {
+    final settings = await ConfigService.getSettings();
+    return apiClient.post(
+      settings!.addSyncDeviceEndpoint!,
+      data: {
+        'deviceId': deviceId,
+        'accountKey': settings.accountKey,
+        'userId': userId,
+        'userName': userName,
+      },
+    );
+  }
 }
 
 abstract class IRemoteConfigService {
-  Future<ApiResponse> addSyncDevice({required String userId,required String userName}) ;
+  Future<ApiResponse> addSyncDevice({
+    required String userId,
+    required String deviceId,
+    required String userName,
+  });
+  Future<ApiResponse> getSyncDevices();
+  Future<ApiResponse> deleteSyncDevice({required String deviceId});
+  Future<ApiResponse> syncCurrentDevice({
+    required String userId,
+    required String userName,
+  });
 }

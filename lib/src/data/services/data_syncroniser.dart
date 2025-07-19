@@ -95,7 +95,7 @@ class DataSyncroniser extends IDataSyncroniser {
           'accountKey': _config.accountKey,
         },
       );
-
+      logger.info(response.data);
       if (response.isSuccess) {
         final updatesList = (response.data as List).map(
           (json) => DataEntity.fromJson(json),

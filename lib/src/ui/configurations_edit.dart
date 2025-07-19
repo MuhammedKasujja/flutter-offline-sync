@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
-import 'package:flutter_offline_sync/src/utils/extensions.dart';
+import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class ConfigurationsEdit extends StatefulWidget {
   const ConfigurationsEdit({super.key});
