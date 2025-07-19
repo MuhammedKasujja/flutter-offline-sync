@@ -56,4 +56,16 @@ class ConfigurationEntity {
       (remoteEndpoint ?? '').isNotEmpty &&
       (localEndpoint ?? '').isNotEmpty &&
       (addSyncDeviceEndpoint ?? '').isNotEmpty;
+
+  bool get hasAccountKey => (accountKey ?? '').isNotEmpty;
+
+  bool get hasCurrentDeviceId => (currentDeviceId ?? '').isNotEmpty;
+
+  bool get hasAuthToken => (authToken ?? '').isNotEmpty;
+
+  bool get hasUserId => (userId ?? '').isNotEmpty;
+
+  bool get hasConfiguredRemoteEndpoint => (remoteEndpoint ?? '').isNotEmpty;
+
+  bool get hasConfiguredLocalEndpoint => (localEndpoint ?? '').isNotEmpty;
 }
