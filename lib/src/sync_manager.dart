@@ -1,3 +1,4 @@
+import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
@@ -63,7 +64,15 @@ class SyncManager extends _$SyncManager {
       final response = await _repo.fetchRemoteUpdates();
       if (response.isSuccess) {
         /// TODO: schedule/ run on a background thread
-        await _repo.syncRemoteUpdates(response.data!);
+        /// to avoid blocking the main thread
+        /// This can be done using Isolates
+        /// or using a background service
+        /// This is a simple example of how to use Isolates
+
+        final List<DataEntity> dataUpdates =
+            response.data!.expand((item) => item.data).toList();
+
+        await _repo.syncRemoteUpdates(dataUpdates);
         logger.info({
           'Sync Remote updates': '${response.data?.length} total updates',
         });

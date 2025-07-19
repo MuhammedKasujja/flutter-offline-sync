@@ -1,5 +1,6 @@
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
 
 abstract class IDataSyncroniser {
   /// Upload current local updates
@@ -8,7 +9,7 @@ abstract class IDataSyncroniser {
   /// Get updates from the remote central server
   Future<void> syncRemoteUpdates(List<DataEntity> remoteUpdates);
 
-  Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates();
+  Future<ApiResponse<List<SyncDataEntity>>> fetchRemoteUpdates();
 
   Future addRequestExtras(Map<String, dynamic> extras);
 

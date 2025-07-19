@@ -78,7 +78,7 @@ class DataSyncroniser extends IDataSyncroniser {
   }
 
   @override
-  Future<ApiResponse<List<DataEntity>>> fetchRemoteUpdates() async {
+  Future<ApiResponse<List<SyncDataEntity>>> fetchRemoteUpdates() async {
     logger.info('Getting remote updates');
     try {
       if (!_config.hasAccountKey) {
@@ -102,15 +102,12 @@ class DataSyncroniser extends IDataSyncroniser {
       );
       logger.info(response.data);
       if (response.isSuccess) {
-        final List<SyncDataEntity> items =
+        final List<SyncDataEntity> syncUpdates =
             (response.data as List)
                 .map((e) => SyncDataEntity.fromJson(e))
                 .toList();
 
-        final List<DataEntity> dataUpdates =
-            items.expand((item) => item.data).toList();
-
-        return ApiResponse(success: response.isSuccess, data: dataUpdates);
+        return ApiResponse(success: response.isSuccess, data: syncUpdates);
       }
       return ApiResponse.error(response.error);
     } catch (error, stackTrace) {
