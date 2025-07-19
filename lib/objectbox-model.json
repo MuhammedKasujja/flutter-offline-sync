@@ -49,7 +49,7 @@
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "10:2755131843964416427",
+      "lastPropertyId": "12:6274735740772024161",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -102,6 +102,16 @@
           "id": "10:2755131843964416427",
           "name": "extras",
           "type": 9
+        },
+        {
+          "id": "11:7246575307722926319",
+          "name": "localLastUpdatedAt",
+          "type": 10
+        },
+        {
+          "id": "12:6274735740772024161",
+          "name": "remoteLastUpdatedAt",
+          "type": 10
         }
       ],
       "relations": []

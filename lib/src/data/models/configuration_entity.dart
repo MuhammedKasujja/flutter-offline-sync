@@ -13,6 +13,10 @@ class ConfigurationEntity {
   String? authToken;
   String? userId;
   String? extras;
+  @Property(type: PropertyType.date)
+  DateTime? localLastUpdatedAt;
+  @Property(type: PropertyType.date)
+  DateTime? remoteLastUpdatedAt;
 
   ConfigurationEntity({
     this.id = 0,
@@ -25,16 +29,27 @@ class ConfigurationEntity {
     this.authToken,
     this.userId,
     this.extras,
+    this.localLastUpdatedAt,
+    this.remoteLastUpdatedAt,
   });
 
-  factory ConfigurationEntity.fromJson(Map<String, dynamic> json) =>
-      ConfigurationEntity(
-        currentDeviceId: json['currentDeviceId'],
-        accountKey: json['accountKey'],
-        authToken: json['authToken'],
-        userId: json['userId'],
-        extras: json['extras'],
-      );
+  factory ConfigurationEntity.fromJson(
+    Map<String, dynamic> json,
+  ) => ConfigurationEntity(
+    currentDeviceId: json['currentDeviceId'],
+    accountKey: json['accountKey'],
+    authToken: json['authToken'],
+    userId: json['userId'],
+    extras: json['extras'],
+    localLastUpdatedAt:
+        json['localLastUpdatedAt'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['localLastUpdatedAt'])
+            : null,
+    remoteLastUpdatedAt:
+        json['remoteLastUpdatedAt'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['remoteLastUpdatedAt'])
+            : null,
+  );
 
   Map<String, dynamic> toJson() {
     return {
@@ -47,15 +62,21 @@ class ConfigurationEntity {
       "remoteEndpoint": remoteEndpoint,
       "localEndpoint": localEndpoint,
       "addSyncDeviceEndpoint": addSyncDeviceEndpoint,
+      "localLastUpdatedAt": localLastUpdatedAt?.millisecondsSinceEpoch,
+      "remoteLastUpdatedAt": remoteLastUpdatedAt?.millisecondsSinceEpoch,
     };
   }
 
   bool get hasRemoteCredentials =>
-      (accountKey ?? '').isNotEmpty &&
+      hasAccountKey &&
       (baseUrl ?? '').isNotEmpty &&
-      (remoteEndpoint ?? '').isNotEmpty &&
-      (localEndpoint ?? '').isNotEmpty &&
+      hasConfiguredRemoteEndpoint &&
+      hasConfiguredLocalEndpoint &&
       (addSyncDeviceEndpoint ?? '').isNotEmpty;
+
+  bool get hasSyncedLocalBefore => localLastUpdatedAt != null;
+
+  bool get hasSyncedRemoteBefore => remoteLastUpdatedAt != null;
 
   bool get hasAccountKey => (accountKey ?? '').isNotEmpty;
 

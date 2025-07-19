@@ -76,7 +76,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 2751842997314007542),
     name: 'ConfigurationEntity',
-    lastPropertyId: const obx_int.IdUid(10, 2755131843964416427),
+    lastPropertyId: const obx_int.IdUid(12, 6274735740772024161),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -137,6 +137,18 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(10, 2755131843964416427),
         name: 'extras',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 7246575307722926319),
+        name: 'localLastUpdatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 6274735740772024161),
+        name: 'remoteLastUpdatedAt',
+        type: 10,
         flags: 0,
       ),
     ],
@@ -331,7 +343,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final extrasOffset = object.extras == null
             ? null
             : fbb.writeString(object.extras!);
-        fbb.startTable(11);
+        fbb.startTable(13);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
         fbb.addOffset(2, accountKeyOffset);
@@ -342,12 +354,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(7, authTokenOffset);
         fbb.addOffset(8, userIdOffset);
         fbb.addOffset(9, extrasOffset);
+        fbb.addInt64(10, object.localLastUpdatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(11, object.remoteLastUpdatedAt?.millisecondsSinceEpoch);
         fbb.finish(fbb.endTable());
         return object.id;
       },
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
+        final localLastUpdatedAtValue = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 24);
+        final remoteLastUpdatedAtValue = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 26);
         final idParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -381,6 +399,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final extrasParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 22);
+        final localLastUpdatedAtParam = localLastUpdatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(localLastUpdatedAtValue);
+        final remoteLastUpdatedAtParam = remoteLastUpdatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(remoteLastUpdatedAtValue);
         final object = ConfigurationEntity(
           id: idParam,
           currentDeviceId: currentDeviceIdParam,
@@ -392,6 +416,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           authToken: authTokenParam,
           userId: userIdParam,
           extras: extrasParam,
+          localLastUpdatedAt: localLastUpdatedAtParam,
+          remoteLastUpdatedAt: remoteLastUpdatedAtParam,
         );
 
         return object;
@@ -531,6 +557,16 @@ class ConfigurationEntity_ {
   /// See [ConfigurationEntity.extras].
   static final extras = obx.QueryStringProperty<ConfigurationEntity>(
     _entities[1].properties[9],
+  );
+
+  /// See [ConfigurationEntity.localLastUpdatedAt].
+  static final localLastUpdatedAt = obx.QueryDateProperty<ConfigurationEntity>(
+    _entities[1].properties[10],
+  );
+
+  /// See [ConfigurationEntity.remoteLastUpdatedAt].
+  static final remoteLastUpdatedAt = obx.QueryDateProperty<ConfigurationEntity>(
+    _entities[1].properties[11],
   );
 }
 
