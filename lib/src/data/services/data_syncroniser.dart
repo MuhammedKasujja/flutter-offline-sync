@@ -6,6 +6,7 @@ import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 // TODO: Using Isolates to handle data syncronization to remove work on the main thread
@@ -101,13 +102,15 @@ class DataSyncroniser extends IDataSyncroniser {
       );
       logger.info(response.data);
       if (response.isSuccess) {
-        final updatesList = (response.data as List).map(
-          (json) => DataEntity.fromJson(json),
-        );
-        return ApiResponse(
-          success: response.isSuccess,
-          data: updatesList.toList(),
-        );
+        final List<SyncDataEntity> items =
+            (response.data as List)
+                .map((e) => SyncDataEntity.fromJson(e))
+                .toList();
+
+        final List<DataEntity> dataUpdates =
+            items.expand((item) => item.data).toList();
+
+        return ApiResponse(success: response.isSuccess, data: dataUpdates);
       }
       return ApiResponse.error(response.error);
     } catch (error, stackTrace) {
