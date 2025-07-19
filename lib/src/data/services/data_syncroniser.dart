@@ -54,12 +54,13 @@ class DataSyncroniser extends IDataSyncroniser {
   }
 
   @override
-  Future<void> syncRemoteUpdates(List<DataEntity> updates) async {
-    if (updates.isEmpty) {
+  Future<void> syncRemoteUpdates(List<DataEntity> remoteUpdates) async {
+    if (remoteUpdates.isEmpty) {
       logger.info('No Remote updates found');
       return;
     }
-    for (var remoteData in updates) {
+    for (var remoteData in remoteUpdates) {
+      /// updating local database with remote changes
       FlutterSync.instance.entityRegistry.save(
         remoteData.entity,
         jsonDecode(remoteData.data),
@@ -81,6 +82,10 @@ class DataSyncroniser extends IDataSyncroniser {
     try {
       if (_config.accountKey == null) {
         throw Exception('Account key is required to sync updates');
+      }
+
+      if (_config.currentDeviceId == null) {
+        throw Exception('Device must be registered to sync updates');
       }
 
       final response = await _apiClient.get(

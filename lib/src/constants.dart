@@ -23,9 +23,9 @@ const kErrorFileTooLarge = "Uploaded file is too large";
 const kDemoMode = true;
 
 const kDemoBaseUrl = 'http://192.168.151.100:8000/api/';
-const kDemoRemoteDownloadUrl = 'remote-uploads';
-const kDemoRemoteUploadUrl = 'upload-updates';
-const kDemoRemoteAddSyncDeviceUrl = 'config/sync_device';
+const kDemoRemoteDownloadUrl = 'data-uploads';
+const kDemoRemoteUploadUrl = 'data-uploads';
+const kDemoRemoteAddSyncDeviceUrl = 'sync-devices';
 const kDemoAccountKey = 'JKDEYR79ER8OEJR0095';
 
 /// API errors end ///

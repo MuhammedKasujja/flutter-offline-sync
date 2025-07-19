@@ -23,7 +23,7 @@ class SyncManager extends _$SyncManager {
           if (isConnected) {
             _startSync();
             _startSyncRemoteChanges();
-          }else{
+          } else {
             logger.debug("No internet connection");
           }
         });
@@ -36,12 +36,11 @@ class SyncManager extends _$SyncManager {
   }
 
   Future<void> _startSync() async {
-    logger.info('Sync started');
     _repo = AppConfig.instance.syncronizer;
     final response = await _repo.syncLocalUpdates(
       extras: FlutterSync.instance.requestExtras,
     );
-    logger.info({'Sync Ended': response.toJson()});
+    logger.info({'Sync Ended Local Updates': response.toJson()});
 
     if (response.success) {
       await _repo.clearUpdatesTable();
@@ -60,13 +59,18 @@ class SyncManager extends _$SyncManager {
 
   Future<void> _startSyncRemoteChanges() async {
     _repo = AppConfig.instance.syncronizer;
-    final response = await _repo.fetchRemoteUpdates();
-    if (response.isSuccess) {
-      /// TODO: schedule/ run on a background thread
-      await _repo.syncRemoteUpdates(response.data!);
-      logger.info({
-        'Sync Remote updates': '${response.data?.length} total updates',
-      });
+    try {
+      final response = await _repo.fetchRemoteUpdates();
+      if (response.isSuccess) {
+        /// TODO: schedule/ run on a background thread
+        await _repo.syncRemoteUpdates(response.data!);
+        logger.info({
+          'Sync Remote updates': '${response.data?.length} total updates',
+        });
+      }
+    } catch (error) {
+      logger.error('Error starting sync remote changes', error);
+      return;
     }
   }
 }

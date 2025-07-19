@@ -14,6 +14,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   final uploadUrlController = TextEditingController();
   final downloadUrlController = TextEditingController();
   final addDeviceUrlController = TextEditingController();
+  final accountKeyController = TextEditingController();
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     config.localEndpoint = uploadUrlController.text;
     config.remoteEndpoint = downloadUrlController.text;
     config.addSyncDeviceEndpoint = addDeviceUrlController.text;
-    config.accountKey = "7ZAMZ52GZGOQU1570WLLB2Z4IKOQYS21";
+    config.accountKey = accountKeyController.text;
     await AppConfig.instance.saveSettings(config);
     if (mounted) {
       context.toast.success('Settings saved successfully');
@@ -36,6 +37,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
 
   Future viewSaveSettings() async {
     final settings = AppConfig.instance.getSettings();
+    accountKeyController.text = settings.accountKey ?? '';
     baseUrlController.text = settings.baseUrl ?? '';
     uploadUrlController.text = settings.localEndpoint ?? '';
     downloadUrlController.text = settings.remoteEndpoint ?? '';
@@ -52,6 +54,8 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
             spacing: 10,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text('Account Key'),
+              TextFormField(controller: accountKeyController),
               Text('Remote Base Url'),
               TextFormField(controller: baseUrlController),
               Text('Uploads Url'),
