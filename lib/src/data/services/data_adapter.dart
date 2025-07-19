@@ -5,8 +5,8 @@ import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 
 class DataAdapter extends IDataAdapter {
-   final String tableName;
-   final String modelName;
+  final String tableName;
+  final String modelName;
 
   DataAdapter({required this.modelName, required this.tableName}) {
     assert(tableName.isNotEmpty, 'Table name is required');
@@ -21,6 +21,7 @@ class DataAdapter extends IDataAdapter {
         tableName: tableName,
         operation: 'create',
         entity: modelName,
+        entityId: data['id']?.toString(),
       ),
     );
   }
@@ -33,6 +34,7 @@ class DataAdapter extends IDataAdapter {
         tableName: tableName,
         operation: 'delete',
         entity: modelName,
+        entityId: entityId,
       ),
     );
   }
@@ -45,6 +47,7 @@ class DataAdapter extends IDataAdapter {
         tableName: tableName,
         operation: 'deleteCreate',
         entity: modelName,
+        entityId: entityId,
       ),
     );
   }
@@ -58,7 +61,7 @@ class DataAdapter extends IDataAdapter {
       DataEntity(
         data: jsonEncode(data),
         tableName: tableName,
-        entityId: entityId,
+        entityId: data['id']?.toString() ?? entityId,
         operation: 'update',
         entity: modelName,
       ),
