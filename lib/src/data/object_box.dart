@@ -40,7 +40,7 @@ class ObjectBox {
   static ObjectBox get I => instance;
 
   static Future<String> _getDBPath() async {
-    final docsDir = await getApplicationDocumentsDirectory();
+    final docsDir = await getApplicationSupportDirectory();
     return p.join(docsDir.path, kSyncDatabase);
   }
 

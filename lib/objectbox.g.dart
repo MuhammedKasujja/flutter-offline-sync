@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 8095617417935777367),
     name: 'DataEntity',
-    lastPropertyId: const obx_int.IdUid(6, 1307755361691726201),
+    lastPropertyId: const obx_int.IdUid(7, 6263159733768399507),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -61,6 +61,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(6, 1307755361691726201),
         name: 'entity',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 6263159733768399507),
+        name: 'isSynced',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -235,13 +241,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : fbb.writeString(object.entityId!);
         final operationOffset = fbb.writeString(object.operation);
         final entityOffset = fbb.writeString(object.entity);
-        fbb.startTable(7);
+        fbb.startTable(8);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, dataOffset);
         fbb.addOffset(2, tableNameOffset);
         fbb.addOffset(3, entityIdOffset);
         fbb.addOffset(4, operationOffset);
         fbb.addOffset(5, entityOffset);
+        fbb.addBool(6, object.isSynced);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -269,6 +276,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final entityParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 14, '');
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
+        );
         final object = DataEntity(
           id: idParam,
           data: dataParam,
@@ -276,6 +289,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           entityId: entityIdParam,
           operation: operationParam,
           entity: entityParam,
+          isSynced: isSyncedParam,
         );
 
         return object;
@@ -460,6 +474,11 @@ class DataEntity_ {
   /// See [DataEntity.entity].
   static final entity = obx.QueryStringProperty<DataEntity>(
     _entities[0].properties[5],
+  );
+
+  /// See [DataEntity.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<DataEntity>(
+    _entities[0].properties[6],
   );
 }
 

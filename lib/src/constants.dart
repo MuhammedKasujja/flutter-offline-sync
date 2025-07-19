@@ -1,4 +1,4 @@
-const kSyncDatabase = 'offline-sync-db';
+const kSyncDatabase = 'offline_sync_db';
 
 /// API errors start ///
 const kErrorRequestCancelled = "Request Cancelled";

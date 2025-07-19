@@ -10,6 +10,7 @@ class DataEntity {
   String data;
   String tableName;
   String entity;
+  bool isSynced;
 
   /// Entity ID this change relates to.
   String? entityId;
@@ -22,6 +23,7 @@ class DataEntity {
     this.entityId,
     required this.operation,
     required this.entity,
+    this.isSynced = false,
   });
 
   Map<String, dynamic> toJson() {
@@ -32,6 +34,7 @@ class DataEntity {
       'data': jsonDecode(data),
       'operation': operation,
       'updateId': id,
+      'isSynced': isSynced,
     };
   }
 
