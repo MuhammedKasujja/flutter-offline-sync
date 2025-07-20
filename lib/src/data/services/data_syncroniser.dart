@@ -100,8 +100,8 @@ class DataSyncroniser extends IDataSyncroniser {
           'accountKey': _config.accountKey,
         },
       );
-      logger.info(response.data);
       if (response.isSuccess) {
+        logger.info(response.data);
         final List<SyncDataEntity> syncUpdates =
             (response.data as List)
                 .map((e) => SyncDataEntity.fromJson(e))
