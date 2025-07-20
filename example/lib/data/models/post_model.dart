@@ -1,5 +1,6 @@
 import 'package:example/data/models/user_model.dart';
 import 'package:example/database.dart';
+import 'package:example/generated/entity_registry.g.dart';
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
@@ -44,7 +45,7 @@ class PostModel extends DataAdapter {
   PostModel? save() {
     final saved = saveEntity(this);
     if (saved != null) {
-      super.queueCreate(data: saved.toJson());
+      super.queueCreate(data: saved.toSyncJson());
     }
     return saved;
   }

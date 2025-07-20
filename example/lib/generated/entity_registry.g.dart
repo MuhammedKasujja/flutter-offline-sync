@@ -67,6 +67,12 @@ extension UserModelRelationJson on UserModel {
     }
   return this;
   }
+
+
+  Map<String, dynamic> toSyncJson() => {
+    ...toJson(),
+    ...toRelationJson()
+  };
   }
 
 
@@ -82,6 +88,12 @@ extension PostModelRelationJson on PostModel {
     if (json.containsKey('userId')) user.targetId = json['userId'];
   return this;
   }
+
+
+  Map<String, dynamic> toSyncJson() => {
+    ...toJson(),
+    ...toRelationJson()
+  };
   }
 
 
