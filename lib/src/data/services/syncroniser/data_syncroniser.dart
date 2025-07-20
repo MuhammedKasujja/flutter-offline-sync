@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
-import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
+
+import 'data_syncroniser_interface.dart';
 
 // TODO: Using Isolates to handle data syncronization to remove work on the main thread
 class DataSyncroniser extends IDataSyncroniser {

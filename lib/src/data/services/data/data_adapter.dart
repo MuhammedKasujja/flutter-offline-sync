@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter_offline_sync/src/data/interfaces/data_adapter.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
+
+import 'data_adapter_interface.dart';
 
 class DataAdapter extends IDataAdapter {
   final String tableName;

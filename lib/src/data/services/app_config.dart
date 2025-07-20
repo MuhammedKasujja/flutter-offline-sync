@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
-import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_device_entity.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
-import 'package:flutter_offline_sync/src/data/services/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
