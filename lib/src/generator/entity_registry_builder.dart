@@ -87,6 +87,33 @@ class EntityRegistryBuilder implements Builder {
     );
     buffer.writeln('}');
 
+    buffer.writeln('\n// GENERATED TORELATIONJSON EXTENSIONS');
+
+    for (final clazz in classes) {
+      final className = clazz.name;
+      
+      // 2. Generate toRelationJson extension for the class
+      buffer.writeln('extension ${className}RelationJson on $className {');
+      buffer.writeln('  Map<String, dynamic> toRelationJson() => {');
+
+      for (final field in clazz.fields) {
+        final name = field.name;
+        final typeStr = field.type.getDisplayString(withNullability: false);
+
+        if (field.isStatic || name == 'id') continue;
+
+        if (typeStr.startsWith('ToOne<')) {
+          buffer.writeln("    '${name}Id': $name.targetId,");
+        } else if (typeStr.startsWith('ToMany<')) {
+          buffer.writeln("    '${name}Ids': $name.map((e) => e.id).toList(),");
+        }
+      }
+
+      buffer.writeln('  };');
+      buffer.writeln('}');
+      buffer.writeln('\n');
+    }
+
     final outputId = AssetId(
       buildStep.inputId.package,
       'lib/generated/entity_registry.g.dart',

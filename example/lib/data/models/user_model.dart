@@ -1,3 +1,4 @@
+import 'package:example/data/models/post_model.dart';
 import 'package:example/database.dart';
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -14,6 +15,7 @@ class UserModel extends DataAdapter {
   final int age;
   final String email;
   final String? phone;
+  final posts = ToMany<PostModel>();
 
   UserModel({
     this.id = 0,

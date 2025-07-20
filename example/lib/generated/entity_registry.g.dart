@@ -6,6 +6,7 @@
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:example/data/models/user_model.dart';
+import 'package:example/data/models/post_model.dart';
 
 final Map<String, EntityHandler> _generatedRegistry = {
   'UserModel': EntityHandler(
@@ -16,6 +17,16 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final e = UserModel.fromJson(json);
       if (e.id == 0) throw Exception('Cannot update UserModel without ID');
       return store.box<UserModel>().put(e);
+    },
+  ),
+  'PostModel': EntityHandler(
+    boxFactory: (store) => store.box<PostModel>(),
+    putFunction: (store, json) => store.box<PostModel>().put(PostModel.fromJson(json)),
+    deleteFunction: (store, id) => store.box<PostModel>().remove(id),
+    updateFunction: (store, json) {
+      final e = PostModel.fromJson(json);
+      if (e.id == 0) throw Exception('Cannot update PostModel without ID');
+      return store.box<PostModel>().put(e);
     },
   ),
 };
@@ -29,3 +40,19 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
   @override
   List<String>  getAllEntities() => _generatedRegistry.keys.toList();
 }
+
+// GENERATED TORELATIONJSON EXTENSIONS
+extension UserModelRelationJson on UserModel {
+  Map<String, dynamic> toRelationJson() => {
+    'postsIds': posts.map((e) => e.id).toList(),
+  };
+}
+
+
+extension PostModelRelationJson on PostModel {
+  Map<String, dynamic> toRelationJson() => {
+    'userId': user.targetId,
+  };
+}
+
+

@@ -51,3 +51,23 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
   @override
   List<String>  getAllEntities() => _generatedRegistry.keys.toList();
 }
+
+// GENERATED TORELATIONJSON EXTENSIONS
+extension DataEntityRelationJson on DataEntity {
+  Map<String, dynamic> toRelationJson() => {
+  };
+}
+
+
+extension ConfigurationEntityRelationJson on ConfigurationEntity {
+  Map<String, dynamic> toRelationJson() => {
+  };
+}
+
+
+extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
+  Map<String, dynamic> toRelationJson() => {
+  };
+}
+
+

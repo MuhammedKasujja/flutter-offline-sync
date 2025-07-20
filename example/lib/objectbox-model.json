@@ -35,12 +35,55 @@
           "type": 9
         }
       ],
+      "relations": [
+        {
+          "id": "1:4549468362391393749",
+          "name": "posts",
+          "targetId": "2:6560703760643550489"
+        }
+      ]
+    },
+    {
+      "id": "2:6560703760643550489",
+      "lastPropertyId": "5:790959322785033875",
+      "name": "PostModel",
+      "properties": [
+        {
+          "id": "1:6503861220082743303",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:443356044699002805",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:8213255114393146535",
+          "name": "content",
+          "type": 9
+        },
+        {
+          "id": "4:6049813848822262738",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "5:790959322785033875",
+          "name": "userId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:3302761242444162827",
+          "relationTarget": "UserModel"
+        }
+      ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:707813740428046874",
-  "lastIndexId": "0:0",
-  "lastRelationId": "0:0",
+  "lastEntityId": "2:6560703760643550489",
+  "lastIndexId": "1:3302761242444162827",
+  "lastRelationId": "1:4549468362391393749",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,

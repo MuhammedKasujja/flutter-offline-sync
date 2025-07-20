@@ -14,6 +14,7 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'data/models/post_model.dart';
 import 'data/models/user_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -54,6 +55,54 @@ final _entities = <obx_int.ModelEntity>[
         name: 'phone',
         type: 9,
         flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[
+      obx_int.ModelRelation(
+        id: const obx_int.IdUid(1, 4549468362391393749),
+        name: 'posts',
+        targetId: const obx_int.IdUid(2, 6560703760643550489),
+      ),
+    ],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(2, 6560703760643550489),
+    name: 'PostModel',
+    lastPropertyId: const obx_int.IdUid(5, 790959322785033875),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 6503861220082743303),
+        name: 'id',
+        type: 6,
+        flags: 129,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 443356044699002805),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 8213255114393146535),
+        name: 'content',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 6049813848822262738),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 790959322785033875),
+        name: 'userId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(1, 3302761242444162827),
+        relationTarget: 'UserModel',
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -99,9 +148,9 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(1, 707813740428046874),
-    lastIndexId: const obx_int.IdUid(0, 0),
-    lastRelationId: const obx_int.IdUid(0, 0),
+    lastEntityId: const obx_int.IdUid(2, 6560703760643550489),
+    lastIndexId: const obx_int.IdUid(1, 3302761242444162827),
+    lastRelationId: const obx_int.IdUid(1, 4549468362391393749),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
     retiredIndexUids: const [],
@@ -116,7 +165,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
     UserModel: obx_int.EntityDefinition<UserModel>(
       model: _entities[0],
       toOneRelations: (UserModel object) => [],
-      toManyRelations: (UserModel object) => {},
+      toManyRelations: (UserModel object) => {
+        obx_int.RelInfo<UserModel>.toMany(1, object.id): object.posts,
+      },
       getId: (UserModel object) => object.id,
       setId: (UserModel object, int id) {
         object.id = id;
@@ -167,7 +218,65 @@ obx_int.ModelDefinition getObjectBoxModel() {
           name: nameParam,
           phone: phoneParam,
         );
-
+        obx_int.InternalToManyAccess.setRelInfo<UserModel>(
+          object.posts,
+          store,
+          obx_int.RelInfo<UserModel>.toMany(1, object.id),
+        );
+        return object;
+      },
+    ),
+    PostModel: obx_int.EntityDefinition<PostModel>(
+      model: _entities[1],
+      toOneRelations: (PostModel object) => [object.user],
+      toManyRelations: (PostModel object) => {},
+      getId: (PostModel object) => object.id,
+      setId: (PostModel object, int id) {
+        object.id = id;
+      },
+      objectToFB: (PostModel object, fb.Builder fbb) {
+        final titleOffset = fbb.writeString(object.title);
+        final contentOffset = fbb.writeString(object.content);
+        fbb.startTable(6);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, titleOffset);
+        fbb.addOffset(2, contentOffset);
+        fbb.addInt64(3, object.createdAt.millisecondsSinceEpoch);
+        fbb.addInt64(4, object.user.targetId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final titleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final contentParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+        );
+        final object = PostModel(
+          id: idParam,
+          title: titleParam,
+          content: contentParam,
+          createdAt: createdAtParam,
+        );
+        object.user.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          12,
+          0,
+        );
+        object.user.attach(store);
         return object;
       },
     ),
@@ -201,5 +310,38 @@ class UserModel_ {
   /// See [UserModel.phone].
   static final phone = obx.QueryStringProperty<UserModel>(
     _entities[0].properties[4],
+  );
+
+  /// see [UserModel.posts]
+  static final posts = obx.QueryRelationToMany<UserModel, PostModel>(
+    _entities[0].relations[0],
+  );
+}
+
+/// [PostModel] entity fields to define ObjectBox queries.
+class PostModel_ {
+  /// See [PostModel.id].
+  static final id = obx.QueryIntegerProperty<PostModel>(
+    _entities[1].properties[0],
+  );
+
+  /// See [PostModel.title].
+  static final title = obx.QueryStringProperty<PostModel>(
+    _entities[1].properties[1],
+  );
+
+  /// See [PostModel.content].
+  static final content = obx.QueryStringProperty<PostModel>(
+    _entities[1].properties[2],
+  );
+
+  /// See [PostModel.createdAt].
+  static final createdAt = obx.QueryDateProperty<PostModel>(
+    _entities[1].properties[3],
+  );
+
+  /// See [PostModel.user].
+  static final user = obx.QueryRelationToOne<PostModel, UserModel>(
+    _entities[1].properties[4],
   );
 }
