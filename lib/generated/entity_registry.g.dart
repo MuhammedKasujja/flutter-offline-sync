@@ -56,18 +56,33 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
 extension DataEntityRelationJson on DataEntity {
   Map<String, dynamic> toRelationJson() => {
   };
-}
+
+
+  void applyRelationJson(Map<String, dynamic> json
+  ) {
+  }
+  }
 
 
 extension ConfigurationEntityRelationJson on ConfigurationEntity {
   Map<String, dynamic> toRelationJson() => {
   };
-}
+
+
+  void applyRelationJson(Map<String, dynamic> json
+  ) {
+  }
+  }
 
 
 extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
   Map<String, dynamic> toRelationJson() => {
   };
-}
+
+
+  void applyRelationJson(Map<String, dynamic> json
+  ) {
+  }
+  }
 
 

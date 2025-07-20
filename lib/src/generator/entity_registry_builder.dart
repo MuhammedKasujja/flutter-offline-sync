@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
 import 'package:objectbox/objectbox.dart';
@@ -32,6 +33,9 @@ class EntityRegistryBuilder implements Builder {
 
     final buffer = StringBuffer();
 
+    buffer.writeln('// dart format width=80');
+    buffer.writeln('// coverage:ignore-file');
+    buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     buffer.writeln(
       "\n//**************************************************************************",
@@ -43,6 +47,7 @@ class EntityRegistryBuilder implements Builder {
     buffer.writeln(
       "\nimport 'package:flutter_offline_sync/flutter_offline_sync.dart';",
     );
+    buffer.writeln("import 'package:objectbox/objectbox.dart';");
 
     for (final entity in classes) {
       final importUri = entity.source.uri.toString();
@@ -91,7 +96,7 @@ class EntityRegistryBuilder implements Builder {
 
     for (final clazz in classes) {
       final className = clazz.name;
-      
+
       // 2. Generate toRelationJson extension for the class
       buffer.writeln('extension ${className}RelationJson on $className {');
       buffer.writeln('  Map<String, dynamic> toRelationJson() => {');
@@ -110,9 +115,40 @@ class EntityRegistryBuilder implements Builder {
       }
 
       buffer.writeln('  };');
-      buffer.writeln('}');
+      buffer.writeln('\n');
+      buffer.writeln(
+        '  void applyRelationJson(Map<String, dynamic> json, Store store) {',
+      );
+
+      for (final field in clazz.fields) {
+        final name = field.name;
+        final typeStr = field.type.getDisplayString(withNullability: false);
+        if (field.isStatic) continue;
+        if (typeStr.startsWith('ToOne<')) {
+          buffer.writeln(
+            "    if (json.containsKey('${name}Id')) $name.targetId = json['${name}Id'];",
+          );
+        } else if (typeStr.startsWith('ToMany<')) {
+          buffer.writeln("    if (json.containsKey('${name}Ids')) {");
+          buffer.writeln("      $name.clear();");
+          final relatedType = (field.type as ParameterizedType)
+              .typeArguments
+              .first
+              .getDisplayString(withNullability: false);
+          buffer.writeln("      final ${name}Box = store.box<$relatedType>();");
+          buffer.writeln("      for (final id in json['${name}Ids']) {");
+          buffer.writeln("        final item = ${name}Box.get(id);");
+          buffer.writeln("        if (item != null) $name.add(item);");
+          buffer.writeln("      }");
+          buffer.writeln("    }");
+        }
+      }
+      buffer.writeln('  }');
+      buffer.writeln('  }');
       buffer.writeln('\n');
     }
+
+    buffer.writeln('// dart format on');
 
     final outputId = AssetId(
       buildStep.inputId.package,

@@ -1,3 +1,6 @@
+// dart format width=80
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 //**************************************************************************
@@ -5,6 +8,7 @@
 //**************************************************************************
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:example/data/models/user_model.dart';
 import 'package:example/data/models/post_model.dart';
 
@@ -46,13 +50,31 @@ extension UserModelRelationJson on UserModel {
   Map<String, dynamic> toRelationJson() => {
     'postsIds': posts.map((e) => e.id).toList(),
   };
-}
+
+
+  void applyRelationJson(Map<String, dynamic> json, Store store) {
+    if (json.containsKey('postsIds')) {
+      posts.clear();
+      final postsBox = store.box<PostModel>();
+      for (final id in json['postsIds']) {
+        final item = postsBox.get(id);
+        if (item != null) posts.add(item);
+      }
+    }
+  }
+  }
 
 
 extension PostModelRelationJson on PostModel {
   Map<String, dynamic> toRelationJson() => {
     'userId': user.targetId,
   };
-}
 
 
+  void applyRelationJson(Map<String, dynamic> json, Store store) {
+    if (json.containsKey('userId')) user.targetId = json['userId'];
+  }
+  }
+
+
+// dart format on
