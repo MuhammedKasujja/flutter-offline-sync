@@ -146,6 +146,11 @@ class EntityRegistryBuilder implements Builder {
       }
       buffer.writeln('  return this;');
       buffer.writeln('  }');
+      buffer.writeln('\n');
+      buffer.writeln('  Map<String, dynamic> toSyncJson() => {');
+      buffer.writeln('    ...toJson(),');
+      buffer.writeln('    ...toRelationJson()');
+      buffer.writeln('  };');
       buffer.writeln('  }');
       buffer.writeln('\n');
     }
