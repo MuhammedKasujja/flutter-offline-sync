@@ -18,9 +18,10 @@ final Map<String, EntityHandler> _generatedRegistry = {
     putFunction: (store, json) => store.box<UserModel>().put(UserModel.fromJson(json)),
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
     updateFunction: (store, json) {
-      final e = UserModel.fromJson(json);
-      if (e.id == 0) throw Exception('Cannot update UserModel without ID');
-      return store.box<UserModel>().put(e);
+      UserModel entity = UserModel.fromJson(json);
+      if (entity.id == 0) throw Exception('Cannot update UserModel without ID');
+      entity = entity.applyRelationJson(store);
+      return store.box<UserModel>().put(entity);
     },
   ),
   'PostModel': EntityHandler(
@@ -28,9 +29,10 @@ final Map<String, EntityHandler> _generatedRegistry = {
     putFunction: (store, json) => store.box<PostModel>().put(PostModel.fromJson(json)),
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
     updateFunction: (store, json) {
-      final e = PostModel.fromJson(json);
-      if (e.id == 0) throw Exception('Cannot update PostModel without ID');
-      return store.box<PostModel>().put(e);
+      PostModel entity = PostModel.fromJson(json);
+      if (entity.id == 0) throw Exception('Cannot update PostModel without ID');
+      entity = entity.applyRelationJson(store);
+      return store.box<PostModel>().put(entity);
     },
   ),
 };
@@ -52,7 +54,9 @@ extension UserModelRelationJson on UserModel {
   };
 
 
-  void applyRelationJson(Map<String, dynamic> json, Store store) {
+  UserModel applyRelationJson(Store store) {
+    // Apply relations from JSON
+    final json = toRelationJson();
     if (json.containsKey('postsIds')) {
       posts.clear();
       final postsBox = store.box<PostModel>();
@@ -61,6 +65,7 @@ extension UserModelRelationJson on UserModel {
         if (item != null) posts.add(item);
       }
     }
+  return this;
   }
   }
 
@@ -71,8 +76,11 @@ extension PostModelRelationJson on PostModel {
   };
 
 
-  void applyRelationJson(Map<String, dynamic> json, Store store) {
+  PostModel applyRelationJson(Store store) {
+    // Apply relations from JSON
+    final json = toRelationJson();
     if (json.containsKey('userId')) user.targetId = json['userId'];
+  return this;
   }
   }
 

@@ -67,11 +67,12 @@ class EntityRegistryBuilder implements Builder {
         "    deleteFunction: (store, id) => store.box<$entity>().remove(id),",
       );
       buffer.writeln("    updateFunction: (store, json) {");
-      buffer.writeln("      final e = $entity.fromJson(json);");
+      buffer.writeln("      $entity entity = $entity.fromJson(json);");
       buffer.writeln(
-        "      if (e.id == 0) throw Exception('Cannot update $entity without ID');",
+        "      if (entity.id == 0) throw Exception('Cannot update $entity without ID');",
       );
-      buffer.writeln("      return store.box<$entity>().put(e);");
+      buffer.writeln("      entity = entity.applyRelationJson(store);");
+      buffer.writeln("      return store.box<$entity>().put(entity);");
       buffer.writeln("    },");
       buffer.writeln("  ),");
     }
@@ -116,10 +117,10 @@ class EntityRegistryBuilder implements Builder {
 
       buffer.writeln('  };');
       buffer.writeln('\n');
-      buffer.writeln(
-        '  void applyRelationJson(Map<String, dynamic> json, Store store) {',
-      );
-
+      buffer.writeln('  $className applyRelationJson(Store store) {');
+      buffer.writeln('    // Apply relations from JSON');
+      buffer.writeln('    final json = toRelationJson();');
+       
       for (final field in clazz.fields) {
         final name = field.name;
         final typeStr = field.type.getDisplayString(withNullability: false);
@@ -143,6 +144,7 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln("    }");
         }
       }
+      buffer.writeln('  return this;');
       buffer.writeln('  }');
       buffer.writeln('  }');
       buffer.writeln('\n');
