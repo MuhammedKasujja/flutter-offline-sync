@@ -20,12 +20,14 @@ class LocalDataUpdates {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchLocalUpdates() async {
+  Future<List<Map<String, dynamic>>> fetchLocalUpdates(
+    DateTime lastSyncDate,
+  ) async {
     try {
       final tables = entityRegistry.getAllEntities();
       final localUpdates = <Map<String, dynamic>>[];
       for (final table in tables) {
-        final updates = entityRegistry.fetchAllUpdates(table, null);
+        final updates = entityRegistry.fetchAllUpdates(table, lastSyncDate);
         if (updates.isNotEmpty) {
           localUpdates.addAll(updates);
         }

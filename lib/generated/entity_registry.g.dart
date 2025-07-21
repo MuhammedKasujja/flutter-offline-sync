@@ -1,5 +1,5 @@
 // dart format width=80
-// coverage:ignore-file
+// ignore_for_file: type=lint, unused_local_variable
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -20,9 +20,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<DataEntity>();
       final query = box
           .query(
-            DataEntity_.updatedAt.greaterThan(
-              lastSync?.millisecondsSinceEpoch ?? 0,
-            ),
+            DataEntity_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
           )
           .build();
       final updates = query.find();
@@ -44,7 +42,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final query = box
           .query(
             ConfigurationEntity_.updatedAt.greaterThan(
-              lastSync?.millisecondsSinceEpoch ?? 0,
+              lastSync.millisecondsSinceEpoch,
             ),
           )
           .build();
@@ -67,7 +65,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final query = box
           .query(
             SyncDeviceEntity_.updatedAt.greaterThan(
-              lastSync?.millisecondsSinceEpoch ?? 0,
+              lastSync.millisecondsSinceEpoch,
             ),
           )
           .build();

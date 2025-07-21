@@ -58,10 +58,20 @@ final class AppConfig {
     return getBox<ConfigurationEntity>().getAll().first;
   }
 
+  DateTime getLastSyncDate() {
+    return getSettings().localLastUpdatedAt ??
+        DateTime.fromMillisecondsSinceEpoch(1641031200000);
+  }
+
+  DateTime getLastRemoteSyncDate() {
+    return getSettings().remoteLastUpdatedAt ??
+        DateTime.fromMillisecondsSinceEpoch(1641031200000);
+  }
+
   Future<List<SyncDeviceEntity>> getSyncDevices() {
     return getBox<SyncDeviceEntity>().getAllAsync();
   }
- 
+
   Future<void> saveSettings(ConfigurationEntity settings) async {
     await ConfigService.saveSettings(settings);
     await restart();

@@ -35,7 +35,7 @@ class EntityRegistryBuilder implements Builder {
     final buffer = StringBuffer();
 
     buffer.writeln('// dart format width=80');
-    buffer.writeln('// coverage:ignore-file');
+    buffer.writeln('// ignore_for_file: type=lint, unused_local_variable');
     buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     buffer.writeln(
@@ -64,7 +64,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("    fetchFunction: (store, lastSync) {");
       buffer.writeln("      final box = store.box<$entity>();");
       buffer.writeln(
-        "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync?.millisecondsSinceEpoch ?? 0)).build();",
+        "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch)).build();",
       );
       buffer.writeln("      final updates = query.find();");
       buffer.writeln(

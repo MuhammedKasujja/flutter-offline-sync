@@ -4,7 +4,7 @@ typedef BoxFactory = Box Function(Store store);
 typedef DeleteFunction = bool Function(Store store, int id);
 typedef UpdateFunction = int Function(Store store, dynamic object);
 typedef FetchFunction =
-    List<Map<String, dynamic>> Function(Store store, DateTime? lastSync);
+    List<Map<String, dynamic>> Function(Store store, DateTime lastSync);
 
 class EntityHandler {
   final BoxFactory boxFactory;
@@ -38,7 +38,7 @@ abstract class EntityRegistry {
       get(name)?.deleteFunction(store, id) ??
       (throw Exception("Handler not found for $name"));
 
-  List<Map<String, dynamic>> fetchAllUpdates(String name, DateTime? lastSync) =>
+  List<Map<String, dynamic>> fetchAllUpdates(String name, DateTime lastSync) =>
       get(name)?.fetchFunction(store, lastSync) ??
       (throw Exception("Handler not found for $name"));
 }

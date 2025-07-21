@@ -1,4 +1,5 @@
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
+import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/data/local_data_updates.dart';
 import 'package:flutter_offline_sync/src/flutter_sync.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
@@ -18,7 +19,8 @@ class SyncRepositoryImp implements SyncRepository {
 
   Future<List<Map<String, dynamic>>> getLocalUpdates() async {
     final service = LocalDataUpdates(FlutterSync.instance.entityRegistry);
-    return await service.fetchLocalUpdates();
+    final lastSyncDate = AppConfig.instance.getLastSyncDate();
+    return await service.fetchLocalUpdates(lastSyncDate);
   }
 
   @override
