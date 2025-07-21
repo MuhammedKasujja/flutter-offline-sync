@@ -4,7 +4,7 @@ import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
 
 abstract class IDataSyncroniser {
   /// Upload current local updates
-  Future<ApiResponse> syncLocalUpdates({
+  Future<ApiResponse<LocalSyncDataResponse>> syncLocalUpdates({
     required String updateId,
     Map<String, dynamic>? extras,
   });

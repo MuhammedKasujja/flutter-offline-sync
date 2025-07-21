@@ -3,6 +3,8 @@ import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroni
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
+import 'configuration_service.dart';
+
 // This class is responsible for synchronizing data between local storage and remote servers.
 class SyncroniserService {
   final IDataSyncroniser _repo;
@@ -21,8 +23,8 @@ class SyncroniserService {
         )
         .then((response) {
           logger.info({'Sync Ended Local Updates': response.toJson()});
-
           if (response.success) {
+            ConfigService.updateLastSyncDate(response.data!.lastSyncDate);
             _repo.clearUpdatesTable();
           }
         });

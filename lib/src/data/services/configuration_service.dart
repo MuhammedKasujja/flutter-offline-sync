@@ -37,11 +37,11 @@ class ConfigService {
     return saveSettings(config);
   }
   
-  static Future<ConfigurationEntity?> updateLastSyncDate() async {
+  static Future<ConfigurationEntity?> updateLastSyncDate(DateTime lastSyncDate) async {
     var config = await getSettings();
 
     config ??= ConfigurationEntity();
-    config.localLastUpdatedAt = DateTime.now();
+    config.localLastUpdatedAt = lastSyncDate;
 
     return saveSettings(config);
   }

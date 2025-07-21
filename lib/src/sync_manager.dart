@@ -27,7 +27,6 @@ class SyncManager extends _$SyncManager {
             if (syncId == null) {
               syncId = '9000-${DateTime.now().millisecondsSinceEpoch}';
               await SyncroniserService(_repo).startSync(syncId!);
-              ConfigService.updateLastSyncDate();
               syncId = null;
             }
           } else {

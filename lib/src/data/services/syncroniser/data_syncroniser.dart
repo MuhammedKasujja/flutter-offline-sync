@@ -27,7 +27,7 @@ class DataSyncroniser extends IDataSyncroniser {
        _syncRepository = syncRepository;
 
   @override
-  Future<ApiResponse> syncLocalUpdates({
+  Future<ApiResponse<LocalSyncDataResponse>> syncLocalUpdates({
     required String updateId,
     Map<String, dynamic>? extras,
   }) async {
@@ -111,12 +111,9 @@ class DataSyncroniser extends IDataSyncroniser {
       );
       if (response.isSuccess) {
         logger.info(response.data);
-        final List<SyncDataEntity> syncUpdates =
-            (response.data as List)
-                .map((e) => SyncDataEntity.fromJson(e))
-                .toList();
+        final updates = SyncDataEntityList.fromJson(response.data);
 
-        return ApiResponse(success: response.isSuccess, data: syncUpdates);
+        return ApiResponse(success: response.isSuccess, data: updates.entities);
       }
       return ApiResponse.error(response.error);
     } catch (error, stackTrace) {
