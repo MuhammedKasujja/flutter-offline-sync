@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8095617417935777367",
-      "lastPropertyId": "9:8049565669460423512",
+      "lastPropertyId": "10:3162458236855158872",
       "name": "DataEntity",
       "properties": [
         {
@@ -53,13 +53,18 @@
           "id": "9:8049565669460423512",
           "name": "createdAt",
           "type": 10
+        },
+        {
+          "id": "10:3162458236855158872",
+          "name": "deletedAt",
+          "type": 10
         }
       ],
       "relations": []
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "14:3852732653519494351",
+      "lastPropertyId": "15:7694030657287302890",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -132,13 +137,18 @@
           "id": "14:3852732653519494351",
           "name": "createdAt",
           "type": 10
+        },
+        {
+          "id": "15:7694030657287302890",
+          "name": "deletedAt",
+          "type": 10
         }
       ],
       "relations": []
     },
     {
       "id": "3:1757007729880252278",
-      "lastPropertyId": "5:7711934288890769523",
+      "lastPropertyId": "6:2913576576632977169",
       "name": "SyncDeviceEntity",
       "properties": [
         {
@@ -165,6 +175,11 @@
         {
           "id": "5:7711934288890769523",
           "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "6:2913576576632977169",
+          "name": "deletedAt",
           "type": 10
         }
       ],

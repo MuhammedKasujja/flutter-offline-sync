@@ -1,4 +1,5 @@
 export 'src/generator/entity_registry.dart';
+export 'src/utils/date_comparison.dart';
 
 export 'src/flutter_sync.dart';
 export 'src/ui/configurations_view.dart';

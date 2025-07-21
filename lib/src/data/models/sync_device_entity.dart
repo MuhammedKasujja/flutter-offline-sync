@@ -6,10 +6,16 @@ class SyncDeviceEntity {
   int id;
   String deviceId;
   String userId;
+
+  // @Transient()
+  // final timestamps = Timestamps();
+  
   @Property(type: PropertyType.date)
   final DateTime? updatedAt;
   @Property(type: PropertyType.date)
   final DateTime? createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? deletedAt;
 
   SyncDeviceEntity({
     this.id = 0,
@@ -17,6 +23,7 @@ class SyncDeviceEntity {
     required this.userId,
     this.updatedAt,
     this.createdAt,
+    this.deletedAt,
   });
 
   factory SyncDeviceEntity.fromJson(Map<String, dynamic> json) {

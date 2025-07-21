@@ -103,7 +103,17 @@ extension DataEntityRelationJson on DataEntity {
     return this;
   }
 
-  Map<String, dynamic> toSyncJson() => {...toJson(), ...toRelationJson()};
+  Map<String, dynamic> toSyncJson() {
+    final operation = createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entityId": this.id});
+    map.addAll({"entity": "DataEntity"});
+    map.addAll({"operation": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
 }
 
 extension ConfigurationEntityRelationJson on ConfigurationEntity {
@@ -115,7 +125,17 @@ extension ConfigurationEntityRelationJson on ConfigurationEntity {
     return this;
   }
 
-  Map<String, dynamic> toSyncJson() => {...toJson(), ...toRelationJson()};
+  Map<String, dynamic> toSyncJson() {
+    final operation = createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entityId": this.id});
+    map.addAll({"entity": "ConfigurationEntity"});
+    map.addAll({"operation": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
 }
 
 extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
@@ -127,7 +147,17 @@ extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
     return this;
   }
 
-  Map<String, dynamic> toSyncJson() => {...toJson(), ...toRelationJson()};
+  Map<String, dynamic> toSyncJson() {
+    final operation = createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entityId": this.id});
+    map.addAll({"entity": "SyncDeviceEntity"});
+    map.addAll({"operation": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
 }
 
 // dart format on

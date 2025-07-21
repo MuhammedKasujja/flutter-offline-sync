@@ -19,6 +19,8 @@ class DataEntity {
   final DateTime? updatedAt;
   @Property(type: PropertyType.date)
   final DateTime? createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? deletedAt;
 
   DataEntity({
     this.id = 0,
@@ -30,6 +32,7 @@ class DataEntity {
     this.isSynced = false,
     this.updatedAt,
     this.createdAt,
+    this.deletedAt,
   });
 
   Map<String, dynamic> toJson() {

@@ -21,6 +21,8 @@ class ConfigurationEntity {
   DateTime? updatedAt;
   @Property(type: PropertyType.date)
   DateTime? createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? deletedAt;
 
   ConfigurationEntity({
     this.id = 0,
@@ -37,6 +39,7 @@ class ConfigurationEntity {
     this.remoteLastUpdatedAt,
     this.updatedAt,
     this.createdAt,
+    this.deletedAt
   });
 
   factory ConfigurationEntity.fromJson(

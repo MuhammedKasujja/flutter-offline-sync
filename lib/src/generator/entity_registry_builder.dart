@@ -156,8 +156,11 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln('  }');
       buffer.writeln('\n');
       buffer.writeln('  Map<String, dynamic> toSyncJson(){');
+      buffer.writeln('    final operation = createdAt.syncState(updatedAt);');
       buffer.writeln('    final Map<String, dynamic> map = {};');
-      buffer.writeln('    map.addAll({"tableName": "$className"});');
+      buffer.writeln('    map.addAll({"entity": "$className"});');
+      buffer.writeln('    map.addAll({"entityId": this.id});');
+      buffer.writeln('    map.addAll({"state": "\${operation.name}"});');
       buffer.writeln(
         '    map.addAll({"data": {...toJson(),...toRelationJson()}});',
       );

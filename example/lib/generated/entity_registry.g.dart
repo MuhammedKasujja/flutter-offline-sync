@@ -1,5 +1,5 @@
 // dart format width=80
-// coverage:ignore-file
+// ignore_for_file: type=lint, unused_local_variable
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -19,9 +19,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<UserModel>();
       final query = box
           .query(
-            UserModel_.updatedAt.greaterThan(
-              lastSync?.millisecondsSinceEpoch ?? 0,
-            ),
+            UserModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
           )
           .build();
       final updates = query.find();
@@ -41,9 +39,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<PostModel>();
       final query = box
           .query(
-            PostModel_.updatedAt.greaterThan(
-              lastSync?.millisecondsSinceEpoch ?? 0,
-            ),
+            PostModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
           )
           .build();
       final updates = query.find();
@@ -89,7 +85,17 @@ extension UserModelRelationJson on UserModel {
     return this;
   }
 
-  Map<String, dynamic> toSyncJson() => {...toJson(), ...toRelationJson()};
+  Map<String, dynamic> toSyncJson() {
+    final operation = createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entity": "UserModel"});
+    map.addAll({"entityId": this.id});
+    map.addAll({"state": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
 }
 
 extension PostModelRelationJson on PostModel {
@@ -102,7 +108,17 @@ extension PostModelRelationJson on PostModel {
     return this;
   }
 
-  Map<String, dynamic> toSyncJson() => {...toJson(), ...toRelationJson()};
+  Map<String, dynamic> toSyncJson() {
+    final operation = createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entity": "PostModel"});
+    map.addAll({"entityId": this.id});
+    map.addAll({"state": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
 }
 
 // dart format on
