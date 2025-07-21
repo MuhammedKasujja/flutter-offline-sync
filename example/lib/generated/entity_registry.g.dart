@@ -15,6 +15,10 @@ import 'package:example/data/models/post_model.dart';
 final Map<String, EntityHandler> _generatedRegistry = {
   'UserModel': EntityHandler(
     boxFactory: (store) => store.box<UserModel>(),
+    fetchFunction: (store, lastSync) {
+      final updates = store.box<UserModel>().getAll();
+      return updates.map((ele)=>ele.toSyncJson()).toList();
+    },
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
     updateFunction: (store, json) {
       UserModel entity = UserModel.fromJson(json);
@@ -25,6 +29,10 @@ final Map<String, EntityHandler> _generatedRegistry = {
   ),
   'PostModel': EntityHandler(
     boxFactory: (store) => store.box<PostModel>(),
+    fetchFunction: (store, lastSync) {
+      final updates = store.box<PostModel>().getAll();
+      return updates.map((ele)=>ele.toSyncJson()).toList();
+    },
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
     updateFunction: (store, json) {
       PostModel entity = PostModel.fromJson(json);
