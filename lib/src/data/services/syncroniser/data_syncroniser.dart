@@ -60,7 +60,17 @@ class DataSyncroniser extends IDataSyncroniser {
       request = request.copyWith(extras: extras);
     }
 
-    return _apiClient.post(_config.localEndpoint!, data: request.toJson());
+    final response = await _apiClient.post(
+      _config.localEndpoint!,
+      data: request.toJson(),
+    );
+    if (response.isSuccess) {
+      return ApiResponse(
+        success: response.isSuccess,
+        data: LocalSyncDataResponse.fromJson(response.data),
+      );
+    }
+    return ApiResponse.error(response.error);
   }
 
   @override
