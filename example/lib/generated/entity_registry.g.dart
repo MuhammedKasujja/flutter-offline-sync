@@ -15,7 +15,6 @@ import 'package:example/data/models/post_model.dart';
 final Map<String, EntityHandler> _generatedRegistry = {
   'UserModel': EntityHandler(
     boxFactory: (store) => store.box<UserModel>(),
-    putFunction: (store, json) => store.box<UserModel>().put(UserModel.fromJson(json)),
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
     updateFunction: (store, json) {
       UserModel entity = UserModel.fromJson(json);
@@ -26,7 +25,6 @@ final Map<String, EntityHandler> _generatedRegistry = {
   ),
   'PostModel': EntityHandler(
     boxFactory: (store) => store.box<PostModel>(),
-    putFunction: (store, json) => store.box<PostModel>().put(PostModel.fromJson(json)),
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
     updateFunction: (store, json) {
       PostModel entity = PostModel.fromJson(json);

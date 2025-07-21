@@ -61,9 +61,6 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("  '$entity': EntityHandler(");
       buffer.writeln("    boxFactory: (store) => store.box<$entity>(),");
       buffer.writeln(
-        "    putFunction: (store, json) => store.box<$entity>().put($entity.fromJson(json)),",
-      );
-      buffer.writeln(
         "    deleteFunction: (store, id) => store.box<$entity>().remove(id),",
       );
       buffer.writeln("    updateFunction: (store, json) {");

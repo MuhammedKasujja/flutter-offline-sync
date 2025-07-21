@@ -17,7 +17,7 @@ flutter_offline_sync:
 ### Add your Objectbox Entities/ Models and run the command to generate EntityRegistry project helper
 
 ```dart
-dart run build_runner build
+dart run build_runner build --delete-conflicting-outputs
 ```
 
 ### The generated code will be used to upload local changes and sync remote changes in your local database
