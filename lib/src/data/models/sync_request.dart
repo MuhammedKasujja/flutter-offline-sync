@@ -1,6 +1,6 @@
 class SyncRequest {
   final String? userId;
-  final int? updateId;
+  final String? updateId;
   final String deviceId;
   final String accountKey;
   final List<Map<String, dynamic>> data;
@@ -28,7 +28,7 @@ class SyncRequest {
 
   SyncRequest copyWith({
     String? userId,
-    int? updateId,
+    String? updateId,
     String? deviceId,
     String? accountKey,
     List<Map<String, dynamic>>? data,

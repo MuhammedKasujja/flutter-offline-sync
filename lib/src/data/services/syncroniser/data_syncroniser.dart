@@ -28,7 +28,7 @@ class DataSyncroniser extends IDataSyncroniser {
 
   @override
   Future<ApiResponse> syncLocalUpdates({
-    required int updateId,
+    required String updateId,
     Map<String, dynamic>? extras,
   }) async {
     final updates = await _syncRepository.getPendingLocalUpdates();

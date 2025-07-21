@@ -16,7 +16,7 @@ class SyncManager extends _$SyncManager {
 
   @override
   FutureOr<void> build() async {
-    int? syncId;
+    String? syncId;
     ref.listen<AsyncValue<bool>>(networkStatusProvider, (previous, next) async {
       final config = await ConfigService.getSettings();
       _repo = AppConfig.instance.syncronizer;
@@ -25,7 +25,7 @@ class SyncManager extends _$SyncManager {
         next.whenData((isConnected) async {
           if (isConnected) {
             if (syncId == null) {
-              syncId = 900;
+              syncId = '9000-${DateTime.now().millisecondsSinceEpoch}';
               await SyncroniserService(_repo).startSync(syncId!);
               ConfigService.updateLastSyncDate();
               syncId = null;
