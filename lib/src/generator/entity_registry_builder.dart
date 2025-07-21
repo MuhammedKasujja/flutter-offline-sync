@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
+import 'package:dart_style/dart_style.dart' as df;
 import 'package:glob/glob.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:source_gen/source_gen.dart';
@@ -47,7 +48,7 @@ class EntityRegistryBuilder implements Builder {
     buffer.writeln(
       "\nimport 'package:flutter_offline_sync/flutter_offline_sync.dart';",
     );
-    buffer.writeln("import 'package:objectbox/objectbox.dart';");
+    buffer.writeln(generateExportObjectboxG(buildStep));
 
     for (final entity in classes) {
       final importUri = entity.source.uri.toString();
@@ -60,10 +61,15 @@ class EntityRegistryBuilder implements Builder {
       final entity = clazz.name;
       buffer.writeln("  '$entity': EntityHandler(");
       buffer.writeln("    boxFactory: (store) => store.box<$entity>(),");
+      buffer.writeln("    fetchFunction: (store, lastSync) {");
+      buffer.writeln("      final box = store.box<$entity>();");
       buffer.writeln(
-        "    fetchFunction: (store, lastSync) {");
-      buffer.writeln("      final updates = store.box<$entity>().getAll();");
-      buffer.writeln("      return updates.map((ele)=>ele.toSyncJson()).toList();");
+        "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync?.millisecondsSinceEpoch ?? 0)).build();",
+      );
+      buffer.writeln("      final updates = query.find();");
+      buffer.writeln(
+        "      return updates.map((ele)=>ele.toSyncJson()).toList();",
+      );
       buffer.writeln("    },");
       buffer.writeln(
         "    deleteFunction: (store, id) => store.box<$entity>().remove(id),",
@@ -122,7 +128,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln('  $className applyRelationJson(Store store) {');
       buffer.writeln('    // Apply relations from JSON');
       buffer.writeln('    final json = toRelationJson();');
-       
+
       for (final field in clazz.fields) {
         final name = field.name;
         final typeStr = field.type.getDisplayString(withNullability: false);
@@ -163,6 +169,14 @@ class EntityRegistryBuilder implements Builder {
       buildStep.inputId.package,
       'lib/generated/entity_registry.g.dart',
     );
-    await buildStep.writeAsString(outputId, buffer.toString());
+    final formatted = df.DartFormatter(
+      languageVersion: df.DartFormatter.latestLanguageVersion,
+    ).format(buffer.toString());
+    await buildStep.writeAsString(outputId, formatted);
   }
+}
+
+String generateExportObjectboxG(BuildStep buildStep) {
+  final package = buildStep.inputId.package;
+  return "import 'package:$package/objectbox.g.dart';";
 }

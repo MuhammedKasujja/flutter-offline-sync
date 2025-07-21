@@ -16,6 +16,10 @@ class UserModel extends DataAdapter {
   final int age;
   final String email;
   final String? phone;
+  @Property(type: PropertyType.date)
+  DateTime? updatedAt;
+  @Property(type: PropertyType.date)
+  DateTime? createdAt;
   final posts = ToMany<PostModel>();
 
   UserModel({
@@ -24,6 +28,8 @@ class UserModel extends DataAdapter {
     required this.email,
     required this.name,
     this.phone,
+    this.createdAt,
+    this.updatedAt,
   }) : super(modelName: 'UserModel', tableName: 'users');
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

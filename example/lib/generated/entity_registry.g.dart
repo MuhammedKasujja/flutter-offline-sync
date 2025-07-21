@@ -8,7 +8,7 @@
 //**************************************************************************
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
-import 'package:objectbox/objectbox.dart';
+import 'package:example/objectbox.g.dart';
 import 'package:example/data/models/user_model.dart';
 import 'package:example/data/models/post_model.dart';
 
@@ -16,8 +16,16 @@ final Map<String, EntityHandler> _generatedRegistry = {
   'UserModel': EntityHandler(
     boxFactory: (store) => store.box<UserModel>(),
     fetchFunction: (store, lastSync) {
-      final updates = store.box<UserModel>().getAll();
-      return updates.map((ele)=>ele.toSyncJson()).toList();
+      final box = store.box<UserModel>();
+      final query = box
+          .query(
+            UserModel_.updatedAt.greaterThan(
+              lastSync?.millisecondsSinceEpoch ?? 0,
+            ),
+          )
+          .build();
+      final updates = query.find();
+      return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
     updateFunction: (store, json) {
@@ -30,8 +38,16 @@ final Map<String, EntityHandler> _generatedRegistry = {
   'PostModel': EntityHandler(
     boxFactory: (store) => store.box<PostModel>(),
     fetchFunction: (store, lastSync) {
-      final updates = store.box<PostModel>().getAll();
-      return updates.map((ele)=>ele.toSyncJson()).toList();
+      final box = store.box<PostModel>();
+      final query = box
+          .query(
+            PostModel_.updatedAt.greaterThan(
+              lastSync?.millisecondsSinceEpoch ?? 0,
+            ),
+          )
+          .build();
+      final updates = query.find();
+      return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
     updateFunction: (store, json) {
@@ -50,7 +66,7 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
   EntityHandler? get(String name) => _generatedRegistry[name];
 
   @override
-  List<String>  getAllEntities() => _generatedRegistry.keys.toList();
+  List<String> getAllEntities() => _generatedRegistry.keys.toList();
 }
 
 // GENERATED TORELATIONJSON EXTENSIONS
@@ -58,7 +74,6 @@ extension UserModelRelationJson on UserModel {
   Map<String, dynamic> toRelationJson() => {
     'postsIds': posts.map((e) => e.id).toList(),
   };
-
 
   UserModel applyRelationJson(Store store) {
     // Apply relations from JSON
@@ -71,36 +86,23 @@ extension UserModelRelationJson on UserModel {
         if (item != null) posts.add(item);
       }
     }
-  return this;
+    return this;
   }
 
-
-  Map<String, dynamic> toSyncJson() => {
-    ...toJson(),
-    ...toRelationJson()
-  };
-  }
-
+  Map<String, dynamic> toSyncJson() => {...toJson(), ...toRelationJson()};
+}
 
 extension PostModelRelationJson on PostModel {
-  Map<String, dynamic> toRelationJson() => {
-    'userId': user.targetId,
-  };
-
+  Map<String, dynamic> toRelationJson() => {'userId': user.targetId};
 
   PostModel applyRelationJson(Store store) {
     // Apply relations from JSON
     final json = toRelationJson();
     if (json.containsKey('userId')) user.targetId = json['userId'];
-  return this;
+    return this;
   }
 
-
-  Map<String, dynamic> toSyncJson() => {
-    ...toJson(),
-    ...toRelationJson()
-  };
-  }
-
+  Map<String, dynamic> toSyncJson() => {...toJson(), ...toRelationJson()};
+}
 
 // dart format on

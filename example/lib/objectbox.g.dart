@@ -23,7 +23,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 707813740428046874),
     name: 'UserModel',
-    lastPropertyId: const obx_int.IdUid(5, 3023698732007112253),
+    lastPropertyId: const obx_int.IdUid(9, 3117396643438430620),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -56,6 +56,18 @@ final _entities = <obx_int.ModelEntity>[
         type: 9,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 8949597665842401342),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 3117396643438430620),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[
       obx_int.ModelRelation(
@@ -69,7 +81,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 6560703760643550489),
     name: 'PostModel',
-    lastPropertyId: const obx_int.IdUid(5, 790959322785033875),
+    lastPropertyId: const obx_int.IdUid(8, 4357828796524558861),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -91,18 +103,24 @@ final _entities = <obx_int.ModelEntity>[
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 6049813848822262738),
-        name: 'createdAt',
-        type: 10,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
         id: const obx_int.IdUid(5, 790959322785033875),
         name: 'userId',
         type: 11,
         flags: 520,
         indexId: const obx_int.IdUid(1, 3302761242444162827),
         relationTarget: 'UserModel',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 2843805242058172571),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 4357828796524558861),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -154,7 +172,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
     retiredIndexUids: const [],
-    retiredPropertyUids: const [],
+    retiredPropertyUids: const [
+      6049813848822262738,
+      7757538087736005330,
+      5818421054834355066,
+      7639730303685646617,
+    ],
     retiredRelationUids: const [],
     modelVersion: 5,
     modelVersionParserMinimum: 5,
@@ -178,18 +201,30 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final phoneOffset = object.phone == null
             ? null
             : fbb.writeString(object.phone!);
-        fbb.startTable(6);
+        fbb.startTable(10);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addInt64(2, object.age);
         fbb.addOffset(3, emailOffset);
         fbb.addOffset(4, phoneOffset);
+        fbb.addInt64(7, object.updatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(8, object.createdAt?.millisecondsSinceEpoch);
         fbb.finish(fbb.endTable());
         return object.id;
       },
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
+        final updatedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          18,
+        );
+        final createdAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          20,
+        );
         final idParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -211,12 +246,20 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final phoneParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 12);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
         final object = UserModel(
           id: idParam,
           age: ageParam,
           email: emailParam,
           name: nameParam,
           phone: phoneParam,
+          createdAt: createdAtParam,
+          updatedAt: updatedAtParam,
         );
         obx_int.InternalToManyAccess.setRelInfo<UserModel>(
           object.posts,
@@ -237,18 +280,24 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (PostModel object, fb.Builder fbb) {
         final titleOffset = fbb.writeString(object.title);
         final contentOffset = fbb.writeString(object.content);
-        fbb.startTable(6);
+        fbb.startTable(9);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, titleOffset);
         fbb.addOffset(2, contentOffset);
-        fbb.addInt64(3, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(4, object.user.targetId);
+        fbb.addInt64(6, object.updatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(7, object.createdAt.millisecondsSinceEpoch);
         fbb.finish(fbb.endTable());
         return object.id;
       },
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
+        final updatedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          16,
+        );
         final idParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -262,13 +311,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 8, '');
         final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
-          const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0),
         );
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
         final object = PostModel(
           id: idParam,
           title: titleParam,
           content: contentParam,
           createdAt: createdAtParam,
+          updatedAt: updatedAtParam,
         );
         object.user.targetId = const fb.Int64Reader().vTableGet(
           buffer,
@@ -312,6 +365,16 @@ class UserModel_ {
     _entities[0].properties[4],
   );
 
+  /// See [UserModel.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<UserModel>(
+    _entities[0].properties[5],
+  );
+
+  /// See [UserModel.createdAt].
+  static final createdAt = obx.QueryDateProperty<UserModel>(
+    _entities[0].properties[6],
+  );
+
   /// see [UserModel.posts]
   static final posts = obx.QueryRelationToMany<UserModel, PostModel>(
     _entities[0].relations[0],
@@ -335,13 +398,18 @@ class PostModel_ {
     _entities[1].properties[2],
   );
 
-  /// See [PostModel.createdAt].
-  static final createdAt = obx.QueryDateProperty<PostModel>(
+  /// See [PostModel.user].
+  static final user = obx.QueryRelationToOne<PostModel, UserModel>(
     _entities[1].properties[3],
   );
 
-  /// See [PostModel.user].
-  static final user = obx.QueryRelationToOne<PostModel, UserModel>(
+  /// See [PostModel.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<PostModel>(
     _entities[1].properties[4],
+  );
+
+  /// See [PostModel.createdAt].
+  static final createdAt = obx.QueryDateProperty<PostModel>(
+    _entities[1].properties[5],
   );
 }

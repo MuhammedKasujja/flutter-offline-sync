@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:707813740428046874",
-      "lastPropertyId": "5:3023698732007112253",
+      "lastPropertyId": "9:3117396643438430620",
       "name": "UserModel",
       "properties": [
         {
@@ -33,6 +33,16 @@
           "id": "5:3023698732007112253",
           "name": "phone",
           "type": 9
+        },
+        {
+          "id": "8:8949597665842401342",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "9:3117396643438430620",
+          "name": "createdAt",
+          "type": 10
         }
       ],
       "relations": [
@@ -45,7 +55,7 @@
     },
     {
       "id": "2:6560703760643550489",
-      "lastPropertyId": "5:790959322785033875",
+      "lastPropertyId": "8:4357828796524558861",
       "name": "PostModel",
       "properties": [
         {
@@ -65,17 +75,22 @@
           "type": 9
         },
         {
-          "id": "4:6049813848822262738",
-          "name": "createdAt",
-          "type": 10
-        },
-        {
           "id": "5:790959322785033875",
           "name": "userId",
           "type": 11,
           "flags": 520,
           "indexId": "1:3302761242444162827",
           "relationTarget": "UserModel"
+        },
+        {
+          "id": "7:2843805242058172571",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "8:4357828796524558861",
+          "name": "createdAt",
+          "type": 10
         }
       ],
       "relations": []
@@ -89,7 +104,12 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    6049813848822262738,
+    7757538087736005330,
+    5818421054834355066,
+    7639730303685646617
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

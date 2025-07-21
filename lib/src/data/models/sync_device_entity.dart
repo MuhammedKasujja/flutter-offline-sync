@@ -6,8 +6,18 @@ class SyncDeviceEntity {
   int id;
   String deviceId;
   String userId;
+  @Property(type: PropertyType.date)
+  final DateTime? updatedAt;
+  @Property(type: PropertyType.date)
+  final DateTime? createdAt;
 
-  SyncDeviceEntity({this.id = 0, required this.deviceId, required this.userId});
+  SyncDeviceEntity({
+    this.id = 0,
+    required this.deviceId,
+    required this.userId,
+    this.updatedAt,
+    this.createdAt,
+  });
 
   factory SyncDeviceEntity.fromJson(Map<String, dynamic> json) {
     return SyncDeviceEntity(

@@ -15,6 +15,10 @@ class DataEntity {
   /// Entity ID this change relates to.
   String? entityId;
   String operation;
+  @Property(type: PropertyType.date)
+  final DateTime? updatedAt;
+  @Property(type: PropertyType.date)
+  final DateTime? createdAt;
 
   DataEntity({
     this.id = 0,
@@ -24,6 +28,8 @@ class DataEntity {
     required this.operation,
     required this.entity,
     this.isSynced = false,
+    this.updatedAt,
+    this.createdAt,
   });
 
   Map<String, dynamic> toJson() {

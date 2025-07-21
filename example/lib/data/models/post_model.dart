@@ -14,7 +14,10 @@ class PostModel extends DataAdapter {
   int id;
   final String title;
   final String content;
-  final DateTime createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? updatedAt;
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
   final user = ToOne<UserModel>();
 
   PostModel({
@@ -22,25 +25,13 @@ class PostModel extends DataAdapter {
     required this.title,
     required this.content,
     required this.createdAt,
+    this.updatedAt,
   }) : super(modelName: 'PostModel', tableName: 'PostModel');
 
-  factory PostModel.fromJson(Map<String, dynamic> json) {
-    return PostModel(
-      id: json['id'],
-      title: json['title'] as String,
-      content: json['content'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-    );
-  }
+  factory PostModel.fromJson(Map<String, dynamic> json) =>
+      _$PostModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'content': content,
-      'createdAt': createdAt.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => _$PostModelToJson(this);
 
   PostModel? save() {
     final saved = saveEntity(this);

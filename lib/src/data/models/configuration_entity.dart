@@ -17,6 +17,10 @@ class ConfigurationEntity {
   DateTime? localLastUpdatedAt;
   @Property(type: PropertyType.date)
   DateTime? remoteLastUpdatedAt;
+  @Property(type: PropertyType.date)
+  DateTime? updatedAt;
+  @Property(type: PropertyType.date)
+  DateTime? createdAt;
 
   ConfigurationEntity({
     this.id = 0,
@@ -31,6 +35,8 @@ class ConfigurationEntity {
     this.extras,
     this.localLastUpdatedAt,
     this.remoteLastUpdatedAt,
+    this.updatedAt,
+    this.createdAt,
   });
 
   factory ConfigurationEntity.fromJson(

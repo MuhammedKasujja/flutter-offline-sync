@@ -48,21 +48,26 @@ class _UserEditScreenState extends State<UserEditScreen> {
                     email: emailController.text,
                     name: nameController.text,
                     phone: phoneController.text,
+                    createdAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
                   );
                   final postA = PostModel(
                     title: 'Killers',
                     content: 'this sucks',
                     createdAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
                   );
                   final postB = PostModel(
                     title: 'Users',
                     content: 'This kills too',
                     createdAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
                   );
                   final postC = PostModel(
                     title: 'Maintainers',
                     content: 'I love this',
                     createdAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
                   );
                   user.posts.addAll([postA, postB, postC]);
                   user.save();

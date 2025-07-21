@@ -1,4 +1,6 @@
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
+import 'package:flutter_offline_sync/src/data/services/data/local_data_updates.dart';
+import 'package:flutter_offline_sync/src/flutter_sync.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 
 import '../interfaces/sync_repository.dart';
@@ -14,14 +16,17 @@ class SyncRepositoryImp implements SyncRepository {
     return pendingUpdates;
   }
 
+  Future<List<Map<String, dynamic>>> getLocalUpdates() async {
+    final service = LocalDataUpdates(FlutterSync.instance.entityRegistry);
+    return await service.fetchLocalUpdates();
+  }
+
   @override
   Future<void> clearUpdatesTable() async {
     final box = getBox<DataEntity>();
     box.removeAll();
   }
-  
+
   @override
-  Future<void> saveRemoteChanges(List<DataEntity> remoteDatachanges) async{
-    
-  }
+  Future<void> saveRemoteChanges(List<DataEntity> remoteDatachanges) async {}
 }

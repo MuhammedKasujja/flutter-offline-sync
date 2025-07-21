@@ -2,6 +2,7 @@ targets:
   $default:
     sources:
       exclude:
+        - example/**
         - "**/.plugin_symlinks/**"
         - "**/.symlinks/**"
     builders:
