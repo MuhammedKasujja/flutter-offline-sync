@@ -106,9 +106,9 @@ extension DataEntityRelationJson on DataEntity {
   Map<String, dynamic> toSyncJson() {
     final operation = createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
-    map.addAll({"entityId": this.id});
     map.addAll({"entity": "DataEntity"});
-    map.addAll({"operation": "${operation.name}"});
+    map.addAll({"entityId": this.id});
+    map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
     });
@@ -128,9 +128,9 @@ extension ConfigurationEntityRelationJson on ConfigurationEntity {
   Map<String, dynamic> toSyncJson() {
     final operation = createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
-    map.addAll({"entityId": this.id});
     map.addAll({"entity": "ConfigurationEntity"});
-    map.addAll({"operation": "${operation.name}"});
+    map.addAll({"entityId": this.id});
+    map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
     });
@@ -150,9 +150,9 @@ extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
   Map<String, dynamic> toSyncJson() {
     final operation = createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
-    map.addAll({"entityId": this.id});
     map.addAll({"entity": "SyncDeviceEntity"});
-    map.addAll({"operation": "${operation.name}"});
+    map.addAll({"entityId": this.id});
+    map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
     });

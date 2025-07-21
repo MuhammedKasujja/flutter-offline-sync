@@ -10,7 +10,7 @@ class SyncDataViewer extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(16),
         child: FutureBuilder<List<Map<String, dynamic>>>(
-          future: SyncRepositoryImp().getLocalUpdates(),
+          future: SyncRepositoryImp().getPendingLocalUpdates(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {

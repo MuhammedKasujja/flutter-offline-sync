@@ -6,6 +6,7 @@ import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 import 'data_syncroniser_interface.dart';
@@ -33,26 +34,30 @@ class DataSyncroniser extends IDataSyncroniser {
       return ApiResponse.error('No updates found');
     }
 
-    final Map<String, dynamic> updateMap = {};
-
     if (_config.accountKey == null) {
       throw Exception('Account key is required to sync updates');
     }
 
-    if (extras != null) {
-      updateMap.addAll(extras);
+    if (_config.hasCurrentDeviceId == false) {
+      throw Exception('Device must be registered to sync updates');
+    }
+    if (_config.hasConfiguredLocalEndpoint == false) {
+      throw Exception('Local sync endpoint is not configured');
     }
 
-    updateMap.addAll({'data': updates});
+    SyncRequest request = SyncRequest(
+      userId: _config.userId ?? '5600',
+      updateId: 560,
+      deviceId: _config.currentDeviceId!,
+      accountKey: _config.accountKey!,
+      data: updates,
+    );
 
-    updateMap.addAll({
-      "userId": _config.userId ?? '5600',
-      "updateId": 560,
-      'deviceId': _config.currentDeviceId,
-      'accountKey': _config.accountKey,
-    });
+    if (extras != null) {
+      request = request.copyWith(extras: extras);
+    }
 
-    return _apiClient.post(_config.localEndpoint!, data: updateMap);
+    return _apiClient.post(_config.localEndpoint!, data: request.toJson());
   }
 
   @override
