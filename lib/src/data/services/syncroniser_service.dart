@@ -8,21 +8,24 @@ class SyncroniserService {
   final IDataSyncroniser _repo;
   SyncroniserService(this._repo);
 
-  void startSync() {
-    startLocalSync();
+  Future startSync(int syncId) async {
+    startLocalSync(syncId);
     startSyncRemoteChanges();
   }
 
-  void startLocalSync() {
-    _repo.syncLocalUpdates(extras: FlutterSync.instance.requestExtras).then((
-      response,
-    ) {
-      logger.info({'Sync Ended Local Updates': response.toJson()});
+  void startLocalSync(int syncId) {
+    _repo
+        .syncLocalUpdates(
+          updateId: syncId,
+          extras: FlutterSync.instance.requestExtras,
+        )
+        .then((response) {
+          logger.info({'Sync Ended Local Updates': response.toJson()});
 
-      if (response.success) {
-        _repo.clearUpdatesTable();
-      }
-    });
+          if (response.success) {
+            _repo.clearUpdatesTable();
+          }
+        });
   }
 
   void startSyncRemoteChanges() {
@@ -46,6 +49,7 @@ class SyncroniserService {
 
   void syncLocalData() async {
     final response = await _repo.syncLocalUpdates(
+      updateId: 340,
       extras: FlutterSync.instance.requestExtras,
     );
     logger.info({'Sync Ended Local Updates': response.toJson()});

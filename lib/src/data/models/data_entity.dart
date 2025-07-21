@@ -41,7 +41,7 @@ class DataEntity {
       'entityId': entityId,
       'entity': entity,
       'data': jsonDecode(data),
-      'operation': operation,
+      'state': operation,
       'updateId': id,
       'isSynced': isSynced,
     };
@@ -50,10 +50,10 @@ class DataEntity {
   factory DataEntity.fromJson(Map<String, dynamic> json) {
     return DataEntity(
       data: jsonEncode(json['data']),
-      tableName: json['tableName'],
-      operation: json['operation'],
+      tableName: json['entity'],
+      operation: json['state'] ?? 'create',
       entity: json['entity'],
-      entityId: json['entityId'],
+      entityId: json['entityId']?.toString(),
     );
   }
 }

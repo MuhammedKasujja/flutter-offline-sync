@@ -27,7 +27,10 @@ class DataSyncroniser extends IDataSyncroniser {
        _syncRepository = syncRepository;
 
   @override
-  Future<ApiResponse> syncLocalUpdates({Map<String, dynamic>? extras}) async {
+  Future<ApiResponse> syncLocalUpdates({
+    required int updateId,
+    Map<String, dynamic>? extras,
+  }) async {
     final updates = await _syncRepository.getPendingLocalUpdates();
 
     if (updates.isEmpty) {
@@ -47,7 +50,7 @@ class DataSyncroniser extends IDataSyncroniser {
 
     SyncRequest request = SyncRequest(
       userId: _config.userId ?? '5600',
-      updateId: 560,
+      updateId: updateId,
       deviceId: _config.currentDeviceId!,
       accountKey: _config.accountKey!,
       data: updates,

@@ -16,13 +16,20 @@ class SyncManager extends _$SyncManager {
 
   @override
   FutureOr<void> build() async {
+    int? syncId;
     ref.listen<AsyncValue<bool>>(networkStatusProvider, (previous, next) async {
       final config = await ConfigService.getSettings();
       _repo = AppConfig.instance.syncronizer;
+
       if (config != null && config.hasRemoteCredentials) {
         next.whenData((isConnected) async {
           if (isConnected) {
-            SyncroniserService(_repo).startSync();
+            if (syncId == null) {
+              syncId = 900;
+              await SyncroniserService(_repo).startSync(syncId!);
+              ConfigService.updateLastSyncDate();
+              syncId = null;
+            }
           } else {
             logger.debug("No internet connection");
           }
