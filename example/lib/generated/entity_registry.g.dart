@@ -21,6 +21,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .query(
             UserModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
           )
+          .order(UserModel_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -41,6 +42,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .query(
             PostModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
           )
+          .order(PostModel_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
       return updates.map((ele) => ele.toSyncJson()).toList();

@@ -1,7 +1,5 @@
 import 'package:example/data/models/user_model.dart';
 import 'package:example/database.dart';
-import 'package:example/generated/entity_registry.g.dart';
-import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -9,7 +7,7 @@ part 'post_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
-class PostModel extends DataAdapter {
+class PostModel {
   @Id(assignable: true)
   int id;
   final String title;
@@ -26,7 +24,7 @@ class PostModel extends DataAdapter {
     required this.content,
     required this.createdAt,
     this.updatedAt,
-  }) : super(modelName: 'PostModel', tableName: 'PostModel');
+  });
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);
@@ -35,9 +33,6 @@ class PostModel extends DataAdapter {
 
   PostModel? save() {
     final saved = saveEntity(this);
-    if (saved != null) {
-      super.queueCreate(data: saved.toSyncJson());
-    }
     return saved;
   }
 }

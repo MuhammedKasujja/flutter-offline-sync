@@ -1,7 +1,5 @@
 import 'package:example/data/models/post_model.dart';
 import 'package:example/database.dart';
-import 'package:example/generated/entity_registry.g.dart';
-import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -9,7 +7,7 @@ part 'user_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
-class UserModel extends DataAdapter {
+class UserModel {
   @Id(assignable: true)
   int id;
   final String name;
@@ -30,7 +28,7 @@ class UserModel extends DataAdapter {
     this.phone,
     this.createdAt,
     this.updatedAt,
-  }) : super(modelName: 'UserModel', tableName: 'users');
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
@@ -39,9 +37,6 @@ class UserModel extends DataAdapter {
 
   UserModel? save() {
     final saved = saveEntity(this);
-    if (saved != null) {
-      super.queueCreate(data: saved.toSyncJson());
-    }
     return saved;
   }
 }
