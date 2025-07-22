@@ -1,7 +1,6 @@
 // dart format width=80
 // ignore_for_file: type=lint, unused_local_variable
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// GENERATED CODE - DO NOT MODIFY BY HAND
 
 //**************************************************************************
 // FlutterSyncGenerator
@@ -22,6 +21,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .query(
             DataEntity_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
           )
+          .order(DataEntity_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -45,6 +45,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
               lastSync.millisecondsSinceEpoch,
             ),
           )
+          .order(ConfigurationEntity_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -68,6 +69,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
               lastSync.millisecondsSinceEpoch,
             ),
           )
+          .order(SyncDeviceEntity_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -104,7 +106,9 @@ extension DataEntityRelationJson on DataEntity {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "DataEntity"});
     map.addAll({"entityId": this.id});
@@ -126,7 +130,9 @@ extension ConfigurationEntityRelationJson on ConfigurationEntity {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "ConfigurationEntity"});
     map.addAll({"entityId": this.id});
@@ -148,7 +154,9 @@ extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "SyncDeviceEntity"});
     map.addAll({"entityId": this.id});

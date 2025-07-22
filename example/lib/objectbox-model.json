@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:707813740428046874",
-      "lastPropertyId": "9:3117396643438430620",
+      "lastPropertyId": "10:2348299110539440672",
       "name": "UserModel",
       "properties": [
         {
@@ -43,6 +43,11 @@
           "id": "9:3117396643438430620",
           "name": "createdAt",
           "type": 10
+        },
+        {
+          "id": "10:2348299110539440672",
+          "name": "deletedAt",
+          "type": 10
         }
       ],
       "relations": [
@@ -55,7 +60,7 @@
     },
     {
       "id": "2:6560703760643550489",
-      "lastPropertyId": "8:4357828796524558861",
+      "lastPropertyId": "9:8258076855499200569",
       "name": "PostModel",
       "properties": [
         {
@@ -91,12 +96,56 @@
           "id": "8:4357828796524558861",
           "name": "createdAt",
           "type": 10
+        },
+        {
+          "id": "9:8258076855499200569",
+          "name": "deletedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:3470457110388395783",
+      "lastPropertyId": "6:1300783467584236085",
+      "name": "RoleModel",
+      "properties": [
+        {
+          "id": "1:4830737512641600048",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6765220925042970099",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6611500919779398443",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:5624045038900336138",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "5:543491055933219329",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "6:1300783467584236085",
+          "name": "deletedAt",
+          "type": 10
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:6560703760643550489",
+  "lastEntityId": "3:3470457110388395783",
   "lastIndexId": "1:3302761242444162827",
   "lastRelationId": "1:4549468362391393749",
   "lastSequenceId": "0:0",

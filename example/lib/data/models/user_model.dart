@@ -18,6 +18,8 @@ class UserModel {
   DateTime? updatedAt;
   @Property(type: PropertyType.date)
   DateTime? createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? deletedAt;
   final posts = ToMany<PostModel>();
 
   UserModel({
@@ -28,6 +30,7 @@ class UserModel {
     this.phone,
     this.createdAt,
     this.updatedAt,
+    this.deletedAt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

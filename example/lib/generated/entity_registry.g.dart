@@ -1,7 +1,6 @@
 // dart format width=80
 // ignore_for_file: type=lint, unused_local_variable
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// GENERATED CODE - DO NOT MODIFY BY HAND
 
 //**************************************************************************
 // FlutterSyncGenerator
@@ -9,10 +8,32 @@
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:example/objectbox.g.dart';
+import 'package:example/data/models/role_model.dart';
 import 'package:example/data/models/user_model.dart';
 import 'package:example/data/models/post_model.dart';
 
 final Map<String, EntityHandler> _generatedRegistry = {
+  'RoleModel': EntityHandler(
+    boxFactory: (store) => store.box<RoleModel>(),
+    fetchFunction: (store, lastSync) {
+      final box = store.box<RoleModel>();
+      final query = box
+          .query(
+            RoleModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
+          )
+          .order(RoleModel_.updatedAt, flags: Order.descending)
+          .build();
+      final updates = query.find();
+      return updates.map((ele) => ele.toSyncJson()).toList();
+    },
+    deleteFunction: (store, id) => store.box<RoleModel>().remove(id),
+    updateFunction: (store, json) {
+      RoleModel entity = RoleModel.fromJson(json);
+      if (entity.id == 0) throw Exception('Cannot update RoleModel without ID');
+      entity = entity.applyRelationJson(store);
+      return store.box<RoleModel>().put(entity);
+    },
+  ),
   'UserModel': EntityHandler(
     boxFactory: (store) => store.box<UserModel>(),
     fetchFunction: (store, lastSync) {
@@ -68,6 +89,30 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
 }
 
 // GENERATED TORELATIONJSON EXTENSIONS
+extension RoleModelRelationJson on RoleModel {
+  Map<String, dynamic> toRelationJson() => {};
+
+  RoleModel applyRelationJson(Store store) {
+    // Apply relations from JSON
+    final json = toRelationJson();
+    return this;
+  }
+
+  Map<String, dynamic> toSyncJson() {
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entity": "RoleModel"});
+    map.addAll({"entityId": this.id});
+    map.addAll({"state": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
+}
+
 extension UserModelRelationJson on UserModel {
   Map<String, dynamic> toRelationJson() => {
     'postsIds': posts.map((e) => e.id).toList(),
@@ -88,7 +133,9 @@ extension UserModelRelationJson on UserModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "UserModel"});
     map.addAll({"entityId": this.id});
@@ -111,7 +158,9 @@ extension PostModelRelationJson on PostModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "PostModel"});
     map.addAll({"entityId": this.id});

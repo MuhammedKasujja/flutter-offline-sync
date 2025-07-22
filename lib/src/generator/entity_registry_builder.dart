@@ -37,7 +37,6 @@ class EntityRegistryBuilder implements Builder {
     buffer.writeln('// dart format width=80');
     buffer.writeln('// ignore_for_file: type=lint, unused_local_variable');
     buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
-    buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     buffer.writeln(
       "\n//**************************************************************************",
     );
@@ -157,7 +156,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln('  }');
       buffer.writeln('\n');
       buffer.writeln('  Map<String, dynamic> toSyncJson(){');
-      buffer.writeln('    final operation = createdAt.syncState(updatedAt);');
+      buffer.writeln('    final operation = deletedAt != null ? EntityState.deleted : createdAt.syncState(updatedAt);');
       buffer.writeln('    final Map<String, dynamic> map = {};');
       buffer.writeln('    map.addAll({"entity": "$className"});');
       buffer.writeln('    map.addAll({"entityId": this.id});');

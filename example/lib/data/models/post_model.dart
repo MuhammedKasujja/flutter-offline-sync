@@ -16,6 +16,8 @@ class PostModel {
   DateTime? updatedAt;
   @Property(type: PropertyType.date)
   DateTime createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? deletedAt;
   final user = ToOne<UserModel>();
 
   PostModel({
@@ -24,6 +26,7 @@ class PostModel {
     required this.content,
     required this.createdAt,
     this.updatedAt,
+    this.deletedAt,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>

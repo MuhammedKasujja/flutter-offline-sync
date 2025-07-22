@@ -1,16 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_model.dart';
+part of 'role_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
+RoleModel _$RoleModelFromJson(Map<String, dynamic> json) => RoleModel(
   id: (json['id'] as num?)?.toInt() ?? 0,
-  title: json['title'] as String,
-  content: json['content'] as String,
-  createdAt: DateTime.parse(json['created_at'] as String),
+  name: json['name'] as String,
+  description: json['description'] as String?,
   updatedAt:
       json['updated_at'] == null
           ? null
@@ -19,12 +18,13 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       json['deleted_at'] == null
           ? null
           : DateTime.parse(json['deleted_at'] as String),
+  createdAt: DateTime.parse(json['created_at'] as String),
 );
 
-Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
+Map<String, dynamic> _$RoleModelToJson(RoleModel instance) => <String, dynamic>{
   'id': instance.id,
-  'title': instance.title,
-  'content': instance.content,
+  'name': instance.name,
+  'description': instance.description,
   'updated_at': instance.updatedAt?.toIso8601String(),
   'created_at': instance.createdAt.toIso8601String(),
   'deleted_at': instance.deletedAt?.toIso8601String(),

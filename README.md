@@ -21,3 +21,9 @@ dart run build_runner build --delete-conflicting-outputs
 ```
 
 ### The generated code will be used to upload local changes and sync remote changes in your local database
+
+## All Models need the following fields for syncronization
+### Model Required fields
+1. `createdAt`
+2. `updatedAt`
+3. `deletedAt?`  ( deletedAt should be nullable )

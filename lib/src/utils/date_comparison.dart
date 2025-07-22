@@ -1,4 +1,5 @@
 import 'package:flutter_offline_sync/src/data/enums/enums.dart';
+export 'package:flutter_offline_sync/src/data/enums/enums.dart' show EntityState;
 
 bool _isSameDate(DateTime? a, DateTime? b) {
   if (a == null || b == null) return false;
