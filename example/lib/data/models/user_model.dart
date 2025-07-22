@@ -41,6 +41,8 @@ class UserModel {
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   UserModel? save() {
+    isSynced = false; // Mark as not synced
+    updatedAt = DateTime.now();
     final saved = saveEntity(this);
     return saved;
   }

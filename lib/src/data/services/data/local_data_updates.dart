@@ -1,4 +1,5 @@
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 class LocalDataUpdates {
   final EntityRegistry entityRegistry;
@@ -32,9 +33,18 @@ class LocalDataUpdates {
           localUpdates.addAll(updates);
         }
       }
+      // final List<Map<String, dynamic>> sortedUpdates =
+      //     localUpdates.toList()..sort(
+      //       (a, b) => DateTime.parse(
+      //         b['data']['updated_at'],
+      //       ).compareTo(
+      //         DateTime.parse(a['data']['updated_at']),
+      //       ),
+      //     );
+
       return localUpdates;
     } catch (e) {
-      // throw Exception("Failed to get $name with ID $id: $e");
+      logger.error('Error fetching local updates', e);
       return [];
     }
   }

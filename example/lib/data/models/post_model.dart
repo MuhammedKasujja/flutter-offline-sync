@@ -37,6 +37,8 @@ class PostModel {
   Map<String, dynamic> toJson() => _$PostModelToJson(this);
 
   PostModel? save() {
+    isSynced = false; // Mark as not synced
+    updatedAt = DateTime.now();
     final saved = saveEntity(this);
     return saved;
   }

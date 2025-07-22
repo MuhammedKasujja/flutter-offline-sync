@@ -7,7 +7,7 @@ import 'package:flutter_offline_sync/src/data/services/configuration_service.dar
 import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
-import 'package:flutter_offline_sync/src/utils/logger.dart';
+// import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 final class AppConfig {
   late ConfigurationEntity _config;
@@ -47,7 +47,7 @@ final class AppConfig {
   }
 
   Map<String, dynamic>? get _headers {
-    logger.debug({'AuthToken': _config.authToken});
+    // logger.debug({'AuthToken': _config.authToken});
     if (_config.authToken != null && _config.authToken!.isNotEmpty) {
       return {'Authorization': 'Bearer ${_config.authToken}'};
     }

@@ -37,7 +37,6 @@ class _UsersScreenState extends State<UsersScreen> {
     } else {
       user.deletedAt = DateTime.now(); // Soft delete the user
     }
-    user.updatedAt = DateTime.now();
     user.save();
 
     fetchUsers();
