@@ -20,10 +20,12 @@ class UserModel {
   DateTime? createdAt;
   @Property(type: PropertyType.date)
   DateTime? deletedAt;
+  bool isSynced;
   final posts = ToMany<PostModel>();
 
   UserModel({
     this.id = 0,
+    this.isSynced = false,
     required this.age,
     required this.email,
     required this.name,

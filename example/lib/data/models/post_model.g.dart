@@ -8,6 +8,7 @@ part of 'post_model.dart';
 
 PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
   id: (json['id'] as num?)?.toInt() ?? 0,
+  isSynced: json['is_synced'] as bool? ?? false,
   title: json['title'] as String,
   content: json['content'] as String,
   createdAt: DateTime.parse(json['created_at'] as String),
@@ -28,4 +29,5 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
   'updated_at': instance.updatedAt?.toIso8601String(),
   'created_at': instance.createdAt.toIso8601String(),
   'deleted_at': instance.deletedAt?.toIso8601String(),
+  'is_synced': instance.isSynced,
 };

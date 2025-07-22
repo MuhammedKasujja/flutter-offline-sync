@@ -27,3 +27,7 @@ dart run build_runner build --delete-conflicting-outputs
 1. `createdAt`
 2. `updatedAt`
 3. `deletedAt?`  ( deletedAt should be nullable )
+4. `isSynced` ( property to track synced models to avoid duplicate syncs from going to the server)
+
+Note
+ 1. Make sure to revalidate (change) `updatedAt` whenever a database operation is made

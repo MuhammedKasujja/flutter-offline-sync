@@ -23,9 +23,11 @@ class ConfigurationEntity {
   DateTime? createdAt;
   @Property(type: PropertyType.date)
   DateTime? deletedAt;
+  bool isSynced;
 
   ConfigurationEntity({
     this.id = 0,
+    this.isSynced = false,
     this.currentDeviceId,
     this.accountKey,
     this.baseUrl,

@@ -16,9 +16,11 @@ class SyncDeviceEntity {
   final DateTime? createdAt;
   @Property(type: PropertyType.date)
   DateTime? deletedAt;
+  bool isSynced;
 
   SyncDeviceEntity({
     this.id = 0,
+    this.isSynced = false,
     required this.deviceId,
     required this.userId,
     this.updatedAt,

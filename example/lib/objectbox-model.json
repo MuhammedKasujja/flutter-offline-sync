@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:707813740428046874",
-      "lastPropertyId": "10:2348299110539440672",
+      "lastPropertyId": "11:9090742557515735000",
       "name": "UserModel",
       "properties": [
         {
@@ -48,6 +48,11 @@
           "id": "10:2348299110539440672",
           "name": "deletedAt",
           "type": 10
+        },
+        {
+          "id": "11:9090742557515735000",
+          "name": "isSynced",
+          "type": 1
         }
       ],
       "relations": [
@@ -60,7 +65,7 @@
     },
     {
       "id": "2:6560703760643550489",
-      "lastPropertyId": "9:8258076855499200569",
+      "lastPropertyId": "10:4603218376172157270",
       "name": "PostModel",
       "properties": [
         {
@@ -101,13 +106,18 @@
           "id": "9:8258076855499200569",
           "name": "deletedAt",
           "type": 10
+        },
+        {
+          "id": "10:4603218376172157270",
+          "name": "isSynced",
+          "type": 1
         }
       ],
       "relations": []
     },
     {
       "id": "3:3470457110388395783",
-      "lastPropertyId": "6:1300783467584236085",
+      "lastPropertyId": "7:6743194687148100016",
       "name": "RoleModel",
       "properties": [
         {
@@ -140,6 +150,11 @@
           "id": "6:1300783467584236085",
           "name": "deletedAt",
           "type": 10
+        },
+        {
+          "id": "7:6743194687148100016",
+          "name": "isSynced",
+          "type": 1
         }
       ],
       "relations": []

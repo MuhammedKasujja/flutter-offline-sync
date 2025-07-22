@@ -19,7 +19,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<RoleModel>();
       final query = box
           .query(
-            RoleModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
+            RoleModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(RoleModel_.isSynced.equals(false)),
           )
           .order(RoleModel_.updatedAt, flags: Order.descending)
           .build();
@@ -31,6 +33,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       RoleModel entity = RoleModel.fromJson(json);
       if (entity.id == 0) throw Exception('Cannot update RoleModel without ID');
       entity = entity.applyRelationJson(store);
+      entity.isSynced = true;
       return store.box<RoleModel>().put(entity);
     },
   ),
@@ -40,7 +43,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<UserModel>();
       final query = box
           .query(
-            UserModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
+            UserModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(UserModel_.isSynced.equals(false)),
           )
           .order(UserModel_.updatedAt, flags: Order.descending)
           .build();
@@ -52,6 +57,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       UserModel entity = UserModel.fromJson(json);
       if (entity.id == 0) throw Exception('Cannot update UserModel without ID');
       entity = entity.applyRelationJson(store);
+      entity.isSynced = true;
       return store.box<UserModel>().put(entity);
     },
   ),
@@ -61,7 +67,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<PostModel>();
       final query = box
           .query(
-            PostModel_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
+            PostModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(PostModel_.isSynced.equals(false)),
           )
           .order(PostModel_.updatedAt, flags: Order.descending)
           .build();
@@ -73,6 +81,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       PostModel entity = PostModel.fromJson(json);
       if (entity.id == 0) throw Exception('Cannot update PostModel without ID');
       entity = entity.applyRelationJson(store);
+      entity.isSynced = true;
       return store.box<PostModel>().put(entity);
     },
   ),

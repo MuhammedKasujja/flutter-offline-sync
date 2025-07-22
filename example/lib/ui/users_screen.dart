@@ -29,6 +29,20 @@ class _UsersScreenState extends State<UsersScreen> {
     });
   }
 
+  deleteUser(int id) async {
+    final user = getBox<UserModel>().get(id);
+    if (user == null) return;
+    if (user.deletedAt != null) {
+      user.deletedAt = null; // Restore the user
+    } else {
+      user.deletedAt = DateTime.now(); // Soft delete the user
+    }
+    user.updatedAt = DateTime.now();
+    user.save();
+
+    fetchUsers();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +53,9 @@ class _UsersScreenState extends State<UsersScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SyncConfigurationsView()),
+                MaterialPageRoute(
+                  builder: (context) => SyncConfigurationsView(),
+                ),
               );
             },
             icon: Icon(Icons.preview),
@@ -64,7 +80,12 @@ class _UsersScreenState extends State<UsersScreen> {
             return ListTile(
               title: Text(user.name),
               subtitle: Text(user.email),
-              trailing: IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+              trailing: IconButton(
+                onPressed: () => deleteUser(user.id),
+                icon: Icon(
+                  user.deletedAt == null ? Icons.delete : Icons.restore,
+                ),
+              ),
             );
           },
         ),

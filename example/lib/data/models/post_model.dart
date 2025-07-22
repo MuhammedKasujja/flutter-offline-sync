@@ -18,10 +18,12 @@ class PostModel {
   DateTime createdAt;
   @Property(type: PropertyType.date)
   DateTime? deletedAt;
+  bool isSynced;
   final user = ToOne<UserModel>();
 
   PostModel({
     this.id = 0,
+    this.isSynced = false,
     required this.title,
     required this.content,
     required this.createdAt,

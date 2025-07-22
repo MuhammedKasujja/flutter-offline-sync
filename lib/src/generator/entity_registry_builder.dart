@@ -63,7 +63,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("    fetchFunction: (store, lastSync) {");
       buffer.writeln("      final box = store.box<$entity>();");
       buffer.writeln(
-        "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch))",
+        "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch).and(${entity}_.isSynced.equals(false)))",
       );
       buffer.writeln("      .order(${entity}_.updatedAt, flags: Order.descending).build();");
       buffer.writeln("      final updates = query.find();");
@@ -80,6 +80,7 @@ class EntityRegistryBuilder implements Builder {
         "      if (entity.id == 0) throw Exception('Cannot update $entity without ID');",
       );
       buffer.writeln("      entity = entity.applyRelationJson(store);");
+      buffer.writeln("      entity.isSynced = true;"); // Ensure isSynced is set to true to avoid sync issues
       buffer.writeln("      return store.box<$entity>().put(entity);");
       buffer.writeln("    },");
       buffer.writeln("  ),");

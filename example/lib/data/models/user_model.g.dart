@@ -8,6 +8,7 @@ part of 'user_model.dart';
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   id: (json['id'] as num?)?.toInt() ?? 0,
+  isSynced: json['is_synced'] as bool? ?? false,
   age: (json['age'] as num).toInt(),
   email: json['email'] as String,
   name: json['name'] as String,
@@ -35,4 +36,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'updated_at': instance.updatedAt?.toIso8601String(),
   'created_at': instance.createdAt?.toIso8601String(),
   'deleted_at': instance.deletedAt?.toIso8601String(),
+  'is_synced': instance.isSynced,
 };

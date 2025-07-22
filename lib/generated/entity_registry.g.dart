@@ -19,7 +19,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<DataEntity>();
       final query = box
           .query(
-            DataEntity_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch),
+            DataEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(DataEntity_.isSynced.equals(false)),
           )
           .order(DataEntity_.updatedAt, flags: Order.descending)
           .build();
@@ -32,6 +34,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       if (entity.id == 0)
         throw Exception('Cannot update DataEntity without ID');
       entity = entity.applyRelationJson(store);
+      entity.isSynced = true;
       return store.box<DataEntity>().put(entity);
     },
   ),
@@ -41,9 +44,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<ConfigurationEntity>();
       final query = box
           .query(
-            ConfigurationEntity_.updatedAt.greaterThan(
-              lastSync.millisecondsSinceEpoch,
-            ),
+            ConfigurationEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(ConfigurationEntity_.isSynced.equals(false)),
           )
           .order(ConfigurationEntity_.updatedAt, flags: Order.descending)
           .build();
@@ -56,6 +59,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       if (entity.id == 0)
         throw Exception('Cannot update ConfigurationEntity without ID');
       entity = entity.applyRelationJson(store);
+      entity.isSynced = true;
       return store.box<ConfigurationEntity>().put(entity);
     },
   ),
@@ -65,9 +69,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       final box = store.box<SyncDeviceEntity>();
       final query = box
           .query(
-            SyncDeviceEntity_.updatedAt.greaterThan(
-              lastSync.millisecondsSinceEpoch,
-            ),
+            SyncDeviceEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(SyncDeviceEntity_.isSynced.equals(false)),
           )
           .order(SyncDeviceEntity_.updatedAt, flags: Order.descending)
           .build();
@@ -80,6 +84,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       if (entity.id == 0)
         throw Exception('Cannot update SyncDeviceEntity without ID');
       entity = entity.applyRelationJson(store);
+      entity.isSynced = true;
       return store.box<SyncDeviceEntity>().put(entity);
     },
   ),

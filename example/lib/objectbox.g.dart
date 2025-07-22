@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 707813740428046874),
     name: 'UserModel',
-    lastPropertyId: const obx_int.IdUid(10, 2348299110539440672),
+    lastPropertyId: const obx_int.IdUid(11, 9090742557515735000),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -75,6 +75,12 @@ final _entities = <obx_int.ModelEntity>[
         type: 10,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 9090742557515735000),
+        name: 'isSynced',
+        type: 1,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[
       obx_int.ModelRelation(
@@ -88,7 +94,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 6560703760643550489),
     name: 'PostModel',
-    lastPropertyId: const obx_int.IdUid(9, 8258076855499200569),
+    lastPropertyId: const obx_int.IdUid(10, 4603218376172157270),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -135,6 +141,12 @@ final _entities = <obx_int.ModelEntity>[
         type: 10,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 4603218376172157270),
+        name: 'isSynced',
+        type: 1,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -142,7 +154,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(3, 3470457110388395783),
     name: 'RoleModel',
-    lastPropertyId: const obx_int.IdUid(6, 1300783467584236085),
+    lastPropertyId: const obx_int.IdUid(7, 6743194687148100016),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -179,6 +191,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(6, 1300783467584236085),
         name: 'deletedAt',
         type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 6743194687148100016),
+        name: 'isSynced',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -260,7 +278,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final phoneOffset = object.phone == null
             ? null
             : fbb.writeString(object.phone!);
-        fbb.startTable(11);
+        fbb.startTable(12);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addInt64(2, object.age);
@@ -269,6 +287,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(7, object.updatedAt?.millisecondsSinceEpoch);
         fbb.addInt64(8, object.createdAt?.millisecondsSinceEpoch);
         fbb.addInt64(9, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.addBool(10, object.isSynced);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -296,6 +315,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          24,
+          false,
+        );
         final ageParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -322,6 +347,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = UserModel(
           id: idParam,
+          isSynced: isSyncedParam,
           age: ageParam,
           email: emailParam,
           name: nameParam,
@@ -349,7 +375,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (PostModel object, fb.Builder fbb) {
         final titleOffset = fbb.writeString(object.title);
         final contentOffset = fbb.writeString(object.content);
-        fbb.startTable(10);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, titleOffset);
         fbb.addOffset(2, contentOffset);
@@ -357,6 +383,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(6, object.updatedAt?.millisecondsSinceEpoch);
         fbb.addInt64(7, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(8, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.addBool(9, object.isSynced);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -379,6 +406,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          22,
+          false,
+        );
         final titleParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 6, '');
@@ -396,6 +429,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = PostModel(
           id: idParam,
+          isSynced: isSyncedParam,
           title: titleParam,
           content: contentParam,
           createdAt: createdAtParam,
@@ -425,13 +459,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final descriptionOffset = object.description == null
             ? null
             : fbb.writeString(object.description!);
-        fbb.startTable(7);
+        fbb.startTable(8);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, descriptionOffset);
         fbb.addInt64(3, object.updatedAt?.millisecondsSinceEpoch);
         fbb.addInt64(4, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(5, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.addBool(6, object.isSynced);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -454,6 +489,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
+        );
         final nameParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 6, '');
@@ -471,6 +512,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         );
         final object = RoleModel(
           id: idParam,
+          isSynced: isSyncedParam,
           name: nameParam,
           description: descriptionParam,
           updatedAt: updatedAtParam,
@@ -528,6 +570,11 @@ class UserModel_ {
     _entities[0].properties[7],
   );
 
+  /// See [UserModel.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<UserModel>(
+    _entities[0].properties[8],
+  );
+
   /// see [UserModel.posts]
   static final posts = obx.QueryRelationToMany<UserModel, PostModel>(
     _entities[0].relations[0],
@@ -570,6 +617,11 @@ class PostModel_ {
   static final deletedAt = obx.QueryDateProperty<PostModel>(
     _entities[1].properties[6],
   );
+
+  /// See [PostModel.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<PostModel>(
+    _entities[1].properties[7],
+  );
 }
 
 /// [RoleModel] entity fields to define ObjectBox queries.
@@ -602,5 +654,10 @@ class RoleModel_ {
   /// See [RoleModel.deletedAt].
   static final deletedAt = obx.QueryDateProperty<RoleModel>(
     _entities[2].properties[5],
+  );
+
+  /// See [RoleModel.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<RoleModel>(
+    _entities[2].properties[6],
   );
 }

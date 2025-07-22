@@ -16,9 +16,11 @@ class RoleModel {
   DateTime createdAt;
   @Property(type: PropertyType.date)
   DateTime? deletedAt;
+  bool isSynced;
 
   RoleModel({
     this.id = 0,
+    this.isSynced = false,
     required this.name,
     this.description,
     this.updatedAt,
