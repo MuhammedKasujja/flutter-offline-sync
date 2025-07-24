@@ -5,21 +5,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/manual_sync_manager.dart';
 
-class SyncDataViewer extends ConsumerWidget {
+class SyncDataViewer extends ConsumerStatefulWidget {
   const SyncDataViewer({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
-    final syncManager = ref.watch(manualSyncManagerProvider);
+  ConsumerState<SyncDataViewer> createState() => _SyncDataViewerState();
+}
+
+class _SyncDataViewerState extends ConsumerState<SyncDataViewer> {
+  int _refreshCounter = 0;
+
+  @override
+  void initState() {
+    super.initState();
     ref.listen<AsyncValue<void>>(manualSyncManagerProvider, (prev, next) {
       next.whenOrNull(
-        data:
-            (_) => context.toast.success(
-              'Syncronizations Completed Successfully!',
-            ),
+        data: (_) {
+          context.toast.success('Syncronizations Completed Successfully!');
+          setState(() => _refreshCounter++);
+        },
         error: (e, _) => context.toast.error('Failed: $e'),
       );
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final syncManager = ref.watch(manualSyncManagerProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -27,6 +39,7 @@ class SyncDataViewer extends ConsumerWidget {
           child: RefreshIndicator(
             onRefresh: () async => SyncRepositoryImp().getPendingLocalUpdates(),
             child: FutureBuilder<List<Map<String, dynamic>>>(
+              key: ValueKey(_refreshCounter),
               future: SyncRepositoryImp().getPendingLocalUpdates(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
