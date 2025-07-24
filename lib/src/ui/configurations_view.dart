@@ -6,7 +6,8 @@ import 'configurations_edit.dart';
 import 'data_viewer.dart';
 
 class SyncConfigurationsView extends StatelessWidget {
-  const SyncConfigurationsView({super.key});
+  const SyncConfigurationsView({super.key, required this.isAdmin});
+  final bool isAdmin;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +24,12 @@ class SyncConfigurationsView extends StatelessWidget {
             ],
           ),
           actions: [
-            IconButton(
-              onPressed: () => ConfigService.resetSyncDates(),
-              icon: Icon(Icons.restore_outlined),
-              tooltip: 'Reset Sync Dates',
-            ),
+            if (isAdmin)
+              IconButton(
+                onPressed: () => ConfigService.resetSyncDates(),
+                icon: Icon(Icons.restore_outlined),
+                tooltip: 'Reset Sync Dates',
+              ),
           ],
         ),
         body: TabBarView(

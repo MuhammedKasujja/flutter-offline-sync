@@ -53,7 +53,7 @@ class _UsersScreenState extends State<UsersScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SyncConfigurationsView(),
+                  builder: (context) => SyncConfigurationsView(isAdmin: true),
                 ),
               );
             },
