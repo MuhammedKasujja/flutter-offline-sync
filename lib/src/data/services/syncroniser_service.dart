@@ -1,6 +1,6 @@
-import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
+import 'package:flutter_offline_sync/src/flutter_sync.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 import 'configuration_service.dart';
