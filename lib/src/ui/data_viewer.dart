@@ -14,17 +14,20 @@ class SyncDataViewer extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: SyncRepositoryImp().getPendingLocalUpdates(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data!.isEmpty) {
-                  return Center(child: Text('No local updates available'));
+          child: RefreshIndicator(
+            onRefresh: () async => SyncRepositoryImp().getPendingLocalUpdates(),
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: SyncRepositoryImp().getPendingLocalUpdates(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.isEmpty) {
+                    return Center(child: Text('No local updates available'));
+                  }
+                  return _jsonViewer(snapshot.data);
                 }
-                return _jsonViewer(snapshot.data);
-              }
-              return Center(child: CircularProgressIndicator());
-            },
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
         ),
       ),
