@@ -34,7 +34,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
     updateFunction: (store, json) {
       RoleModel entity = RoleModel.fromJson(json);
       if (entity.id == 0) throw Exception('Cannot update RoleModel without ID');
-      entity = entity.applyRelationJson(store);
+      entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<RoleModel>().put(entity);
     },
@@ -58,7 +58,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
     updateFunction: (store, json) {
       UserModel entity = UserModel.fromJson(json);
       if (entity.id == 0) throw Exception('Cannot update UserModel without ID');
-      entity = entity.applyRelationJson(store);
+      entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<UserModel>().put(entity);
     },
@@ -82,7 +82,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
     updateFunction: (store, json) {
       PostModel entity = PostModel.fromJson(json);
       if (entity.id == 0) throw Exception('Cannot update PostModel without ID');
-      entity = entity.applyRelationJson(store);
+      entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<PostModel>().put(entity);
     },
@@ -103,9 +103,8 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
 extension RoleModelRelationJson on RoleModel {
   Map<String, dynamic> toRelationJson() => {};
 
-  RoleModel applyRelationJson(Store store) {
+  RoleModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
-    final json = toRelationJson();
     return this;
   }
 
@@ -126,18 +125,17 @@ extension RoleModelRelationJson on RoleModel {
 
 extension UserModelRelationJson on UserModel {
   Map<String, dynamic> toRelationJson() => {
-    'postsIds': posts.map((e) => e.id).toList(),
+    'posts': posts.map((e) => e.toJson()).toList(),
   };
 
-  UserModel applyRelationJson(Store store) {
+  UserModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
-    final json = toRelationJson();
-    if (json.containsKey('postsIds')) {
+    if (json.containsKey('posts')) {
       posts.clear();
       final postsBox = store.box<PostModel>();
-      for (final id in json['postsIds']) {
-        final item = postsBox.get(id);
-        if (item != null) posts.add(item);
+      for (final data in json['posts']) {
+        final item = PostModel.fromJson(data);
+        posts.add(item);
       }
     }
     return this;
@@ -159,12 +157,12 @@ extension UserModelRelationJson on UserModel {
 }
 
 extension PostModelRelationJson on PostModel {
-  Map<String, dynamic> toRelationJson() => {'userId': user.targetId};
+  Map<String, dynamic> toRelationJson() => {'user': user.target?.toJson()};
 
-  PostModel applyRelationJson(Store store) {
+  PostModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
-    final json = toRelationJson();
-    if (json.containsKey('userId')) user.targetId = json['userId'];
+    if (json.containsKey('user') && json['user'] != null)
+      user.target = UserModel.fromJson(json['user']);
     return this;
   }
 

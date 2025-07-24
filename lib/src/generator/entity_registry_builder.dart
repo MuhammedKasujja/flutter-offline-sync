@@ -66,7 +66,9 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln(
         "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch).and(${entity}_.isSynced.equals(false)))",
       );
-      buffer.writeln("      .order(${entity}_.updatedAt, flags: Order.descending).build();");
+      buffer.writeln(
+        "      .order(${entity}_.updatedAt, flags: Order.descending).build();",
+      );
       buffer.writeln("      final updates = query.find();");
       buffer.writeln(
         "      return updates.map((ele)=>ele.toSyncJson()).toList();",
@@ -80,8 +82,10 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln(
         "      if (entity.id == 0) throw Exception('Cannot update $entity without ID');",
       );
-      buffer.writeln("      entity = entity.applyRelationJson(store);");
-      buffer.writeln("      entity.isSynced = true;"); // Ensure isSynced is set to true to avoid sync issues
+      buffer.writeln("      entity = entity.applyJsonRelationships(store, json);");
+      buffer.writeln(
+        "      entity.isSynced = true;",
+      ); // Ensure isSynced is set to true to avoid sync issues
       buffer.writeln("      return store.box<$entity>().put(entity);");
       buffer.writeln("    },");
       buffer.writeln("  ),");
@@ -114,42 +118,39 @@ class EntityRegistryBuilder implements Builder {
 
       for (final field in clazz.fields) {
         final name = field.name;
-        final typeStr = field.type.getDisplayString(withNullability: false);
+        final typeStr = getStrFieldType(field);
 
         if (field.isStatic || name == 'id') continue;
 
         if (typeStr.startsWith('ToOne<')) {
-          buffer.writeln("    '${name}Id': $name.targetId,");
+          buffer.writeln("  '$name':$name.target?.toJson(),");
         } else if (typeStr.startsWith('ToMany<')) {
-          buffer.writeln("    '${name}Ids': $name.map((e) => e.id).toList(),");
+          buffer.writeln(" '$name': $name.map((e) => e.toJson()).toList(),");
         }
       }
 
       buffer.writeln('  };');
       buffer.writeln('\n');
-      buffer.writeln('  $className applyRelationJson(Store store) {');
+      buffer.writeln('  $className applyJsonRelationships(Store store, Map<String, dynamic> json) {');
       buffer.writeln('    // Apply relations from JSON');
-      buffer.writeln('    final json = toRelationJson();');
 
       for (final field in clazz.fields) {
         final name = field.name;
-        final typeStr = field.type.getDisplayString(withNullability: false);
+        final typeStr = getStrFieldType(field);
         if (field.isStatic) continue;
         if (typeStr.startsWith('ToOne<')) {
+          final relatedType = getFieldType(field);
           buffer.writeln(
-            "    if (json.containsKey('${name}Id')) $name.targetId = json['${name}Id'];",
+            "    if (json.containsKey('$name') && json['$name'] != null) $name.target = $relatedType.fromJson(json['$name']);",
           );
         } else if (typeStr.startsWith('ToMany<')) {
-          buffer.writeln("    if (json.containsKey('${name}Ids')) {");
+          buffer.writeln("    if (json.containsKey('$name')) {");
           buffer.writeln("      $name.clear();");
-          final relatedType = (field.type as ParameterizedType)
-              .typeArguments
-              .first
-              .getDisplayString(withNullability: false);
+          final relatedType = getFieldType(field);
           buffer.writeln("      final ${name}Box = store.box<$relatedType>();");
-          buffer.writeln("      for (final id in json['${name}Ids']) {");
-          buffer.writeln("        final item = ${name}Box.get(id);");
-          buffer.writeln("        if (item != null) $name.add(item);");
+          buffer.writeln("      for (final data in json['$name']) {");
+          buffer.writeln("        final item = $relatedType.fromJson(data);");
+          buffer.writeln("        $name.add(item);");
           buffer.writeln("      }");
           buffer.writeln("    }");
         }
@@ -158,7 +159,9 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln('  }');
       buffer.writeln('\n');
       buffer.writeln('  Map<String, dynamic> toSyncJson(){');
-      buffer.writeln('    final operation = deletedAt != null ? EntityState.deleted : createdAt.syncState(updatedAt);');
+      buffer.writeln(
+        '    final operation = deletedAt != null ? EntityState.deleted : createdAt.syncState(updatedAt);',
+      );
       buffer.writeln('    final Map<String, dynamic> map = {};');
       buffer.writeln('    map.addAll({"entity": "$className"});');
       buffer.writeln('    map.addAll({"entityId": this.id});');
@@ -188,4 +191,16 @@ class EntityRegistryBuilder implements Builder {
 String generateExportObjectboxG(BuildStep buildStep) {
   final package = buildStep.inputId.package;
   return "import 'package:$package/objectbox.g.dart';";
+}
+
+// ignore: deprecated_member_use
+String getFieldType(FieldElement field) {
+  return (field.type as ParameterizedType).typeArguments.first.getDisplayString(
+    withNullability: false,
+  );
+}
+
+// ignore: deprecated_member_use
+String getStrFieldType(FieldElement field) {
+  return field.type.getDisplayString(withNullability: false);
 }
