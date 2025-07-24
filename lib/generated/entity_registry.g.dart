@@ -9,6 +9,7 @@
 // ignore_for_file: type=lint, unused_local_variable
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
 import 'package:flutter_offline_sync/objectbox.g.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
@@ -35,7 +36,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       DataEntity entity = DataEntity.fromJson(json);
       if (entity.id == 0)
         throw Exception('Cannot update DataEntity without ID');
-      entity = entity.applyRelationJson(store);
+      entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<DataEntity>().put(entity);
     },
@@ -60,7 +61,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       ConfigurationEntity entity = ConfigurationEntity.fromJson(json);
       if (entity.id == 0)
         throw Exception('Cannot update ConfigurationEntity without ID');
-      entity = entity.applyRelationJson(store);
+      entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<ConfigurationEntity>().put(entity);
     },
@@ -85,7 +86,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       SyncDeviceEntity entity = SyncDeviceEntity.fromJson(json);
       if (entity.id == 0)
         throw Exception('Cannot update SyncDeviceEntity without ID');
-      entity = entity.applyRelationJson(store);
+      entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<SyncDeviceEntity>().put(entity);
     },
@@ -106,9 +107,8 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
 extension DataEntityRelationJson on DataEntity {
   Map<String, dynamic> toRelationJson() => {};
 
-  DataEntity applyRelationJson(Store store) {
+  DataEntity applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
-    final json = toRelationJson();
     return this;
   }
 
@@ -130,9 +130,11 @@ extension DataEntityRelationJson on DataEntity {
 extension ConfigurationEntityRelationJson on ConfigurationEntity {
   Map<String, dynamic> toRelationJson() => {};
 
-  ConfigurationEntity applyRelationJson(Store store) {
+  ConfigurationEntity applyJsonRelationships(
+    Store store,
+    Map<String, dynamic> json,
+  ) {
     // Apply relations from JSON
-    final json = toRelationJson();
     return this;
   }
 
@@ -154,9 +156,11 @@ extension ConfigurationEntityRelationJson on ConfigurationEntity {
 extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
   Map<String, dynamic> toRelationJson() => {};
 
-  SyncDeviceEntity applyRelationJson(Store store) {
+  SyncDeviceEntity applyJsonRelationships(
+    Store store,
+    Map<String, dynamic> json,
+  ) {
     // Apply relations from JSON
-    final json = toRelationJson();
     return this;
   }
 

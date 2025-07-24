@@ -9,6 +9,7 @@
 // ignore_for_file: type=lint, unused_local_variable
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
 import 'package:example/objectbox.g.dart';
 import 'package:example/data/models/role_model.dart';
 import 'package:example/data/models/user_model.dart';

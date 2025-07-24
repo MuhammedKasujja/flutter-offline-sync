@@ -48,6 +48,9 @@ class EntityRegistryBuilder implements Builder {
     buffer.writeln(
       "\nimport 'package:flutter_offline_sync/flutter_offline_sync.dart';",
     );
+    buffer.writeln(
+      "import 'package:flutter_offline_sync/src/generator/entity_registry.dart';",
+    );
     buffer.writeln(generateExportObjectboxG(buildStep));
 
     for (final entity in classes) {

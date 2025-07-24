@@ -1,5 +1,5 @@
-import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/data/object_box.dart';
+import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
 
 import 'data/services/configuration_service.dart';
 

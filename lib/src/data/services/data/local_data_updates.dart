@@ -1,4 +1,4 @@
-import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 class LocalDataUpdates {
