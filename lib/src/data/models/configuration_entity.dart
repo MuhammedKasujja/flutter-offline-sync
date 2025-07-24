@@ -17,9 +17,17 @@ class ConfigurationEntity {
   DateTime? localLastUpdatedAt;
   @Property(type: PropertyType.date)
   DateTime? remoteLastUpdatedAt;
+  @Property(type: PropertyType.date)
+  DateTime? updatedAt;
+  @Property(type: PropertyType.date)
+  DateTime? createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? deletedAt;
+  bool isSynced;
 
   ConfigurationEntity({
     this.id = 0,
+    this.isSynced = false,
     this.currentDeviceId,
     this.accountKey,
     this.baseUrl,
@@ -31,6 +39,9 @@ class ConfigurationEntity {
     this.extras,
     this.localLastUpdatedAt,
     this.remoteLastUpdatedAt,
+    this.updatedAt,
+    this.createdAt,
+    this.deletedAt
   });
 
   factory ConfigurationEntity.fromJson(

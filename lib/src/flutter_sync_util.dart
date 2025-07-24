@@ -50,6 +50,7 @@ class _FlutterSyncProviderState extends State<FlutterSyncProvider> {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(child: FlutterSyncUtil(child: widget.child));
+    // return ProviderScope(child: FlutterSyncUtil(child: widget.child));
+    return ProviderScope(child: widget.child);
   }
 }

@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
-import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
+
+import 'data_syncroniser_interface.dart';
 
 // TODO: Using Isolates to handle data syncronization to remove work on the main thread
 class DataSyncroniser extends IDataSyncroniser {
@@ -25,33 +27,50 @@ class DataSyncroniser extends IDataSyncroniser {
        _syncRepository = syncRepository;
 
   @override
-  Future<ApiResponse> syncLocalUpdates({Map<String, dynamic>? extras}) async {
+  Future<ApiResponse<LocalSyncDataResponse>> syncLocalUpdates({
+    required String updateId,
+    Map<String, dynamic>? extras,
+  }) async {
     final updates = await _syncRepository.getPendingLocalUpdates();
 
     if (updates.isEmpty) {
       return ApiResponse.error('No updates found');
     }
 
-    final Map<String, dynamic> updateMap = {};
-
     if (_config.accountKey == null) {
       throw Exception('Account key is required to sync updates');
     }
 
-    if (extras != null) {
-      updateMap.addAll(extras);
+    if (_config.hasCurrentDeviceId == false) {
+      throw Exception('Device must be registered to sync updates');
+    }
+    if (_config.hasConfiguredLocalEndpoint == false) {
+      throw Exception('Local sync endpoint is not configured');
     }
 
-    updateMap.addAll({'data': updates});
+    SyncRequest request = SyncRequest(
+      userId: _config.userId ?? '5600',
+      updateId: updateId,
+      deviceId: _config.currentDeviceId!,
+      accountKey: _config.accountKey!,
+      data: updates,
+    );
 
-    updateMap.addAll({
-      "userId": _config.userId ?? '5600',
-      "updateId": 560,
-      'deviceId': _config.currentDeviceId,
-      'accountKey': _config.accountKey,
-    });
+    if (extras != null) {
+      request = request.copyWith(extras: extras);
+    }
 
-    return _apiClient.post(_config.localEndpoint!, data: updateMap);
+    final response = await _apiClient.post(
+      _config.localEndpoint!,
+      data: request.toJson(),
+    );
+    if (response.isSuccess) {
+      return ApiResponse(
+        success: response.isSuccess,
+        data: LocalSyncDataResponse.fromJson(response.data),
+      );
+    }
+    return ApiResponse.error(response.error);
   }
 
   @override
@@ -100,14 +119,11 @@ class DataSyncroniser extends IDataSyncroniser {
           'accountKey': _config.accountKey,
         },
       );
-      logger.info(response.data);
       if (response.isSuccess) {
-        final List<SyncDataEntity> syncUpdates =
-            (response.data as List)
-                .map((e) => SyncDataEntity.fromJson(e))
-                .toList();
+        logger.info(response.data);
+        final updates = SyncDataEntityList.fromJson(response.data);
 
-        return ApiResponse(success: response.isSuccess, data: syncUpdates);
+        return ApiResponse(success: response.isSuccess, data: updates.entities);
       }
       return ApiResponse.error(response.error);
     } catch (error, stackTrace) {

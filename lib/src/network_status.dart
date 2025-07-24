@@ -20,7 +20,7 @@ Stream<bool> networkStatus(Ref ref) async* {
     controller.add(await _hasInternet());
   });
 
-  // Optional: periodic re-check (e.g., every 15s) in case system doesn’t emit events
+  // Optional: periodic re-check (e.g., every 5s) in case system doesn’t emit events
   final timer = Timer.periodic(const Duration(seconds: 5), (_) async {
     final isConnected = await _hasInternet();
     controller.add(isConnected);

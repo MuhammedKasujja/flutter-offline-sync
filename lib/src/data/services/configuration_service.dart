@@ -36,6 +36,15 @@ class ConfigService {
 
     return saveSettings(config);
   }
+  
+  static Future<ConfigurationEntity?> updateLastSyncDate(DateTime lastSyncDate) async {
+    var config = await getSettings();
+
+    config ??= ConfigurationEntity();
+    config.localLastUpdatedAt = lastSyncDate;
+
+    return saveSettings(config);
+  }
 
   static Future<String?> getCurrentDeviceId() async {
     var config = await getSettings();

@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
-import 'package:flutter_offline_sync/src/data/interfaces/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_device_entity.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
-import 'package:flutter_offline_sync/src/data/services/data_syncroniser.dart';
+import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser.dart';
 import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
-import 'package:flutter_offline_sync/src/utils/logger.dart';
+// import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 final class AppConfig {
   late ConfigurationEntity _config;
@@ -47,7 +47,7 @@ final class AppConfig {
   }
 
   Map<String, dynamic>? get _headers {
-    logger.debug({'AuthToken': _config.authToken});
+    // logger.debug({'AuthToken': _config.authToken});
     if (_config.authToken != null && _config.authToken!.isNotEmpty) {
       return {'Authorization': 'Bearer ${_config.authToken}'};
     }
@@ -58,10 +58,20 @@ final class AppConfig {
     return getBox<ConfigurationEntity>().getAll().first;
   }
 
+  DateTime getLastSyncDate() {
+    return getSettings().localLastUpdatedAt ??
+        DateTime.fromMillisecondsSinceEpoch(1641031200000);
+  }
+
+  DateTime getLastRemoteSyncDate() {
+    return getSettings().remoteLastUpdatedAt ??
+        DateTime.fromMillisecondsSinceEpoch(1641031200000);
+  }
+
   Future<List<SyncDeviceEntity>> getSyncDevices() {
     return getBox<SyncDeviceEntity>().getAllAsync();
   }
- 
+
   Future<void> saveSettings(ConfigurationEntity settings) async {
     await ConfigService.saveSettings(settings);
     await restart();

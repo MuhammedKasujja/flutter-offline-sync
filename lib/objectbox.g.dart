@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 8095617417935777367),
     name: 'DataEntity',
-    lastPropertyId: const obx_int.IdUid(7, 6263159733768399507),
+    lastPropertyId: const obx_int.IdUid(10, 3162458236855158872),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -69,6 +69,24 @@ final _entities = <obx_int.ModelEntity>[
         type: 1,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 7542387158162119123),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 8049565669460423512),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 3162458236855158872),
+        name: 'deletedAt',
+        type: 10,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -76,7 +94,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 2751842997314007542),
     name: 'ConfigurationEntity',
-    lastPropertyId: const obx_int.IdUid(12, 6274735740772024161),
+    lastPropertyId: const obx_int.IdUid(16, 7432950663102478746),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -151,6 +169,30 @@ final _entities = <obx_int.ModelEntity>[
         type: 10,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(13, 4533767197676979748),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(14, 3852732653519494351),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(15, 7694030657287302890),
+        name: 'deletedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(16, 7432950663102478746),
+        name: 'isSynced',
+        type: 1,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -158,7 +200,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(3, 1757007729880252278),
     name: 'SyncDeviceEntity',
-    lastPropertyId: const obx_int.IdUid(3, 687172485623488665),
+    lastPropertyId: const obx_int.IdUid(7, 8858034248898752137),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -177,6 +219,30 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(3, 687172485623488665),
         name: 'userId',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 187509530987758070),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 7711934288890769523),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 2913576576632977169),
+        name: 'deletedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 8858034248898752137),
+        name: 'isSynced',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -253,7 +319,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : fbb.writeString(object.entityId!);
         final operationOffset = fbb.writeString(object.operation);
         final entityOffset = fbb.writeString(object.entity);
-        fbb.startTable(8);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, dataOffset);
         fbb.addOffset(2, tableNameOffset);
@@ -261,12 +327,30 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(4, operationOffset);
         fbb.addOffset(5, entityOffset);
         fbb.addBool(6, object.isSynced);
+        fbb.addInt64(7, object.updatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(8, object.createdAt?.millisecondsSinceEpoch);
+        fbb.addInt64(9, object.deletedAt?.millisecondsSinceEpoch);
         fbb.finish(fbb.endTable());
         return object.id;
       },
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
+        final updatedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          18,
+        );
+        final createdAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          20,
+        );
+        final deletedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          22,
+        );
         final idParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -294,6 +378,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
           16,
           false,
         );
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = DataEntity(
           id: idParam,
           data: dataParam,
@@ -302,6 +395,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           operation: operationParam,
           entity: entityParam,
           isSynced: isSyncedParam,
+          updatedAt: updatedAtParam,
+          createdAt: createdAtParam,
+          deletedAt: deletedAtParam,
         );
 
         return object;
@@ -343,7 +439,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final extrasOffset = object.extras == null
             ? null
             : fbb.writeString(object.extras!);
-        fbb.startTable(13);
+        fbb.startTable(17);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
         fbb.addOffset(2, accountKeyOffset);
@@ -356,6 +452,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(9, extrasOffset);
         fbb.addInt64(10, object.localLastUpdatedAt?.millisecondsSinceEpoch);
         fbb.addInt64(11, object.remoteLastUpdatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(12, object.updatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(13, object.createdAt?.millisecondsSinceEpoch);
+        fbb.addInt64(14, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.addBool(15, object.isSynced);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -366,11 +466,32 @@ obx_int.ModelDefinition getObjectBoxModel() {
             .vTableGetNullable(buffer, rootOffset, 24);
         final remoteLastUpdatedAtValue = const fb.Int64Reader()
             .vTableGetNullable(buffer, rootOffset, 26);
+        final updatedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          28,
+        );
+        final createdAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          30,
+        );
+        final deletedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          32,
+        );
         final idParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
           4,
           0,
+        );
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          34,
+          false,
         );
         final currentDeviceIdParam = const fb.StringReader(
           asciiOptimization: true,
@@ -405,8 +526,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final remoteLastUpdatedAtParam = remoteLastUpdatedAtValue == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(remoteLastUpdatedAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = ConfigurationEntity(
           id: idParam,
+          isSynced: isSyncedParam,
           currentDeviceId: currentDeviceIdParam,
           accountKey: accountKeyParam,
           baseUrl: baseUrlParam,
@@ -418,6 +549,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           extras: extrasParam,
           localLastUpdatedAt: localLastUpdatedAtParam,
           remoteLastUpdatedAt: remoteLastUpdatedAtParam,
+          updatedAt: updatedAtParam,
+          createdAt: createdAtParam,
+          deletedAt: deletedAtParam,
         );
 
         return object;
@@ -434,21 +568,46 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (SyncDeviceEntity object, fb.Builder fbb) {
         final deviceIdOffset = fbb.writeString(object.deviceId);
         final userIdOffset = fbb.writeString(object.userId);
-        fbb.startTable(4);
+        fbb.startTable(8);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, deviceIdOffset);
         fbb.addOffset(2, userIdOffset);
+        fbb.addInt64(3, object.updatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(4, object.createdAt?.millisecondsSinceEpoch);
+        fbb.addInt64(5, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.addBool(6, object.isSynced);
         fbb.finish(fbb.endTable());
         return object.id;
       },
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
+        final updatedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          10,
+        );
+        final createdAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          12,
+        );
+        final deletedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          14,
+        );
         final idParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
           4,
           0,
+        );
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
         );
         final deviceIdParam = const fb.StringReader(
           asciiOptimization: true,
@@ -456,10 +615,23 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final userIdParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 8, '');
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = SyncDeviceEntity(
           id: idParam,
+          isSynced: isSyncedParam,
           deviceId: deviceIdParam,
           userId: userIdParam,
+          updatedAt: updatedAtParam,
+          createdAt: createdAtParam,
+          deletedAt: deletedAtParam,
         );
 
         return object;
@@ -505,6 +677,21 @@ class DataEntity_ {
   /// See [DataEntity.isSynced].
   static final isSynced = obx.QueryBooleanProperty<DataEntity>(
     _entities[0].properties[6],
+  );
+
+  /// See [DataEntity.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<DataEntity>(
+    _entities[0].properties[7],
+  );
+
+  /// See [DataEntity.createdAt].
+  static final createdAt = obx.QueryDateProperty<DataEntity>(
+    _entities[0].properties[8],
+  );
+
+  /// See [DataEntity.deletedAt].
+  static final deletedAt = obx.QueryDateProperty<DataEntity>(
+    _entities[0].properties[9],
   );
 }
 
@@ -568,6 +755,26 @@ class ConfigurationEntity_ {
   static final remoteLastUpdatedAt = obx.QueryDateProperty<ConfigurationEntity>(
     _entities[1].properties[11],
   );
+
+  /// See [ConfigurationEntity.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<ConfigurationEntity>(
+    _entities[1].properties[12],
+  );
+
+  /// See [ConfigurationEntity.createdAt].
+  static final createdAt = obx.QueryDateProperty<ConfigurationEntity>(
+    _entities[1].properties[13],
+  );
+
+  /// See [ConfigurationEntity.deletedAt].
+  static final deletedAt = obx.QueryDateProperty<ConfigurationEntity>(
+    _entities[1].properties[14],
+  );
+
+  /// See [ConfigurationEntity.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<ConfigurationEntity>(
+    _entities[1].properties[15],
+  );
 }
 
 /// [SyncDeviceEntity] entity fields to define ObjectBox queries.
@@ -585,5 +792,25 @@ class SyncDeviceEntity_ {
   /// See [SyncDeviceEntity.userId].
   static final userId = obx.QueryStringProperty<SyncDeviceEntity>(
     _entities[2].properties[2],
+  );
+
+  /// See [SyncDeviceEntity.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<SyncDeviceEntity>(
+    _entities[2].properties[3],
+  );
+
+  /// See [SyncDeviceEntity.createdAt].
+  static final createdAt = obx.QueryDateProperty<SyncDeviceEntity>(
+    _entities[2].properties[4],
+  );
+
+  /// See [SyncDeviceEntity.deletedAt].
+  static final deletedAt = obx.QueryDateProperty<SyncDeviceEntity>(
+    _entities[2].properties[5],
+  );
+
+  /// See [SyncDeviceEntity.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<SyncDeviceEntity>(
+    _entities[2].properties[6],
   );
 }

@@ -1,22 +1,46 @@
 class SyncRequest {
-  final String baseUrl;
-  final String syncRemoteEndpoint;
-  final String syncLocalEndpoint;
-  String? authToken;
+  final String? userId;
+  final String? updateId;
+  final String deviceId;
+  final String accountKey;
+  final List<Map<String, dynamic>> data;
+  Map<String, dynamic>? extras;
 
   SyncRequest({
-    required this.baseUrl,
-    required this.syncRemoteEndpoint,
-    required this.syncLocalEndpoint,
-    this.authToken,
+    this.userId,
+    this.updateId,
+    required this.deviceId,
+    required this.accountKey,
+    required this.data,
+    this.extras,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'baseUrl': baseUrl,
-      'authToken': authToken,
-      'syncRemoteEndpoint': syncRemoteEndpoint,
-      'syncLocalEndpoint': syncLocalEndpoint,
+      'data': data,
+      'userId': userId,
+      'accountKey': accountKey,
+      'updateId': updateId,
+      'deviceId': deviceId,
+      'extras': extras,
     };
+  }
+
+  SyncRequest copyWith({
+    String? userId,
+    String? updateId,
+    String? deviceId,
+    String? accountKey,
+    List<Map<String, dynamic>>? data,
+    Map<String, dynamic>? extras,
+  }) {
+    return SyncRequest(
+      userId: userId ?? this.userId,
+      updateId: updateId ?? this.updateId,
+      deviceId: deviceId ?? this.deviceId,
+      accountKey: accountKey ?? this.accountKey,
+      data: data ?? this.data,
+      extras: extras ?? this.extras,
+    );
   }
 }

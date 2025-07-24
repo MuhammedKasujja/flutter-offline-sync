@@ -1,22 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'role_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+RoleModel _$RoleModelFromJson(Map<String, dynamic> json) => RoleModel(
   id: (json['id'] as num?)?.toInt() ?? 0,
   isSynced: json['is_synced'] as bool? ?? false,
-  age: (json['age'] as num).toInt(),
-  email: json['email'] as String,
   name: json['name'] as String,
-  phone: json['phone'] as String?,
-  createdAt:
-      json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
+  description: json['description'] as String?,
   updatedAt:
       json['updated_at'] == null
           ? null
@@ -25,16 +19,15 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       json['deleted_at'] == null
           ? null
           : DateTime.parse(json['deleted_at'] as String),
+  createdAt: DateTime.parse(json['created_at'] as String),
 );
 
-Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+Map<String, dynamic> _$RoleModelToJson(RoleModel instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
-  'age': instance.age,
-  'email': instance.email,
-  'phone': instance.phone,
+  'description': instance.description,
   'updated_at': instance.updatedAt?.toIso8601String(),
-  'created_at': instance.createdAt?.toIso8601String(),
+  'created_at': instance.createdAt.toIso8601String(),
   'deleted_at': instance.deletedAt?.toIso8601String(),
   'is_synced': instance.isSynced,
 };

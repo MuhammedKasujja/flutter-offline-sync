@@ -1,11 +1,13 @@
 enum EntityState {
   created,
   updated,
-  deleted;
+  deleted,
+  forceDeleted;
 
   bool get isNew => this == created;
   bool get isUpdated => this == updated;
   bool get isDeleted => this == deleted;
+  bool get isForceDeleted => this == forceDeleted;
 
   // what happens when an entity is created and deleted before syncing with remote server
   //
