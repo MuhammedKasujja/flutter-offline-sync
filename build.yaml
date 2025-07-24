@@ -17,9 +17,9 @@ builders:
   entity_registry:
     import: "package:flutter_offline_sync/src/builder.dart"
     builder_factories: ["entityRegistryBuilder"]
-    build_extensions: {"$lib$": ["generated/entity_registry.g.dart"]}
-    auto_apply: dependents
-    build_to: source
+    build_extensions: {"$lib$": ["generated/entity_registry.g.dart"]} # for each file in lib folder, append output to `generated/entity_registry.g.dart` file
+    auto_apply: dependents # Run builder on the importing packages/ projects 
+    build_to: source # visible in the importing package
     applies_builders: ["source_gen|combining_builder"]
     # List of code generaators to skip to avoid errors loading entity.g.dart before this generator
     runs_before: [
