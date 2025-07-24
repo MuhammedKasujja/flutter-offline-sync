@@ -16,8 +16,8 @@ class _SyncDataViewerState extends ConsumerState<SyncDataViewer> {
   int _refreshCounter = 0;
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
+    final syncManager = ref.watch(manualSyncManagerProvider);
     ref.listen<AsyncValue<void>>(manualSyncManagerProvider, (prev, next) {
       next.whenOrNull(
         data: (_) {
@@ -27,11 +27,6 @@ class _SyncDataViewerState extends ConsumerState<SyncDataViewer> {
         error: (e, _) => context.toast.error('Failed: $e'),
       );
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final syncManager = ref.watch(manualSyncManagerProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
