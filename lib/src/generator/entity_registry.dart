@@ -2,7 +2,7 @@ import 'package:objectbox/objectbox.dart';
 
 typedef BoxFactory = Box Function(Store store);
 typedef DeleteFunction = bool Function(Store store, int id);
-typedef UpdateFunction = int Function(Store store, dynamic object);
+typedef UpdateFunction = int Function(Store store, Map<String, dynamic> json);
 typedef FetchFunction =
     List<Map<String, dynamic>> Function(Store store, DateTime lastSync);
 
@@ -30,8 +30,8 @@ abstract class EntityRegistry {
 
   Box<T> box<T>() => store.box<T>();
 
-  int save(String name, dynamic object) =>
-      get(name)?.updateFunction(store, object) ??
+  int save(String name, Map<String, dynamic> json) =>
+      get(name)?.updateFunction(store, json) ??
       (throw Exception("Handler not found for $name"));
 
   bool delete(String name, int id) =>

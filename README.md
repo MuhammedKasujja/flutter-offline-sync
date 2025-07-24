@@ -31,3 +31,6 @@ dart run build_runner build --delete-conflicting-outputs
 
 Note
  1. Make sure to revalidate (change) `updatedAt` whenever a database operation is made
+
+ objectbox: ^4.3.0 required
+ objectbox_flutter_libs: 4.3.0

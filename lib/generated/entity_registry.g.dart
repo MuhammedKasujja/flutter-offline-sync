@@ -1,10 +1,12 @@
 // dart format width=80
-// ignore_for_file: type=lint, unused_local_variable
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 //**************************************************************************
 // FlutterSyncGenerator
 //**************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: type=lint, unused_local_variable
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/objectbox.g.dart';
