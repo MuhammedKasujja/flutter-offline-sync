@@ -24,21 +24,21 @@ abstract class EntityRegistry {
   final Store store;
   EntityRegistry(this.store);
 
-  EntityHandler? get(String name);
+  EntityHandler? get(String entityName);
 
   List<String> getAllEntities();
 
   Box<T> box<T>() => store.box<T>();
 
-  int save(String name, Map<String, dynamic> json) =>
-      get(name)?.updateFunction(store, json) ??
-      (throw Exception("Handler not found for $name"));
+  int save(String entityName, Map<String, dynamic> json) =>
+      get(entityName)?.updateFunction(store, json) ??
+      (throw Exception("Handler not found for $entityName"));
 
-  bool delete(String name, int id) =>
-      get(name)?.deleteFunction(store, id) ??
-      (throw Exception("Handler not found for $name"));
+  bool delete(String entityName, int id) =>
+      get(entityName)?.deleteFunction(store, id) ??
+      (throw Exception("Handler not found for $entityName"));
 
-  List<Map<String, dynamic>> fetchAllUpdates(String name, DateTime lastSync) =>
-      get(name)?.fetchFunction(store, lastSync) ??
-      (throw Exception("Handler not found for $name"));
+  List<Map<String, dynamic>> fetchEntityUpdates(String entityName, DateTime lastSync) =>
+      get(entityName)?.fetchFunction(store, lastSync) ??
+      (throw Exception("Handler not found for $entityName"));
 }

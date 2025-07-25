@@ -94,7 +94,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 2751842997314007542),
     name: 'ConfigurationEntity',
-    lastPropertyId: const obx_int.IdUid(16, 7432950663102478746),
+    lastPropertyId: const obx_int.IdUid(17, 5366519826674512079),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -191,6 +191,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(16, 7432950663102478746),
         name: 'isSynced',
         type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(17, 5366519826674512079),
+        name: 'connectAccountEndpoint',
+        type: 9,
         flags: 0,
       ),
     ],
@@ -439,7 +445,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final extrasOffset = object.extras == null
             ? null
             : fbb.writeString(object.extras!);
-        fbb.startTable(17);
+        final connectAccountEndpointOffset =
+            object.connectAccountEndpoint == null
+            ? null
+            : fbb.writeString(object.connectAccountEndpoint!);
+        fbb.startTable(18);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
         fbb.addOffset(2, accountKeyOffset);
@@ -456,6 +466,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(13, object.createdAt?.millisecondsSinceEpoch);
         fbb.addInt64(14, object.deletedAt?.millisecondsSinceEpoch);
         fbb.addBool(15, object.isSynced);
+        fbb.addOffset(16, connectAccountEndpointOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -511,6 +522,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final addSyncDeviceEndpointParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 16);
+        final connectAccountEndpointParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 36);
         final authTokenParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 18);
@@ -544,6 +558,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           remoteEndpoint: remoteEndpointParam,
           localEndpoint: localEndpointParam,
           addSyncDeviceEndpoint: addSyncDeviceEndpointParam,
+          connectAccountEndpoint: connectAccountEndpointParam,
           authToken: authTokenParam,
           userId: userIdParam,
           extras: extrasParam,
@@ -775,6 +790,10 @@ class ConfigurationEntity_ {
   static final isSynced = obx.QueryBooleanProperty<ConfigurationEntity>(
     _entities[1].properties[15],
   );
+
+  /// See [ConfigurationEntity.connectAccountEndpoint].
+  static final connectAccountEndpoint =
+      obx.QueryStringProperty<ConfigurationEntity>(_entities[1].properties[16]);
 }
 
 /// [SyncDeviceEntity] entity fields to define ObjectBox queries.

@@ -6,7 +6,7 @@ part of 'manual_sync_manager.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$manualSyncManagerHash() => r'5ae90b4e75225b0fa4c32a1b9f7a28a2dcece5bc';
+String _$manualSyncManagerHash() => r'7d9d2f85fcf4f9066c7a75b025a6963266e6074b';
 
 /// See also [ManualSyncManager].
 @ProviderFor(ManualSyncManager)

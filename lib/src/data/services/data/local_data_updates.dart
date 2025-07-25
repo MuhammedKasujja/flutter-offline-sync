@@ -5,19 +5,19 @@ class LocalDataUpdates {
   final EntityRegistry entityRegistry;
   LocalDataUpdates(this.entityRegistry);
 
-  Future<int> save(String name, Map<String, dynamic> json) async {
+  Future<int> save(String entityName, Map<String, dynamic> json) async {
     try {
-      return entityRegistry.save(name, json);
+      return entityRegistry.save(entityName, json);
     } catch (e) {
-      throw Exception("Failed to save $name: $e");
+      throw Exception("Failed to save $entityName: $e");
     }
   }
 
-  Future<bool> delete(String name, int id) async {
+  Future<bool> delete(String entityName, int id) async {
     try {
-      return entityRegistry.delete(name, id);
+      return entityRegistry.delete(entityName, id);
     } catch (e) {
-      throw Exception("Failed to delete $name with ID $id: $e");
+      throw Exception("Failed to delete $entityName with ID $id: $e");
     }
   }
 
@@ -25,12 +25,12 @@ class LocalDataUpdates {
     DateTime lastSyncDate,
   ) async {
     try {
-      final tables = entityRegistry.getAllEntities();
+      final entities = entityRegistry.getAllEntities();
       final localUpdates = <Map<String, dynamic>>[];
-      for (final table in tables) {
-        final updates = entityRegistry.fetchAllUpdates(table, lastSyncDate);
-        if (updates.isNotEmpty) {
-          localUpdates.addAll(updates);
+      for (final entityName in entities) {
+        final entityUpdates = entityRegistry.fetchEntityUpdates(entityName, lastSyncDate);
+        if (entityUpdates.isNotEmpty) {
+          localUpdates.addAll(entityUpdates);
         }
       }
       // final List<Map<String, dynamic>> sortedUpdates =
