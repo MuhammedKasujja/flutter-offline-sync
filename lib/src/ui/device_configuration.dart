@@ -36,7 +36,7 @@ class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(registerDeviceProvider,(prev, next) {
+    ref.listen(registerDeviceProvider, (prev, next) {
       next.whenOrNull(
         data: (_) {
           context.toast.success('Device registered Successfully!');
@@ -60,7 +60,10 @@ class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
               Text('Device Username'),
               TextFormField(controller: usernameController),
               Text('Admin Email'),
-              TextFormField(controller: adminEmailController),
+              TextFormField(
+                controller: adminEmailController,
+                keyboardType: TextInputType.emailAddress,
+              ),
               Text('Admin Password'),
               TextFormField(controller: passwordController, obscureText: true),
               Center(
