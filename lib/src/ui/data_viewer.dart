@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
+import 'package:flutter_offline_sync/src/providers/local_data_updates.dart';
 import 'package:flutter_offline_sync/src/providers/manual_sync_manager.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
@@ -13,7 +13,17 @@ class SyncDataViewer extends ConsumerStatefulWidget {
 }
 
 class _SyncDataViewerState extends ConsumerState<SyncDataViewer> {
-  int _refreshCounter = 0;
+  @override
+  void initState() {
+    Future.microtask(
+      () => ref.read(localDataUpdatesProvider.notifier).fetchLocalUpdates(),
+    );
+    super.initState();
+  }
+
+  Future fetchLocalUpdates() async {
+    ref.read(localDataUpdatesProvider.notifier).fetchLocalUpdates();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +32,7 @@ class _SyncDataViewerState extends ConsumerState<SyncDataViewer> {
       next.whenOrNull(
         data: (_) {
           context.toast.success('Syncronizations Completed Successfully!');
-          setState(() => _refreshCounter++);
+          fetchLocalUpdates();
         },
         error: (e, _) => context.toast.error('Failed: $e'),
       );
@@ -31,21 +41,24 @@ class _SyncDataViewerState extends ConsumerState<SyncDataViewer> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: RefreshIndicator(
-            onRefresh: () async => SyncRepositoryImp().getPendingLocalUpdates(),
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-              key: ValueKey(_refreshCounter),
-              future: SyncRepositoryImp().getPendingLocalUpdates(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.isEmpty) {
-                    return Center(child: Text('No local updates available'));
-                  }
-                  return _jsonViewer(snapshot.data);
-                }
-                return Center(child: CircularProgressIndicator());
-              },
-            ),
+          child: Consumer(
+            builder: (context, ref, _) {
+              final provider = ref.watch(localDataUpdatesProvider);
+              switch (provider) {
+                case AsyncData(:final value):
+                  return RefreshIndicator(
+                    onRefresh: fetchLocalUpdates,
+                    child:
+                        value.isEmpty
+                            ? Center(child: Text('No local updates available'))
+                            : _jsonViewer(value),
+                  );
+                case AsyncError(:final error):
+                  return Center(child: Text('$error'));
+                default:
+                  return Center(child: CircularProgressIndicator());
+              }
+            },
           ),
         ),
       ),
