@@ -9,7 +9,7 @@ class DeviceConfigServiceImpl extends DeviceConfigService {
   @override
   Future<ApiResponse> registerDevice(SyncDeviceRequest request) async {
     final deviceId = await ConfigService.getSyncGeneratedDeviceId();
-    final requestModel = request.copyWith(deviceId: deviceId);
+    final requestModel = request.copyWith(deviceId: deviceId, userId: '7899');
     return apiClient.post(request.apiRegisterUrl, data: requestModel.toJson());
   }
 }

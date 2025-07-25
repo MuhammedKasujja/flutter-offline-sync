@@ -46,6 +46,7 @@ class SyncRequest {
 }
 
 class SyncDeviceRequest {
+  final String? userId;
   final String? deviceId;
   final String accountKey;
   final String username;
@@ -54,6 +55,7 @@ class SyncDeviceRequest {
   final String apiRegisterUrl;
 
   SyncDeviceRequest({
+    this.userId,
     this.deviceId,
     required this.accountKey,
     required this.username,
@@ -64,15 +66,17 @@ class SyncDeviceRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      'accountKey': accountKey,
+      'userId': userId,
       'deviceId': deviceId,
-      'username': username,
+      'accountKey': accountKey,
+      'userName': username,
       'adminEmail': adminEmail,
       'adminPassword': adminPassword,
     };
   }
 
   SyncDeviceRequest copyWith({
+    String? userId,
     String? deviceId,
     String? accountKey,
     String? username,
@@ -81,6 +85,7 @@ class SyncDeviceRequest {
     String? apiRegisterUrl,
   }) {
     return SyncDeviceRequest(
+      userId: userId ?? this.userId,
       deviceId: deviceId ?? this.deviceId,
       accountKey: accountKey ?? this.accountKey,
       username: username ?? this.username,
