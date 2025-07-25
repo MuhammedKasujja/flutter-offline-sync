@@ -6,7 +6,7 @@ part of 'local_data_updates.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localDataUpdatesHash() => r'd02fc00a87e07016f69382e9f93368411aceaa0f';
+String _$localDataUpdatesHash() => r'b3dc9b01f252426160754aa073ca70423f9a8799';
 
 /// See also [LocalDataUpdates].
 @ProviderFor(LocalDataUpdates)

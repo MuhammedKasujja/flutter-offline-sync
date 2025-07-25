@@ -52,6 +52,15 @@ class _UsersScreenState extends State<UsersScreen> {
             onPressed: () {
               Navigator.push(
                 context,
+                MaterialPageRoute(builder: (context) => DeviceConfiguration()),
+              );
+            },
+            icon: Icon(Icons.settings),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
                 MaterialPageRoute(
                   builder: (context) => SyncConfigurationsView(isAdmin: true),
                 ),

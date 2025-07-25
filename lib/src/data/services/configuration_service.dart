@@ -86,4 +86,9 @@ class ConfigService {
 
     return saveEntity(config);
   }
+
+  static Future<String?> getSyncGeneratedDeviceId() async {
+    await ConfigService.saveCurrentDeviceId();
+    return await ConfigService.getCurrentDeviceId();
+  }
 }

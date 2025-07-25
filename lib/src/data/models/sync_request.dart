@@ -44,3 +44,49 @@ class SyncRequest {
     );
   }
 }
+
+class SyncDeviceRequest {
+  final String? deviceId;
+  final String accountKey;
+  final String username;
+  final String adminEmail;
+  final String adminPassword;
+  final String apiRegisterUrl;
+
+  SyncDeviceRequest({
+    this.deviceId,
+    required this.accountKey,
+    required this.username,
+    required this.adminEmail,
+    required this.adminPassword,
+    required this.apiRegisterUrl,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'accountKey': accountKey,
+      'deviceId': deviceId,
+      'username': username,
+      'adminEmail': adminEmail,
+      'adminPassword': adminPassword,
+    };
+  }
+
+  SyncDeviceRequest copyWith({
+    String? deviceId,
+    String? accountKey,
+    String? username,
+    String? adminEmail,
+    String? adminPassword,
+    String? apiRegisterUrl,
+  }) {
+    return SyncDeviceRequest(
+      deviceId: deviceId ?? this.deviceId,
+      accountKey: accountKey ?? this.accountKey,
+      username: username ?? this.username,
+      adminEmail: adminEmail ?? this.adminEmail,
+      adminPassword: adminPassword ?? this.adminPassword,
+      apiRegisterUrl: apiRegisterUrl ?? this.apiRegisterUrl,
+    );
+  }
+}
