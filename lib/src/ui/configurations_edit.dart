@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
+import 'package:flutter_offline_sync/src/utils/formatting.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class ConfigurationsEdit extends StatefulWidget {
@@ -15,6 +16,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   final downloadUrlController = TextEditingController();
   final addDeviceUrlController = TextEditingController();
   final accountKeyController = TextEditingController();
+  final connectAccountEndpointController = TextEditingController();
 
   @override
   void initState() {
@@ -24,11 +26,12 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
 
   void saveConfig() async {
     final config = AppConfig.instance.getSettings();
-    config.baseUrl = baseUrlController.text;
-    config.localEndpoint = uploadUrlController.text;
-    config.remoteEndpoint = downloadUrlController.text;
-    config.addSyncDeviceEndpoint = addDeviceUrlController.text;
-    config.accountKey = accountKeyController.text;
+    config.baseUrl = formatApiBaseUrl(baseUrlController.text);
+    config.localEndpoint = uploadUrlController.text.trim();
+    config.remoteEndpoint = downloadUrlController.text.trim();
+    config.addSyncDeviceEndpoint = addDeviceUrlController.text.trim();
+    config.accountKey = accountKeyController.text.trim();
+    config.connectAccountEndpoint = connectAccountEndpointController.text;
     await AppConfig.instance.saveSettings(config);
     if (mounted) {
       context.toast.success('Settings saved successfully');
@@ -64,6 +67,8 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
               TextFormField(controller: downloadUrlController),
               Text('Add device Url'),
               TextFormField(controller: addDeviceUrlController),
+              Text('Connect Account Endpoint'),
+              TextFormField(controller: connectAccountEndpointController),
               SizedBox(height: 10),
               Center(
                 child: FilledButton(

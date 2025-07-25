@@ -112,6 +112,7 @@ class ConfigurationEntity {
     String? remoteEndpoint,
     String? localEndpoint,
     String? addSyncDeviceEndpoint,
+    String? connectAccountEndpoint,
     String? authToken,
     String? userId,
     String? extras,
@@ -123,6 +124,8 @@ class ConfigurationEntity {
     bool? isSynced,
   }) {
     return ConfigurationEntity(
+      id: id,
+      connectAccountEndpoint: connectAccountEndpoint ?? this.connectAccountEndpoint,
       currentDeviceId: currentDeviceId ?? this.currentDeviceId,
       accountKey: accountKey ?? this.accountKey,
       baseUrl: baseUrl ?? this.baseUrl,

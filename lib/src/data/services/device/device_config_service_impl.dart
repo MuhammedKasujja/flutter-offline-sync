@@ -14,10 +14,22 @@ class DeviceConfigServiceImpl extends DeviceConfigService {
       deviceId: config!.currentDeviceId!,
       userId: '7899',
     );
+
     final connectAccountUrl = formattedBaseUrl(
       baseUrl: request.apiRegisterUrl,
       endpoint: config.connectAccountEndpoint,
     );
-    return apiClient.post(connectAccountUrl, data: requestModel.toJson());
+    
+    final reseponse = await apiClient.post(
+      connectAccountUrl,
+      data: requestModel.toJson(),
+    );
+
+    if (reseponse.isSuccess) {
+      config.copyWith(baseUrl: formatApiBaseUrl(request.apiRegisterUrl));
+      await ConfigService.saveSettings(config);
+    }
+
+    return reseponse;
   }
 }
