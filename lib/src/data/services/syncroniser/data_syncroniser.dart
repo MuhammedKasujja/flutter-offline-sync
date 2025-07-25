@@ -79,12 +79,16 @@ class DataSyncroniser extends IDataSyncroniser {
       logger.info('No Remote updates found');
       return;
     }
-    for (var remoteData in remoteUpdates) {
-      /// updating local database with remote changes
-      FlutterSync.instance.entityRegistry.save(
-        remoteData.entity,
-        jsonDecode(remoteData.data),
-      );
+    try {
+      for (var remoteData in remoteUpdates) {
+        /// updating local database with remote changes
+        FlutterSync.instance.entityRegistry.save(
+          remoteData.entity,
+          jsonDecode(remoteData.data),
+        );
+      }
+    } catch (error) {
+      logger.error(error);
     }
   }
 

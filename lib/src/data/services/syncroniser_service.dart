@@ -11,7 +11,8 @@ class SyncroniserService {
   SyncroniserService(this._repo);
 
   Future startSync(String syncId) async {
-    startLocalSync(syncId);
+    // startLocalSync(syncId);
+    syncLocalData(syncId);
     startSyncRemoteChanges();
   }
 
@@ -51,16 +52,21 @@ class SyncroniserService {
         });
   }
 
-  void syncLocalData() async {
+  void syncLocalData(String updateId) async {
     final response = await _repo.syncLocalUpdates(
-      updateId: '340',
+      updateId: updateId,
       extras: FlutterSync.instance.requestExtras,
     );
     logger.info({'Sync Ended Local Updates': response.toJson()});
 
     if (response.success) {
-      await _repo.clearUpdatesTable();
+      ConfigService.updateLastSyncDate(response.data!.lastSyncDate);
+      _repo.clearUpdatesTable();
+    } else {
+      // throw Exception(response.error ?? 'Error syncing local data');
     }
+    //TODO: sync data using sequencially for each entity
+    
     // final pendingTasks = await _repo.getPendingUpdates();
 
     // for (final task in pendingTasks) {
