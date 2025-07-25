@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_offline_sync/src/utils/toast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_offline_sync/src/data/services/sync_repository.dart';
-import 'package:flutter_offline_sync/src/manual_sync_manager.dart';
+import 'package:flutter_offline_sync/src/providers/manual_sync_manager.dart';
+import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class SyncDataViewer extends ConsumerStatefulWidget {
   const SyncDataViewer({super.key});

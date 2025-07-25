@@ -4,8 +4,8 @@ import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroni
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
+import 'package:flutter_offline_sync/src/data/services/syncroniser_service.dart';
 
-import 'data/services/syncroniser_service.dart';
 import 'network_status.dart';
 
 part 'manual_sync_manager.g.dart';
