@@ -44,6 +44,6 @@ class ManualSyncManager extends _$ManualSyncManager {
     } catch (error, st) {
       state = AsyncError(error, st);
       logger.error(error);
-    } finally {}
+    }
   }
 }

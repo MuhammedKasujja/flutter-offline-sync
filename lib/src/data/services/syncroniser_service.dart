@@ -27,7 +27,7 @@ class SyncroniserService {
             ConfigService.updateLastSyncDate(response.data!.lastSyncDate);
             _repo.clearUpdatesTable();
           } else {
-            // throw response.error ?? 'Error syncing data';
+            throw response.error ?? 'Error syncing data';
           }
         });
   }
