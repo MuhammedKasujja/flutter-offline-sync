@@ -19,8 +19,6 @@ class LocalDataUpdates extends _$LocalDataUpdates {
       if (config != null && config.hasRemoteCredentials) {
         final data = await SyncRepositoryImp().getPendingLocalUpdates();
 
-        logger.error('fetching data');
-
         state = AsyncData(data);
       }
     } catch (error, st) {

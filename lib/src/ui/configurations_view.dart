@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
+import 'package:flutter_offline_sync/src/providers/local_data_updates.dart';
 import 'package:flutter_offline_sync/src/ui/sync_devices_view.dart';
 
 import 'configurations_edit.dart';
 import 'data_viewer.dart';
 
-class SyncConfigurationsView extends StatelessWidget {
+class SyncConfigurationsView extends ConsumerStatefulWidget {
   const SyncConfigurationsView({super.key, required this.isAdmin});
   final bool isAdmin;
+
+  @override
+  ConsumerState<SyncConfigurationsView> createState() =>
+      _SyncConfigurationsViewState();
+}
+
+class _SyncConfigurationsViewState
+    extends ConsumerState<SyncConfigurationsView> {
+  Future<void> handleDataReset() async {
+    await ConfigService.resetSyncDates();
+    ref.read(localDataUpdatesProvider.notifier).fetchLocalUpdates();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +39,9 @@ class SyncConfigurationsView extends StatelessWidget {
             ],
           ),
           actions: [
-            if (isAdmin)
+            if (widget.isAdmin)
               IconButton(
-                onPressed: () => ConfigService.resetSyncDates(),
+                onPressed: handleDataReset,
                 icon: Icon(Icons.restore_outlined),
                 tooltip: 'Reset Sync Dates',
               ),
