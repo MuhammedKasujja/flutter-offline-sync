@@ -9,7 +9,7 @@ class DeviceConfigServiceImpl extends DeviceConfigService {
 
   @override
   Future<ApiResponse> registerDevice(SyncDeviceRequest request) async {
-    final config = await ConfigService.getRefreshedConfig();
+    var config = await ConfigService.getRefreshedConfig();
     final requestModel = request.copyWith(
       deviceId: config!.currentDeviceId!,
       userId: '7899',
@@ -19,14 +19,16 @@ class DeviceConfigServiceImpl extends DeviceConfigService {
       baseUrl: request.apiRegisterUrl,
       endpoint: config.connectAccountEndpoint,
     );
-    
+
     final reseponse = await apiClient.post(
       connectAccountUrl,
       data: requestModel.toJson(),
     );
 
     if (reseponse.isSuccess) {
-      config.copyWith(baseUrl: formatApiBaseUrl(request.apiRegisterUrl));
+      config = config.copyWith(
+        baseUrl: formatApiBaseUrl(request.apiRegisterUrl),
+      );
       await ConfigService.saveSettings(config);
     }
 
