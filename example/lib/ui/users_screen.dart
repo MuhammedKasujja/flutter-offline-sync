@@ -17,7 +17,6 @@ class _UsersScreenState extends State<UsersScreen> {
   @override
   void initState() {
     fetchUsers();
-    FlutterSync.setAuthToken('E98HFJE9FE90JFFF9843');
     FlutterSync.setRequestExtras({'user_id': 1});
     super.initState();
   }

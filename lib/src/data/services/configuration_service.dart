@@ -23,11 +23,13 @@ class ConfigService {
 
     config ??= ConfigurationEntity();
 
-    config.currentDeviceId ??= Uuid().v4();
-    config.remoteEndpoint = kDemoRemoteDownloadUrl;
-    config.localEndpoint = kDemoRemoteUploadUrl;
-    config.addSyncDeviceEndpoint = kDemoRemoteAddSyncDeviceUrl;
-    config.connectAccountEndpoint = kDemoConnectAccountEndpoint;
+    config = config.syncIfNull(
+      currentDeviceId: Uuid().v4(),
+      remoteEndpoint: kDemoRemoteDownloadUrl,
+      localEndpoint: kDemoRemoteUploadUrl,
+      addSyncDeviceEndpoint: kDemoRemoteAddSyncDeviceUrl,
+      connectAccountEndpoint: kDemoConnectAccountEndpoint,
+    );
 
     return saveSettings(config);
   }
@@ -79,13 +81,15 @@ class ConfigService {
   }
 
   static Future<ConfigurationEntity?> _getDemoConfig() async {
-    final config = ConfigurationEntity();
+    ConfigurationEntity? config = await getSettings();
+
+    config ??= ConfigurationEntity();
 
     config.currentDeviceId ??= Uuid().v4();
     config.baseUrl = kDemoBaseUrl;
     config.accountKey = kDemoAccountKey;
 
-    return saveEntity(config);
+    return config;
   }
 
   static Future<ConfigurationEntity?> getRefreshedConfig() async {

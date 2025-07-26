@@ -67,6 +67,7 @@ class ConfigurationEntity {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "currentDeviceId": currentDeviceId,
       "accountKey": accountKey,
       "authToken": authToken,
@@ -105,6 +106,11 @@ class ConfigurationEntity {
 
   bool get hasConfiguredLocalEndpoint => (localEndpoint ?? '').isNotEmpty;
 
+  bool get hasSyncDeviceEndpoint => (addSyncDeviceEndpoint ?? '').isNotEmpty;
+
+  bool get hasConnectAccountEndpoint =>
+      (connectAccountEndpoint ?? '').isNotEmpty;
+
   ConfigurationEntity copyWith({
     String? currentDeviceId,
     String? accountKey,
@@ -125,7 +131,8 @@ class ConfigurationEntity {
   }) {
     return ConfigurationEntity(
       id: id,
-      connectAccountEndpoint: connectAccountEndpoint ?? this.connectAccountEndpoint,
+      connectAccountEndpoint:
+          connectAccountEndpoint ?? this.connectAccountEndpoint,
       currentDeviceId: currentDeviceId ?? this.currentDeviceId,
       accountKey: accountKey ?? this.accountKey,
       baseUrl: baseUrl ?? this.baseUrl,
@@ -142,6 +149,44 @@ class ConfigurationEntity {
       createdAt: createdAt ?? this.createdAt,
       deletedAt: deletedAt ?? this.deletedAt,
       isSynced: isSynced ?? this.isSynced,
+    );
+  }
+
+  /// Configure to `Default settings` if no `Settings` are set 
+  ConfigurationEntity syncIfNull({
+    String? currentDeviceId,
+    String? remoteEndpoint,
+    String? localEndpoint,
+    String? addSyncDeviceEndpoint,
+    String? connectAccountEndpoint,
+  }) {
+    return ConfigurationEntity(
+      id: id,
+      remoteEndpoint:
+          hasConfiguredRemoteEndpoint ? this.remoteEndpoint : remoteEndpoint,
+      localEndpoint:
+          hasConfiguredLocalEndpoint ? this.localEndpoint : localEndpoint,
+      addSyncDeviceEndpoint:
+          hasSyncDeviceEndpoint
+              ? this.addSyncDeviceEndpoint
+              : addSyncDeviceEndpoint,
+      connectAccountEndpoint:
+          hasConnectAccountEndpoint
+              ? this.connectAccountEndpoint
+              : connectAccountEndpoint,
+      currentDeviceId:
+          hasCurrentDeviceId ? this.currentDeviceId : currentDeviceId,
+      accountKey: accountKey,
+      baseUrl: baseUrl,
+      authToken: authToken,
+      userId: userId,
+      extras: extras,
+      localLastUpdatedAt: localLastUpdatedAt,
+      remoteLastUpdatedAt: remoteLastUpdatedAt,
+      updatedAt: updatedAt,
+      createdAt: createdAt,
+      deletedAt: deletedAt,
+      isSynced: isSynced,
     );
   }
 }

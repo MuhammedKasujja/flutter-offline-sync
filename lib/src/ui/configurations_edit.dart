@@ -45,6 +45,8 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     uploadUrlController.text = settings.localEndpoint ?? '';
     downloadUrlController.text = settings.remoteEndpoint ?? '';
     addDeviceUrlController.text = settings.addSyncDeviceEndpoint ?? '';
+    connectAccountEndpointController.text =
+        settings.connectAccountEndpoint ?? '';
   }
 
   @override
