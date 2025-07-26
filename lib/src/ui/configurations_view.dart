@@ -9,8 +9,15 @@ import 'configurations_edit.dart';
 import 'data_viewer.dart';
 
 class SyncConfigurationsView extends ConsumerStatefulWidget {
-  const SyncConfigurationsView({super.key, required this.isAdmin});
+  const SyncConfigurationsView({
+    super.key,
+    required this.isAdmin,
+    required this.configApi,
+  });
+  /// Admin accounts can reset last syncronization dates
   final bool isAdmin;
+  /// Allow changing sync API endpoints
+  final bool configApi;
 
   @override
   ConsumerState<SyncConfigurationsView> createState() =>
@@ -48,7 +55,11 @@ class _SyncConfigurationsViewState
           ],
         ),
         body: TabBarView(
-          children: [SyncDataViewer(), ConfigurationsEdit(), SyncDevicesView()],
+          children: [
+            SyncDataViewer(),
+            ConfigurationsEdit(configApi: widget.configApi),
+            SyncDevicesView(),
+          ],
         ),
       ),
     );

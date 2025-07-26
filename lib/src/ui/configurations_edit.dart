@@ -4,7 +4,8 @@ import 'package:flutter_offline_sync/src/utils/formatting.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class ConfigurationsEdit extends StatefulWidget {
-  const ConfigurationsEdit({super.key});
+  const ConfigurationsEdit({super.key, required this.configApi});
+  final bool configApi;
 
   @override
   State<ConfigurationsEdit> createState() => _ConfigurationsEditState();
@@ -63,14 +64,16 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
               TextFormField(controller: accountKeyController),
               Text('Remote Base Url'),
               TextFormField(controller: baseUrlController),
-              Text('Uploads Url'),
-              TextFormField(controller: uploadUrlController),
-              Text('Downloads Url'),
-              TextFormField(controller: downloadUrlController),
-              Text('Add device Url'),
-              TextFormField(controller: addDeviceUrlController),
-              Text('Connect Account Endpoint'),
-              TextFormField(controller: connectAccountEndpointController),
+              if (widget.configApi) ...[
+                Text('Uploads Url'),
+                TextFormField(controller: uploadUrlController),
+                Text('Downloads Url'),
+                TextFormField(controller: downloadUrlController),
+                Text('Add device Url'),
+                TextFormField(controller: addDeviceUrlController),
+                Text('Connect Account Endpoint'),
+                TextFormField(controller: connectAccountEndpointController),
+              ],
               SizedBox(height: 10),
               Center(
                 child: FilledButton(
