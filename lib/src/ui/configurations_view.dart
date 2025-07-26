@@ -40,7 +40,7 @@ class _SyncConfigurationsViewState
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: widget.isAdmin ? 3 : 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Sync Configurations'),
@@ -48,7 +48,7 @@ class _SyncConfigurationsViewState
             tabs: [
               Tab(text: 'Local updates'),
               Tab(text: 'Config'),
-              Tab(text: 'Devices'),
+              if (widget.isAdmin) Tab(text: 'Devices'),
             ],
           ),
           actions: [
@@ -67,7 +67,7 @@ class _SyncConfigurationsViewState
               canConfigApi: widget.canConfigApi,
               syncUserId: widget.syncUserId,
             ),
-            SyncDevicesView(),
+            if (widget.isAdmin) SyncDevicesView(),
           ],
         ),
       ),
