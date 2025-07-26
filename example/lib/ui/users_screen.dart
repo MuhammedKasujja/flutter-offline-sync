@@ -64,7 +64,8 @@ class _UsersScreenState extends State<UsersScreen> {
                   builder:
                       (context) => SyncConfigurationsView(
                         isAdmin: true,
-                        configApi: false,
+                        canConfigApi: false,
+                        syncUserId: '67889',
                       ),
                 ),
               );

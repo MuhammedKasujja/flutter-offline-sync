@@ -12,12 +12,18 @@ class SyncConfigurationsView extends ConsumerStatefulWidget {
   const SyncConfigurationsView({
     super.key,
     required this.isAdmin,
-    required this.configApi,
+    required this.canConfigApi,
+    required this.syncUserId,
   });
+
   /// Admin accounts can reset last syncronization dates
   final bool isAdmin;
+
   /// Allow changing sync API endpoints
-  final bool configApi;
+  final bool canConfigApi;
+
+  ///  `syncUserId` to track the user making data syncronization
+  final String? syncUserId;
 
   @override
   ConsumerState<SyncConfigurationsView> createState() =>
@@ -57,7 +63,10 @@ class _SyncConfigurationsViewState
         body: TabBarView(
           children: [
             SyncDataViewer(),
-            ConfigurationsEdit(configApi: widget.configApi),
+            ConfigurationsEdit(
+              canConfigApi: widget.canConfigApi,
+              syncUserId: widget.syncUserId,
+            ),
             SyncDevicesView(),
           ],
         ),

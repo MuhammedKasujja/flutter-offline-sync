@@ -1,6 +1,8 @@
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
+import 'package:flutter_offline_sync/src/utils/formatting.dart';
+import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 class RemoteConfigService extends IRemoteConfigService {
   final ApiClient apiClient;
@@ -9,8 +11,9 @@ class RemoteConfigService extends IRemoteConfigService {
 
   @override
   Future<ApiResponse> syncCurrentDevice({
-    required String userId,
+    required String? userId,
     required String userName,
+    required String syncUrl,
   }) async {
     final settings = await ConfigService.getSettings();
 
@@ -19,9 +22,13 @@ class RemoteConfigService extends IRemoteConfigService {
         'Please configure add sync device endpoint and try again',
       );
     }
-
+    final url = formattedBaseUrl(
+      baseUrl: syncUrl,
+      endpoint: settings!.addSyncDeviceEndpoint!,
+    );
+    logger.debug(url);
     return apiClient.post(
-      settings!.addSyncDeviceEndpoint!,
+      url,
       data: {
         'deviceId': settings.currentDeviceId,
         'accountKey': settings.accountKey,
@@ -70,7 +77,8 @@ abstract class IRemoteConfigService {
   Future<ApiResponse> getSyncDevices();
   Future<ApiResponse> deleteSyncDevice({required String deviceId});
   Future<ApiResponse> syncCurrentDevice({
-    required String userId,
+    required String? userId,
     required String userName,
+    required String syncUrl,
   });
 }
