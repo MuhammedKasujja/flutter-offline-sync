@@ -1,4 +1,5 @@
 import 'package:flutter_offline_sync/src/api/api_response.dart';
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/data/services/device/device_config_service.dart';
@@ -12,7 +13,7 @@ class DeviceConfigServiceImpl extends DeviceConfigService {
     var config = await ConfigService.getRefreshedConfig();
     final requestModel = request.copyWith(
       deviceId: config!.currentDeviceId!,
-      userId: '7899',
+      userId: kDefaultConnectDeviceUserID,
     );
 
     final connectAccountUrl = formattedBaseUrl(

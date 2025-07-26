@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
@@ -37,7 +38,7 @@ class DataSyncroniser extends IDataSyncroniser {
       return ApiResponse.error('No updates found');
     }
 
-    if (_config.accountKey == null) {
+    if (_config.hasAccountKey == false) {
       throw Exception('Account key is required to sync updates');
     }
 
@@ -49,7 +50,7 @@ class DataSyncroniser extends IDataSyncroniser {
     }
 
     SyncRequest request = SyncRequest(
-      userId: _config.userId ?? '5600',
+      userId: _config.userId ?? kDefaultConnectDeviceUserID,
       updateId: updateId,
       deviceId: _config.currentDeviceId!,
       accountKey: _config.accountKey!,

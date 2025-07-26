@@ -29,6 +29,11 @@ dart run build_runner build --delete-conflicting-outputs
 3. `deletedAt?`  ( deletedAt should be nullable )
 4. `isSynced` ( property to track synced models to avoid duplicate syncs from going to the server)
 
+#### ID to track devices without `syncUserId`
+```dart
+kDefaultConnectDeviceUserID = 'user_id_unknown';
+```
+
 Note
  1. Make sure to revalidate (change) `updatedAt` whenever a database operation is made
 

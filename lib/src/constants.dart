@@ -29,4 +29,6 @@ const kDemoRemoteAddSyncDeviceUrl = 'sync-devices';
 const kDemoConnectAccountEndpoint = 'accounts/connect-device';
 const kDemoAccountKey = 'WEY2RZD5Y8PAJZU5H0T91NMIHP2OJDLG';
 
+const kDefaultConnectDeviceUserID = 'user_id_unknown';
+
 /// API errors end ///
