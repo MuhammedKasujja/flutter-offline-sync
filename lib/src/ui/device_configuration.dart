@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/providers/register_device.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
@@ -25,6 +26,7 @@ class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
         .read(registerDeviceProvider.notifier)
         .registerDevice(
           SyncDeviceRequest(
+            userId: kDefaultConnectDeviceUserID,
             accountKey: accountKeyController.text.trim(),
             username: usernameController.text.trim(),
             adminEmail: adminEmailController.text.trim(),

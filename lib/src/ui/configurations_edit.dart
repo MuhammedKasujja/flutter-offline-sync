@@ -59,6 +59,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     config.accountKey = accountKeyController.text.trim();
     config.connectAccountEndpoint = connectAccountEndpointController.text;
     config.userId = widget.syncUserId;
+    config.userName = userNameController.text.trim();
     await AppConfig.instance.saveSettings(config);
     if (mounted) {
       context.toast.success('Device synced successfully');
@@ -74,6 +75,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     addDeviceUrlController.text = settings.addSyncDeviceEndpoint ?? '';
     connectAccountEndpointController.text =
         settings.connectAccountEndpoint ?? '';
+    userNameController.text = settings.userName ?? '';
   }
 
   @override

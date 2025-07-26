@@ -64,7 +64,7 @@
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "17:5366519826674512079",
+      "lastPropertyId": "18:1537024117665119458",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -151,6 +151,11 @@
         {
           "id": "17:5366519826674512079",
           "name": "connectAccountEndpoint",
+          "type": 9
+        },
+        {
+          "id": "18:1537024117665119458",
+          "name": "userName",
           "type": 9
         }
       ],

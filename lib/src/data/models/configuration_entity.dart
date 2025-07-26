@@ -13,6 +13,7 @@ class ConfigurationEntity {
   String? addSyncDeviceEndpoint;
   String? authToken;
   String? connectAccountEndpoint;
+  String? userName;
   String? userId;
   String? extras;
   @Property(type: PropertyType.date)
@@ -38,6 +39,7 @@ class ConfigurationEntity {
     this.addSyncDeviceEndpoint,
     this.connectAccountEndpoint,
     this.authToken,
+    this.userName,
     this.userId,
     this.extras,
     this.localLastUpdatedAt,
@@ -70,6 +72,7 @@ class ConfigurationEntity {
       "id": id,
       "currentDeviceId": currentDeviceId,
       "accountKey": accountKey,
+      "userName": userName,
       "authToken": authToken,
       "userId": userId,
       "extras": extras,
@@ -120,6 +123,7 @@ class ConfigurationEntity {
     String? addSyncDeviceEndpoint,
     String? connectAccountEndpoint,
     String? authToken,
+    String? userName,
     String? userId,
     String? extras,
     DateTime? localLastUpdatedAt,
@@ -149,6 +153,7 @@ class ConfigurationEntity {
       createdAt: createdAt ?? this.createdAt,
       deletedAt: deletedAt ?? this.deletedAt,
       isSynced: isSynced ?? this.isSynced,
+      userName: userName ?? this.userName,
     );
   }
 
