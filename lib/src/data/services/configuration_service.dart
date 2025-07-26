@@ -13,8 +13,9 @@ class ConfigService {
   }
 
   static Future<ConfigurationEntity?> saveSettings(
-    ConfigurationEntity settings,
+    ConfigurationEntity? settings,
   ) async {
+    if (settings == null) return settings;
     return saveEntity<ConfigurationEntity>(settings);
   }
 
@@ -37,8 +38,8 @@ class ConfigService {
   static Future<ConfigurationEntity?> saveAuthToken(String? authToken) async {
     var config = await getSettings();
 
-    config ??= ConfigurationEntity();
-    config.authToken = authToken;
+    config ??= await saveCurrentDeviceId();
+    config?.authToken = authToken;
 
     return saveSettings(config);
   }
@@ -48,8 +49,8 @@ class ConfigService {
   ) async {
     var config = await getSettings();
 
-    config ??= ConfigurationEntity();
-    config.localLastUpdatedAt = lastSyncDate;
+    config ??= await saveCurrentDeviceId();
+    config?.localLastUpdatedAt = lastSyncDate;
 
     return saveSettings(config);
   }
@@ -62,20 +63,20 @@ class ConfigService {
 
   static Future<ConfigurationEntity?> regenerateDeviceId() async {
     var config = await getSettings();
-    config ??= ConfigurationEntity();
+    config ??= await saveCurrentDeviceId();
 
-    config.currentDeviceId = null;
-    config.currentDeviceId = Uuid().v4();
+    config?.currentDeviceId = null;
+    config?.currentDeviceId = Uuid().v4();
 
     return saveSettings(config);
   }
 
   static Future<ConfigurationEntity?> resetSyncDates() async {
     var config = await getSettings();
-    config ??= ConfigurationEntity();
+    config ??= await saveCurrentDeviceId();
 
-    config.localLastUpdatedAt = null;
-    config.remoteLastUpdatedAt = null;
+    config?.localLastUpdatedAt = null;
+    config?.remoteLastUpdatedAt = null;
 
     return saveSettings(config);
   }
