@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/remote_config_service.dart';
+import 'package:flutter_offline_sync/src/ui/app_form.dart';
 import 'package:flutter_offline_sync/src/utils/formatting.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
+import 'package:flutter_offline_sync/src/utils/validations.dart';
 
 class ConfigurationsEdit extends StatefulWidget {
   const ConfigurationsEdit({
@@ -25,6 +27,8 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   final accountKeyController = TextEditingController();
   final connectAccountEndpointController = TextEditingController();
   final userNameController = TextEditingController();
+  static final _formKey = GlobalKey<FormState>(debugLabel: '_device_config');
+  final FocusScopeNode _focusNode = FocusScopeNode();
 
   @override
   void initState() {
@@ -33,6 +37,12 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   }
 
   void handleSaveDevice() async {
+    final bool isValid = _formKey.currentState!.validate();
+
+    if (!isValid) {
+      return;
+    }
+
     final repo = RemoteConfigService(apiClient: AppConfig.instance.getClient());
     try {
       final response = await repo.syncCurrentDevice(
@@ -84,37 +94,56 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            spacing: 10,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Account Key'),
-              TextFormField(controller: accountKeyController),
-              Text('Remote Base Url'),
-              TextFormField(controller: baseUrlController),
-              if (widget.canConfigApi) ...[
-                Text('Uploads Url'),
-                TextFormField(controller: uploadUrlController),
-                Text('Downloads Url'),
-                TextFormField(controller: downloadUrlController),
-                Text('Add device Url'),
-                TextFormField(controller: addDeviceUrlController),
-                Text('Connect Account Endpoint'),
-                TextFormField(controller: connectAccountEndpointController),
-              ],
-              Text('User Name'),
-              TextFormField(controller: userNameController),
-              SizedBox(height: 10),
-              Center(
-                child: FilledButton(
-                  onPressed: handleSaveDevice,
-                  child: Text('Sync Device'),
+          child: AppForm(
+            formKey: _formKey,
+            focusNode: _focusNode,
+            child: Column(
+              spacing: 10,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Account Key'),
+                TextFormField(
+                  controller: accountKeyController,
+                  validator: Validations.requiredField,
                 ),
-              ),
-            ],
+                Text('Remote Base Url'),
+                TextFormField(
+                  controller: baseUrlController,
+                  validator: Validations.requiredField,
+                ),
+                if (widget.canConfigApi) ...[
+                  Text('Uploads Url'),
+                  TextFormField(controller: uploadUrlController),
+                  Text('Downloads Url'),
+                  TextFormField(controller: downloadUrlController),
+                  Text('Add device Url'),
+                  TextFormField(controller: addDeviceUrlController),
+                  Text('Connect Account Endpoint'),
+                  TextFormField(controller: connectAccountEndpointController),
+                ],
+                Text('User Name'),
+                TextFormField(
+                  controller: userNameController,
+                  validator: Validations.requiredField,
+                ),
+                SizedBox(height: 10),
+                Center(
+                  child: FilledButton(
+                    onPressed: handleSaveDevice,
+                    child: Text('Sync Device'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 }

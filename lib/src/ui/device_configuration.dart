@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_offline_sync/src/ui/app_form.dart';
+import 'package:flutter_offline_sync/src/utils/validations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_offline_sync/src/constants.dart';
@@ -21,7 +23,16 @@ class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
   final adminEmailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  static final _formKey = GlobalKey<FormState>(debugLabel: '_device_config');
+  final FocusScopeNode _focusNode = FocusScopeNode();
+
   Future<void> handleRegisterDevice() async {
+    final bool isValid = _formKey.currentState!.validate();
+
+    if (!isValid) {
+      return;
+    }
+
     ref
         .read(registerDeviceProvider.notifier)
         .registerDevice(
@@ -51,33 +62,57 @@ class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: Column(
-            spacing: 16,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Account Key'),
-              TextFormField(controller: accountKeyController),
-              Text('Sync Base Url'),
-              TextFormField(controller: baseUrlController),
-              Text('Device Username'),
-              TextFormField(controller: usernameController),
-              Text('Admin Email'),
-              TextFormField(
-                controller: adminEmailController,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              Text('Admin Password'),
-              TextFormField(controller: passwordController, obscureText: true),
-              Center(
-                child: FilledButton(
-                  onPressed: handleRegisterDevice,
-                  child: Text('Sync Device'),
+          child: AppForm(
+            focusNode: _focusNode,
+            formKey: _formKey,
+            child: Column(
+              spacing: 16,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Account Key'),
+                TextFormField(
+                  controller: accountKeyController,
+                  validator: Validations.requiredField,
                 ),
-              ),
-            ],
+                Text('Sync Base Url'),
+                TextFormField(
+                  controller: baseUrlController,
+                  validator: Validations.requiredField,
+                ),
+                Text('Device Username'),
+                TextFormField(
+                  controller: usernameController,
+                  validator: Validations.requiredField,
+                ),
+                Text('Admin Email'),
+                TextFormField(
+                  controller: adminEmailController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: Validations.requiredField,
+                ),
+                Text('Admin Password'),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  validator: Validations.requiredField,
+                ),
+                Center(
+                  child: FilledButton(
+                    onPressed: handleRegisterDevice,
+                    child: Text('Sync Device'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 }
