@@ -192,6 +192,7 @@ class ConfigurationEntity {
       createdAt: createdAt,
       deletedAt: deletedAt,
       isSynced: isSynced,
+      userName: userName,
     );
   }
 }
