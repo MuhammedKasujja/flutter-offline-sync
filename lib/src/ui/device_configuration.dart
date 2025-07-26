@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_offline_sync/src/providers/remote_data_updates.dart';
 import 'package:flutter_offline_sync/src/ui/app_form.dart';
 import 'package:flutter_offline_sync/src/utils/validations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,6 +54,18 @@ class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
       next.whenOrNull(
         data: (_) {
           context.toast.success('Device registered Successfully!');
+          ref.read(remoteDataUpdatesProvider.notifier).fetchUpdates();
+        },
+        error: (e, _) => context.toast.error('$e'),
+      );
+    });
+    ref.listen(remoteDataUpdatesProvider, (prev, next) {
+      next.whenOrNull(
+        data: (remoteUpdates) {
+          context.toast.success('Remote updates fetched');
+          ref
+              .read(syncRemoteUpdatesProvider.notifier)
+              .syncUpdates(remoteUpdates);
         },
         error: (e, _) => context.toast.error('$e'),
       );

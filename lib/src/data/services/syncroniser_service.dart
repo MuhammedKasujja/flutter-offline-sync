@@ -66,7 +66,7 @@ class SyncroniserService {
       // throw Exception(response.error ?? 'Error syncing local data');
     }
     //TODO: sync data using sequencially for each entity
-    
+
     // final pendingTasks = await _repo.getPendingUpdates();
 
     // for (final task in pendingTasks) {
@@ -79,7 +79,7 @@ class SyncroniserService {
     // }
   }
 
-  void fetchRemoteData() async {
+  Future<void> fetchRemoteData() async {
     try {
       final response = await _repo.fetchRemoteUpdates();
       if (response.isSuccess) {
@@ -101,6 +101,18 @@ class SyncroniserService {
       logger.error('Error starting sync remote changes', error);
       return;
     }
+  }
+
+  Future<List<DataEntity>> fetchRemotePendingData() async {
+    final response = await _repo.fetchRemoteUpdates();
+    if (response.isError) {
+      throw Exception(response.error ?? 'Unknown error occured');
+    }
+
+    final List<DataEntity> dataUpdates =
+        response.data!.expand((item) => item.data).toList();
+
+    return dataUpdates;
   }
 
   Future<void> retryWithBackoff(
