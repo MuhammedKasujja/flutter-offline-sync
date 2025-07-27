@@ -19,6 +19,7 @@ const kErrorUnableToProcess = "Unable to process the data";
 const kErrorDefaultError = "Unknown error occured";
 const kErrorUnexpectedError = "Unexpected error occurred";
 const kErrorFileTooLarge = "Uploaded file is too large";
+const kErrorSyncSettingsMissing = "Sync Config settings not available";
 
 const kDemoMode = true;
 

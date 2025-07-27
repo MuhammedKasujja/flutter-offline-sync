@@ -157,13 +157,15 @@ class ConfigurationEntity {
     );
   }
 
-  /// Configure to `Default settings` if no `Settings` are set 
+  /// Configure to `Default settings` if no `Settings` are set
   ConfigurationEntity syncIfNull({
     String? currentDeviceId,
     String? remoteEndpoint,
     String? localEndpoint,
     String? addSyncDeviceEndpoint,
     String? connectAccountEndpoint,
+    String? baseUrl,
+    String? accountKey,
   }) {
     return ConfigurationEntity(
       id: id,
@@ -181,8 +183,8 @@ class ConfigurationEntity {
               : connectAccountEndpoint,
       currentDeviceId:
           hasCurrentDeviceId ? this.currentDeviceId : currentDeviceId,
-      accountKey: accountKey,
-      baseUrl: baseUrl,
+      accountKey: hasAccountKey ? this.accountKey : accountKey,
+      baseUrl: (baseUrl ?? '').isNotEmpty ? this.baseUrl : baseUrl,
       authToken: authToken,
       userId: userId,
       extras: extras,

@@ -86,9 +86,11 @@ class ConfigService {
 
     config ??= ConfigurationEntity();
 
-    config.currentDeviceId ??= Uuid().v4();
-    config.baseUrl = kDemoBaseUrl;
-    config.accountKey = kDemoAccountKey;
+    config = config.syncIfNull(
+      currentDeviceId: Uuid().v4(),
+      baseUrl: kDemoBaseUrl,
+      accountKey: kDemoAccountKey,
+    );
 
     return config;
   }

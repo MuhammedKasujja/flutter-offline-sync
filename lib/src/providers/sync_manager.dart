@@ -1,3 +1,4 @@
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
@@ -30,12 +31,12 @@ class SyncManager extends _$SyncManager {
               syncId = null;
             }
           } else {
-            logger.debug("No internet connection");
+            logger.debug(kErrorNoInternetConnection);
           }
         });
       } else {
         logger.debug({
-          'Sync Config settings not available': config?.toJson(),
+          kErrorSyncSettingsMissing: config?.toJson(),
         }, level: LogLevel.db);
       }
     });

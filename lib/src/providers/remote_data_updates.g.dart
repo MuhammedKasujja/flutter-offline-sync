@@ -25,7 +25,7 @@ final remoteDataUpdatesProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$RemoteDataUpdates = AutoDisposeAsyncNotifier<List<DataEntity>>;
-String _$syncRemoteUpdatesHash() => r'35ef6ca4601258187c0da8e0ac40dfac4da4ef9c';
+String _$syncRemoteUpdatesHash() => r'1605a55049508285118996c234ca1727b38a115d';
 
 /// See also [SyncRemoteUpdates].
 @ProviderFor(SyncRemoteUpdates)
