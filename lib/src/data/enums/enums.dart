@@ -35,3 +35,10 @@ enum SyncRequestMode {
   /// server. Similar to calling [SyncClient.requestUpdates(false)].
   autoNoPushes,
 }
+
+
+enum DeviceConfigStep {
+  form,
+  fetchingRemoteChanges,
+  syncingRemoteChanges,
+}
