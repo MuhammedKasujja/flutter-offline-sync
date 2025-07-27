@@ -84,7 +84,7 @@ class ConfigService {
   }
 
   static Future<ConfigurationEntity?> getRefreshedConfig() async {
-    await ConfigService.saveCurrentDeviceId();
+    await ConfigService.regenerateDeviceId();
     return await ConfigService.getSettings();
   }
 }
