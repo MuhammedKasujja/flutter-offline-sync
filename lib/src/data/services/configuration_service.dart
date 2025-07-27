@@ -84,6 +84,9 @@ class ConfigService {
   }
 
   static Future<ConfigurationEntity?> getRefreshedConfig() async {
+    // TODO: use [ConfigService.saveCurrentDeviceId()] in PRODUCTION
+    // to avoid registering same device with another sync devic account
+
     await ConfigService.regenerateDeviceId();
     return await ConfigService.getSettings();
   }
