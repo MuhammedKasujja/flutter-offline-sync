@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_offline_sync/src/providers/remote_data_updates.dart';
+import 'package:flutter_offline_sync/src/constants.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
+import 'package:flutter_offline_sync/src/providers/register_device.dart';
 import 'package:flutter_offline_sync/src/ui/app_form.dart';
 import 'package:flutter_offline_sync/src/utils/validations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_offline_sync/src/constants.dart';
-import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
-import 'package:flutter_offline_sync/src/providers/register_device.dart';
-import 'package:flutter_offline_sync/src/utils/toast.dart';
-
-class DeviceConfiguration extends ConsumerStatefulWidget {
-  const DeviceConfiguration({super.key});
+class DeviceConfigurationForm extends ConsumerStatefulWidget {
+  const DeviceConfigurationForm({super.key});
 
   @override
-  ConsumerState<DeviceConfiguration> createState() =>
-      _DeviceConfigurationState();
+  ConsumerState<DeviceConfigurationForm> createState() =>
+      _DeviceConfigurationFormState();
 }
 
-class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
+class _DeviceConfigurationFormState
+    extends ConsumerState<DeviceConfigurationForm> {
   final baseUrlController = TextEditingController();
   final usernameController = TextEditingController();
   final accountKeyController = TextEditingController();
   final adminEmailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  static final _formKey = GlobalKey<FormState>(debugLabel: '_device_config');
+  static final _formKey = GlobalKey<FormState>(
+    debugLabel: '_device_config_form',
+  );
   final FocusScopeNode _focusNode = FocusScopeNode();
 
   Future<void> handleRegisterDevice() async {
@@ -50,26 +50,6 @@ class _DeviceConfigurationState extends ConsumerState<DeviceConfiguration> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(registerDeviceProvider, (prev, next) {
-      next.whenOrNull(
-        data: (_) {
-          context.toast.success('Device registered Successfully!');
-          ref.read(remoteDataUpdatesProvider.notifier).fetchUpdates();
-        },
-        error: (e, _) => context.toast.error('$e'),
-      );
-    });
-    ref.listen(remoteDataUpdatesProvider, (prev, next) {
-      next.whenOrNull(
-        data: (remoteUpdates) {
-          context.toast.success('Remote updates fetched');
-          ref
-              .read(syncRemoteUpdatesProvider.notifier)
-              .syncUpdates(remoteUpdates);
-        },
-        error: (e, _) => context.toast.error('$e'),
-      );
-    });
     return Scaffold(
       appBar: AppBar(title: Text('Setup Device')),
       body: SingleChildScrollView(
