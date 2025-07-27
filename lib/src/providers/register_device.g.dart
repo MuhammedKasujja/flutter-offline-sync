@@ -6,7 +6,7 @@ part of 'register_device.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$registerDeviceHash() => r'e2371a789e0cd38259929f20c51970d1e93b1ba0';
+String _$registerDeviceHash() => r'5aaa06b2a01b7fa4f4bd853be913c7c46df7dbed';
 
 /// See also [RegisterDevice].
 @ProviderFor(RegisterDevice)

@@ -118,7 +118,7 @@ class DataSyncroniser extends IDataSyncroniser {
       }
 
       final response = await _apiClient.get(
-        _config.remoteEndpoint!,
+        _config.getRemoteEndpoint,
         queryParameters: {
           'deviceId': _config.currentDeviceId,
           'accountKey': _config.accountKey,

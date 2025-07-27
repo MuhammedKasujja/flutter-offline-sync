@@ -20,12 +20,14 @@ class ConfigService {
   }
 
   static Future<ConfigurationEntity?> saveCurrentDeviceId() async {
-    var config = kDebugMode ? await _getDemoConfig() : await getSettings();
+    var config = await getSettings();
 
     config ??= ConfigurationEntity();
 
     config = config.syncIfNull(
       currentDeviceId: Uuid().v4(),
+      baseUrl: kDebugMode ? kDemoBaseUrl : null,
+      accountKey: kDebugMode ? kDemoAccountKey : null,
       remoteEndpoint: kDemoRemoteDownloadUrl,
       localEndpoint: kDemoRemoteUploadUrl,
       addSyncDeviceEndpoint: kDemoRemoteAddSyncDeviceUrl,
@@ -79,20 +81,6 @@ class ConfigService {
     config?.remoteLastUpdatedAt = null;
 
     return saveSettings(config);
-  }
-
-  static Future<ConfigurationEntity?> _getDemoConfig() async {
-    ConfigurationEntity? config = await getSettings();
-
-    config ??= ConfigurationEntity();
-
-    config = config.syncIfNull(
-      currentDeviceId: Uuid().v4(),
-      baseUrl: kDemoBaseUrl,
-      accountKey: kDemoAccountKey,
-    );
-
-    return config;
   }
 
   static Future<ConfigurationEntity?> getRefreshedConfig() async {

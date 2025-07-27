@@ -20,6 +20,9 @@ class RegisterDevice extends _$RegisterDevice {
       if (!response.isSuccess) {
         throw Exception(response.error ?? 'Unknown error');
       }
+      /// refresh global settings after saving device
+      /// TODO: use dependence injection to avoid refreshing the global settings
+      AppConfig.instance.restart();
       state = AsyncData(null);
     } catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);

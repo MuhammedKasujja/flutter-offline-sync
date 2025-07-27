@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_offline_sync/src/utils/formatting.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -93,6 +94,8 @@ class ConfigurationEntity {
       hasConfiguredLocalEndpoint &&
       (addSyncDeviceEndpoint ?? '').isNotEmpty;
 
+  bool get hasBaseUrl => (baseUrl ?? '').isNotEmpty;
+
   bool get hasSyncedLocalBefore => localLastUpdatedAt != null;
 
   bool get hasSyncedRemoteBefore => remoteLastUpdatedAt != null;
@@ -113,6 +116,9 @@ class ConfigurationEntity {
 
   bool get hasConnectAccountEndpoint =>
       (connectAccountEndpoint ?? '').isNotEmpty;
+
+  String get getRemoteEndpoint =>
+      formattedBaseUrl(baseUrl: baseUrl!, endpoint: remoteEndpoint);
 
   ConfigurationEntity copyWith({
     String? currentDeviceId,
@@ -184,7 +190,7 @@ class ConfigurationEntity {
       currentDeviceId:
           hasCurrentDeviceId ? this.currentDeviceId : currentDeviceId,
       accountKey: hasAccountKey ? this.accountKey : accountKey,
-      baseUrl: (baseUrl ?? '').isNotEmpty ? this.baseUrl : baseUrl,
+      baseUrl: hasBaseUrl ? this.baseUrl : baseUrl,
       authToken: authToken,
       userId: userId,
       extras: extras,

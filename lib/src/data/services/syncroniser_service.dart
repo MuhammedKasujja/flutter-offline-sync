@@ -63,7 +63,7 @@ class SyncroniserService {
       ConfigService.updateLastSyncDate(response.data!.lastSyncDate);
       _repo.clearUpdatesTable();
     } else {
-      throw Exception(response.error ?? 'Error syncing local data');
+      // throw Exception(response.error ?? 'Error syncing local data');
     }
     //TODO: sync data using sequencially for each entity
 
