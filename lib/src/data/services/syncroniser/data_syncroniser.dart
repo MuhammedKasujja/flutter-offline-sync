@@ -88,8 +88,9 @@ class DataSyncroniser extends IDataSyncroniser {
           jsonDecode(remoteData.data),
         );
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
       logger.error(error);
+      logger.debug(stackTrace);
     }
   }
 
