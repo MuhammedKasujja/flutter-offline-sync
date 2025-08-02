@@ -1,4 +1,5 @@
 import 'package:example/data/models/user_model.dart';
+import 'package:example/data/utils.dart';
 import 'package:example/database.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
@@ -43,6 +44,7 @@ class PostModel {
   PostModel? save() {
     isSynced = false; // Mark as not synced
     updatedAt = DateTime.now();
+    uuid = getRandomString(24);
     final saved = saveEntity(this);
     return saved;
   }

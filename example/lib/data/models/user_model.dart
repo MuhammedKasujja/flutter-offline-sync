@@ -1,4 +1,5 @@
 import 'package:example/data/models/post_model.dart';
+import 'package:example/data/utils.dart';
 import 'package:example/database.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
@@ -47,6 +48,7 @@ class UserModel {
   UserModel? save() {
     isSynced = false; // Mark as not synced
     updatedAt = DateTime.now();
+    uuid = getRandomString(24);
     final saved = saveEntity(this);
     return saved;
   }

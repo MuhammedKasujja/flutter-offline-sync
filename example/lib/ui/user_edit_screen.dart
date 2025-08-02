@@ -1,5 +1,6 @@
 import 'package:example/data/models/post_model.dart';
 import 'package:example/data/models/user_model.dart';
+import 'package:example/data/utils.dart';
 import 'package:flutter/material.dart';
 
 class UserEditScreen extends StatefulWidget {
@@ -56,18 +57,21 @@ class _UserEditScreenState extends State<UserEditScreen> {
                     content: 'this sucks',
                     createdAt: DateTime.now(),
                     updatedAt: DateTime.now(),
+                    uuid: getRandomString(24)
                   );
                   final postB = PostModel(
                     title: 'Users',
                     content: 'This kills too',
                     createdAt: DateTime.now(),
                     updatedAt: DateTime.now(),
+                    uuid: getRandomString(24)
                   );
                   final postC = PostModel(
                     title: 'Maintainers',
                     content: 'I love this',
                     createdAt: DateTime.now(),
                     updatedAt: DateTime.now(),
+                    uuid: getRandomString(24)
                   );
                   user.posts.addAll([postA, postB, postC]);
                   user.save();
