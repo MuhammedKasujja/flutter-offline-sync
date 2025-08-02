@@ -1,4 +1,5 @@
 import 'package:example/data/models/post_model.dart';
+import 'package:example/data/utils.dart';
 import 'package:example/database.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
@@ -8,8 +9,11 @@ part 'user_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
 class UserModel {
-  @Id(assignable: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @Id()
   int id;
+  @Unique()
+  String? uuid;
   final String name;
   final int age;
   final String email;
@@ -25,6 +29,7 @@ class UserModel {
 
   UserModel({
     this.id = 0,
+    this.uuid,
     this.isSynced = false,
     required this.age,
     required this.email,
@@ -43,6 +48,7 @@ class UserModel {
   UserModel? save() {
     isSynced = false; // Mark as not synced
     updatedAt = DateTime.now();
+    uuid = getRandomString(24);
     final saved = saveEntity(this);
     return saved;
   }

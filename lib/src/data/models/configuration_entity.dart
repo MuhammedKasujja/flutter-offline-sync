@@ -6,6 +6,8 @@ import 'package:objectbox/objectbox.dart';
 class ConfigurationEntity {
   @Id()
   int id;
+  @Unique()
+  String? uuid;
   String? currentDeviceId;
   String? accountKey;
   String? baseUrl;
@@ -31,6 +33,7 @@ class ConfigurationEntity {
 
   ConfigurationEntity({
     this.id = 0,
+    this.uuid,
     this.isSynced = false,
     this.currentDeviceId,
     this.accountKey,
@@ -53,6 +56,7 @@ class ConfigurationEntity {
   factory ConfigurationEntity.fromJson(
     Map<String, dynamic> json,
   ) => ConfigurationEntity(
+    uuid: json['uuid'],
     currentDeviceId: json['currentDeviceId'],
     accountKey: json['accountKey'],
     authToken: json['authToken'],
@@ -70,7 +74,7 @@ class ConfigurationEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
+      "uuid": uuid,
       "currentDeviceId": currentDeviceId,
       "accountKey": accountKey,
       "userName": userName,

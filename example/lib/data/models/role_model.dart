@@ -6,8 +6,11 @@ part 'role_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
 class RoleModel {
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @Id()
   int id;
+  @Unique()
+  String? uuid;
   final String name;
   final String? description;
   @Property(type: PropertyType.date)
@@ -20,6 +23,7 @@ class RoleModel {
 
   RoleModel({
     this.id = 0,
+    this.uuid,
     this.isSynced = false,
     required this.name,
     this.description,

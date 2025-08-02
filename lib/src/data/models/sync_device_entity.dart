@@ -4,12 +4,14 @@ import 'package:objectbox/objectbox.dart';
 class SyncDeviceEntity {
   @Id()
   int id;
+  @Unique()
+  String? uuid;
   String deviceId;
   String userId;
 
   // @Transient()
   // final timestamps = Timestamps();
-  
+
   @Property(type: PropertyType.date)
   final DateTime? updatedAt;
   @Property(type: PropertyType.date)
@@ -20,6 +22,7 @@ class SyncDeviceEntity {
 
   SyncDeviceEntity({
     this.id = 0,
+    this.uuid,
     this.isSynced = false,
     required this.deviceId,
     required this.userId,
@@ -31,12 +34,13 @@ class SyncDeviceEntity {
   factory SyncDeviceEntity.fromJson(Map<String, dynamic> json) {
     return SyncDeviceEntity(
       id: json['id'],
+      uuid: json['uuid'],
       deviceId: json['deviceId'],
       userId: json['userId'],
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'deviceId': deviceId, 'userId': userId};
+    return {'id': id, 'uuid': uuid, 'deviceId': deviceId, 'userId': userId};
   }
 }

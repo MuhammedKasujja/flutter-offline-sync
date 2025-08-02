@@ -34,7 +34,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
     deleteFunction: (store, id) => store.box<RoleModel>().remove(id),
     updateFunction: (store, json) {
       RoleModel entity = RoleModel.fromJson(json);
-      if (entity.id == 0) throw Exception('Cannot update RoleModel without ID');
+      if ((entity.uuid ?? '').isEmpty)
+        throw Exception('Cannot update RoleModel without ID');
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<RoleModel>().put(entity);
@@ -58,7 +59,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
     updateFunction: (store, json) {
       UserModel entity = UserModel.fromJson(json);
-      if (entity.id == 0) throw Exception('Cannot update UserModel without ID');
+      if ((entity.uuid ?? '').isEmpty)
+        throw Exception('Cannot update UserModel without ID');
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<UserModel>().put(entity);
@@ -82,7 +84,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
     updateFunction: (store, json) {
       PostModel entity = PostModel.fromJson(json);
-      if (entity.id == 0) throw Exception('Cannot update PostModel without ID');
+      if ((entity.uuid ?? '').isEmpty)
+        throw Exception('Cannot update PostModel without ID');
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return store.box<PostModel>().put(entity);
@@ -115,7 +118,7 @@ extension RoleModelRelationJson on RoleModel {
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "RoleModel"});
-    map.addAll({"entityId": this.id});
+    map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
@@ -148,7 +151,7 @@ extension UserModelRelationJson on UserModel {
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "UserModel"});
-    map.addAll({"entityId": this.id});
+    map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
@@ -173,7 +176,7 @@ extension PostModelRelationJson on PostModel {
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "PostModel"});
-    map.addAll({"entityId": this.id});
+    map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
