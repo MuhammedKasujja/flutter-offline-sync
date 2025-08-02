@@ -83,7 +83,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("    updateFunction: (store, json) {");
       buffer.writeln("      $entity entity = $entity.fromJson(json);");
       buffer.writeln(
-        "      if (entity.id == 0) throw Exception('Cannot update $entity without ID');",
+        "      if ((entity.uuid ?? '').isEmpty) throw Exception('Cannot update $entity without ID');",
       );
       buffer.writeln("      entity = entity.applyJsonRelationships(store, json);");
       buffer.writeln(
@@ -167,7 +167,7 @@ class EntityRegistryBuilder implements Builder {
       );
       buffer.writeln('    final Map<String, dynamic> map = {};');
       buffer.writeln('    map.addAll({"entity": "$className"});');
-      buffer.writeln('    map.addAll({"entityId": this.id});');
+      buffer.writeln('    map.addAll({"entityId": this.uuid});');
       buffer.writeln('    map.addAll({"state": "\${operation.name}"});');
       buffer.writeln(
         '    map.addAll({"data": {...toJson(),...toRelationJson()}});',

@@ -7,6 +7,8 @@ import 'package:objectbox/objectbox.dart';
 class DataEntity {
   @Id()
   int id;
+  @Unique()
+  String? uuid;
   String data;
   String tableName;
   String entity;
@@ -24,6 +26,7 @@ class DataEntity {
 
   DataEntity({
     this.id = 0,
+    this.uuid,
     required this.data,
     required this.tableName,
     this.entityId,
@@ -37,6 +40,7 @@ class DataEntity {
 
   Map<String, dynamic> toJson() {
     return {
+      'uuid': uuid,
       'tableName': tableName,
       'entityId': entityId,
       'entity': entity,
@@ -49,6 +53,7 @@ class DataEntity {
 
   factory DataEntity.fromJson(Map<String, dynamic> json) {
     return DataEntity(
+      uuid: json['uuid'],
       data: jsonEncode(json['data']),
       tableName: json['entity'],
       operation: json['state'] ?? 'create',

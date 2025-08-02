@@ -7,7 +7,7 @@ part of 'post_model.dart';
 // **************************************************************************
 
 PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
-  id: (json['id'] as num?)?.toInt() ?? 0,
+  uuid: json['uuid'] as String?,
   isSynced: json['is_synced'] as bool? ?? false,
   title: json['title'] as String,
   content: json['content'] as String,
@@ -23,7 +23,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
 );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
-  'id': instance.id,
+  'uuid': instance.uuid,
   'title': instance.title,
   'content': instance.content,
   'updated_at': instance.updatedAt?.toIso8601String(),

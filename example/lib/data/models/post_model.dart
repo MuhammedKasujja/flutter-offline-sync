@@ -8,8 +8,11 @@ part 'post_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
 class PostModel {
-  @Id(assignable: true)
+  @JsonKey(includeFromJson: false)
+  @Id()
   int id;
+  @Unique()
+  String? uuid;
   final String title;
   final String content;
   @Property(type: PropertyType.date)
@@ -23,6 +26,7 @@ class PostModel {
 
   PostModel({
     this.id = 0,
+    this.uuid,
     this.isSynced = false,
     required this.title,
     required this.content,

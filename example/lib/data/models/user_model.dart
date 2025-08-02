@@ -8,8 +8,11 @@ part 'user_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
 class UserModel {
-  @Id(assignable: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @Id()
   int id;
+  @Unique()
+  String? uuid;
   final String name;
   final int age;
   final String email;
@@ -25,6 +28,7 @@ class UserModel {
 
   UserModel({
     this.id = 0,
+    this.uuid,
     this.isSynced = false,
     required this.age,
     required this.email,

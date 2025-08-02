@@ -7,7 +7,7 @@ part of 'role_model.dart';
 // **************************************************************************
 
 RoleModel _$RoleModelFromJson(Map<String, dynamic> json) => RoleModel(
-  id: (json['id'] as num?)?.toInt() ?? 0,
+  uuid: json['uuid'] as String?,
   isSynced: json['is_synced'] as bool? ?? false,
   name: json['name'] as String,
   description: json['description'] as String?,
@@ -23,7 +23,7 @@ RoleModel _$RoleModelFromJson(Map<String, dynamic> json) => RoleModel(
 );
 
 Map<String, dynamic> _$RoleModelToJson(RoleModel instance) => <String, dynamic>{
-  'id': instance.id,
+  'uuid': instance.uuid,
   'name': instance.name,
   'description': instance.description,
   'updated_at': instance.updatedAt?.toIso8601String(),
