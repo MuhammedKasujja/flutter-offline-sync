@@ -117,6 +117,13 @@ class EntityRegistryBuilder implements Builder {
 
       // 2. Generate toRelationJson extension for the class
       buffer.writeln('extension ${className}RelationJson on $className {');
+
+
+      buffer.writeln('  void setEntityUUID() {');
+      buffer.writeln('  this.uuid = (this.uuid ?? "").isEmpty ? generateUUID() : this.uuid;');
+      buffer.writeln('  }\n');
+
+      
       buffer.writeln('  Map<String, dynamic> toRelationJson() => {');
 
       for (final field in clazz.fields) {
@@ -162,6 +169,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln('  }');
       buffer.writeln('\n');
       buffer.writeln('  Map<String, dynamic> toSyncJson(){');
+      buffer.writeln('  this.setEntityUUID();\n');
       buffer.writeln(
         '    final operation = deletedAt != null ? EntityState.deleted : createdAt.syncState(updatedAt);',
       );

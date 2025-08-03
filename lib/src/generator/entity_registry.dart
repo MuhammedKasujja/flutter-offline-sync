@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:objectbox/objectbox.dart';
 
 typedef BoxFactory = Box Function(Store store);
@@ -41,4 +43,12 @@ abstract class EntityRegistry {
   List<Map<String, dynamic>> fetchEntityUpdates(String entityName, DateTime lastSyncDate) =>
       get(entityName)?.fetchFunction(store, lastSyncDate) ??
       (throw Exception("Handler not found for $entityName"));
+}
+
+
+String generateUUID([int length = 32]) {
+  const chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  return String.fromCharCodes(Iterable.generate(
+      length, (_) => chars.codeUnitAt(Random().nextInt(chars.length))));
 }
