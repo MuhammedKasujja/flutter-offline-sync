@@ -117,8 +117,6 @@ extension RoleModelRelationJson on RoleModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    this.setEntityUUID();
-
     final operation = deletedAt != null
         ? EntityState.deleted
         : createdAt.syncState(updatedAt);
@@ -156,8 +154,6 @@ extension UserModelRelationJson on UserModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    this.setEntityUUID();
-
     final operation = deletedAt != null
         ? EntityState.deleted
         : createdAt.syncState(updatedAt);
@@ -187,8 +183,6 @@ extension PostModelRelationJson on PostModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    this.setEntityUUID();
-
     final operation = deletedAt != null
         ? EntityState.deleted
         : createdAt.syncState(updatedAt);
