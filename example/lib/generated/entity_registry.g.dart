@@ -105,10 +105,6 @@ final class ObjectboxSyncRegistry extends EntityRegistry {
 
 // GENERATED TORELATIONJSON EXTENSIONS
 extension RoleModelRelationJson on RoleModel {
-  void setEntityUUID() {
-    this.uuid = (this.uuid ?? "").isEmpty ? generateUUID() : this.uuid;
-  }
-
   Map<String, dynamic> toRelationJson() => {};
 
   RoleModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
@@ -132,10 +128,6 @@ extension RoleModelRelationJson on RoleModel {
 }
 
 extension UserModelRelationJson on UserModel {
-  void setEntityUUID() {
-    this.uuid = (this.uuid ?? "").isEmpty ? generateUUID() : this.uuid;
-  }
-
   Map<String, dynamic> toRelationJson() => {
     'posts': posts.map((e) => e.toJson()).toList(),
   };
@@ -169,10 +161,6 @@ extension UserModelRelationJson on UserModel {
 }
 
 extension PostModelRelationJson on PostModel {
-  void setEntityUUID() {
-    this.uuid = (this.uuid ?? "").isEmpty ? generateUUID() : this.uuid;
-  }
-
   Map<String, dynamic> toRelationJson() => {'user': user.target?.toJson()};
 
   PostModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
