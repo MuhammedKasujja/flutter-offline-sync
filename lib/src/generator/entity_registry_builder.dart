@@ -22,6 +22,12 @@ class EntityRegistryBuilder implements Builder {
     final classes = <ClassElement>[];
 
     await for (final input in buildStep.findAssets(Glob('lib/**.dart'))) {
+      final content = await buildStep.readAsString(input);
+
+      // Skip part files
+      if (content.contains(RegExp(r'\bpart of\b'))) {
+        continue;
+      }
       final libElement = await buildStep.resolver.libraryFor(input);
 
       final libReader = LibraryReader(libElement);

@@ -29,6 +29,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .order(DataEntity_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
+      query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<DataEntity>().remove(id),
@@ -37,19 +38,20 @@ final Map<String, EntityHandler> _generatedRegistry = {
       if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update DataEntity without ID');
 
-      /// explictly set `id` to zero to avoid local db primary key out of sequence error
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
       entity.id = 0;
 
       final box = store.box<DataEntity>();
 
-      final query = box.query(DataEntity_.uuid.equals(entity.uuid!));
+      final query = box.query(DataEntity_.uuid.equals(entity.uuid!)).build();
 
-      final data = query.build().findFirst();
+      final model = query.findFirst();
 
-      if (data != null) {
-        entity.id = data.id;
+      if (model != null) {
+        entity.id = model.id;
       }
 
+      query.close();
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return box.put(entity);
@@ -68,6 +70,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .order(ConfigurationEntity_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
+      query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<ConfigurationEntity>().remove(id),
@@ -76,19 +79,22 @@ final Map<String, EntityHandler> _generatedRegistry = {
       if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update ConfigurationEntity without ID');
 
-      /// explictly set `id` to zero to avoid local db primary key out of sequence error
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
       entity.id = 0;
 
       final box = store.box<ConfigurationEntity>();
 
-      final query = box.query(ConfigurationEntity_.uuid.equals(entity.uuid!));
+      final query = box
+          .query(ConfigurationEntity_.uuid.equals(entity.uuid!))
+          .build();
 
-      final data = query.build().findFirst();
+      final model = query.findFirst();
 
-      if (data != null) {
-        entity.id = data.id;
+      if (model != null) {
+        entity.id = model.id;
       }
 
+      query.close();
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return box.put(entity);
@@ -107,6 +113,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .order(SyncDeviceEntity_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
+      query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<SyncDeviceEntity>().remove(id),
@@ -115,19 +122,22 @@ final Map<String, EntityHandler> _generatedRegistry = {
       if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update SyncDeviceEntity without ID');
 
-      /// explictly set `id` to zero to avoid local db primary key out of sequence error
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
       entity.id = 0;
 
       final box = store.box<SyncDeviceEntity>();
 
-      final query = box.query(SyncDeviceEntity_.uuid.equals(entity.uuid!));
+      final query = box
+          .query(SyncDeviceEntity_.uuid.equals(entity.uuid!))
+          .build();
 
-      final data = query.build().findFirst();
+      final model = query.findFirst();
 
-      if (data != null) {
-        entity.id = data.id;
+      if (model != null) {
+        entity.id = model.id;
       }
 
+      query.close();
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
       return box.put(entity);
