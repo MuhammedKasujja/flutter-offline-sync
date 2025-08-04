@@ -34,11 +34,25 @@ final Map<String, EntityHandler> _generatedRegistry = {
     deleteFunction: (store, id) => store.box<DataEntity>().remove(id),
     updateFunction: (store, json) {
       DataEntity entity = DataEntity.fromJson(json);
-      if (entity.id == 0)
+      if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update DataEntity without ID');
+
+      /// explictly set `id` to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<DataEntity>();
+
+      final query = box.query(DataEntity_.uuid.equals(entity.uuid!));
+
+      final data = query.build().findFirst();
+
+      if (data != null) {
+        entity.id = data.id;
+      }
+
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
-      return store.box<DataEntity>().put(entity);
+      return box.put(entity);
     },
   ),
   'ConfigurationEntity': EntityHandler(
@@ -59,11 +73,25 @@ final Map<String, EntityHandler> _generatedRegistry = {
     deleteFunction: (store, id) => store.box<ConfigurationEntity>().remove(id),
     updateFunction: (store, json) {
       ConfigurationEntity entity = ConfigurationEntity.fromJson(json);
-      if (entity.id == 0)
+      if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update ConfigurationEntity without ID');
+
+      /// explictly set `id` to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<ConfigurationEntity>();
+
+      final query = box.query(ConfigurationEntity_.uuid.equals(entity.uuid!));
+
+      final data = query.build().findFirst();
+
+      if (data != null) {
+        entity.id = data.id;
+      }
+
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
-      return store.box<ConfigurationEntity>().put(entity);
+      return box.put(entity);
     },
   ),
   'SyncDeviceEntity': EntityHandler(
@@ -84,11 +112,25 @@ final Map<String, EntityHandler> _generatedRegistry = {
     deleteFunction: (store, id) => store.box<SyncDeviceEntity>().remove(id),
     updateFunction: (store, json) {
       SyncDeviceEntity entity = SyncDeviceEntity.fromJson(json);
-      if (entity.id == 0)
+      if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update SyncDeviceEntity without ID');
+
+      /// explictly set `id` to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<SyncDeviceEntity>();
+
+      final query = box.query(SyncDeviceEntity_.uuid.equals(entity.uuid!));
+
+      final data = query.build().findFirst();
+
+      if (data != null) {
+        entity.id = data.id;
+      }
+
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
-      return store.box<SyncDeviceEntity>().put(entity);
+      return box.put(entity);
     },
   ),
 };
@@ -118,7 +160,7 @@ extension DataEntityRelationJson on DataEntity {
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "DataEntity"});
-    map.addAll({"entityId": this.id});
+    map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
@@ -144,7 +186,7 @@ extension ConfigurationEntityRelationJson on ConfigurationEntity {
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "ConfigurationEntity"});
-    map.addAll({"entityId": this.id});
+    map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},
@@ -170,7 +212,7 @@ extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "SyncDeviceEntity"});
-    map.addAll({"entityId": this.id});
+    map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
       "data": {...toJson(), ...toRelationJson()},

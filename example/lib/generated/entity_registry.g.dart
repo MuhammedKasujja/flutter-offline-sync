@@ -29,6 +29,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .order(RoleModel_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
+      query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<RoleModel>().remove(id),
@@ -36,9 +37,24 @@ final Map<String, EntityHandler> _generatedRegistry = {
       RoleModel entity = RoleModel.fromJson(json);
       if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update RoleModel without ID');
+
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<RoleModel>();
+
+      final query = box.query(RoleModel_.uuid.equals(entity.uuid!)).build();
+
+      final model = query.findFirst();
+
+      if (model != null) {
+        entity.id = model.id;
+      }
+
+      query.close();
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
-      return store.box<RoleModel>().put(entity);
+      return box.put(entity);
     },
   ),
   'UserModel': EntityHandler(
@@ -54,6 +70,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .order(UserModel_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
+      query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
@@ -61,9 +78,24 @@ final Map<String, EntityHandler> _generatedRegistry = {
       UserModel entity = UserModel.fromJson(json);
       if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update UserModel without ID');
+
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<UserModel>();
+
+      final query = box.query(UserModel_.uuid.equals(entity.uuid!)).build();
+
+      final model = query.findFirst();
+
+      if (model != null) {
+        entity.id = model.id;
+      }
+
+      query.close();
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
-      return store.box<UserModel>().put(entity);
+      return box.put(entity);
     },
   ),
   'PostModel': EntityHandler(
@@ -79,6 +111,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .order(PostModel_.updatedAt, flags: Order.descending)
           .build();
       final updates = query.find();
+      query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
     },
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
@@ -86,9 +119,24 @@ final Map<String, EntityHandler> _generatedRegistry = {
       PostModel entity = PostModel.fromJson(json);
       if ((entity.uuid ?? '').isEmpty)
         throw Exception('Cannot update PostModel without ID');
+
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<PostModel>();
+
+      final query = box.query(PostModel_.uuid.equals(entity.uuid!)).build();
+
+      final model = query.findFirst();
+
+      if (model != null) {
+        entity.id = model.id;
+      }
+
+      query.close();
       entity = entity.applyJsonRelationships(store, json);
       entity.isSynced = true;
-      return store.box<PostModel>().put(entity);
+      return box.put(entity);
     },
   ),
 };
@@ -138,10 +186,24 @@ extension UserModelRelationJson on UserModel {
       posts.clear();
       final postsBox = store.box<PostModel>();
       for (final data in json['posts']) {
-        final item = PostModel.fromJson(data);
-        posts.add(item);
+        var postsEntity = PostModel.fromJson(data);
+
+        final query = postsBox
+            .query(PostModel_.uuid.equals(postsEntity.uuid!))
+            .build();
+
+        final model = query.findFirst();
+
+        if (model != null) {
+          postsEntity.id = model.id;
+        } else {
+          postsBox.put(postsEntity);
+        }
+        query.close();
+        posts.add(postsEntity);
       }
     }
+
     return this;
   }
 
@@ -165,8 +227,25 @@ extension PostModelRelationJson on PostModel {
 
   PostModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
-    if (json.containsKey('user') && json['user'] != null)
-      user.target = UserModel.fromJson(json['user']);
+    if (json.containsKey('user') && json['user'] != null) {
+      var userEntity = UserModel.fromJson(json['user']);
+
+      final userBox = store.box<UserModel>();
+      final query = userBox
+          .query(UserModel_.uuid.equals(userEntity.uuid!))
+          .build();
+
+      final data = query.findFirst();
+
+      if (data != null) {
+        userEntity.id = data.id;
+      } else {
+        userBox.put(userEntity);
+      }
+      query.close();
+      user.target = userEntity;
+    }
+
     return this;
   }
 

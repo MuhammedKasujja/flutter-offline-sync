@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8095617417935777367",
-      "lastPropertyId": "10:3162458236855158872",
+      "lastPropertyId": "11:8996818882446366634",
       "name": "DataEntity",
       "properties": [
         {
@@ -58,13 +58,20 @@
           "id": "10:3162458236855158872",
           "name": "deletedAt",
           "type": 10
+        },
+        {
+          "id": "11:8996818882446366634",
+          "name": "uuid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "2:3979365755674980984"
         }
       ],
       "relations": []
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "18:1537024117665119458",
+      "lastPropertyId": "19:351267330874263691",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -157,13 +164,20 @@
           "id": "18:1537024117665119458",
           "name": "userName",
           "type": 9
+        },
+        {
+          "id": "19:351267330874263691",
+          "name": "uuid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "1:3802401927681834326"
         }
       ],
       "relations": []
     },
     {
       "id": "3:1757007729880252278",
-      "lastPropertyId": "7:8858034248898752137",
+      "lastPropertyId": "8:6658050835918813677",
       "name": "SyncDeviceEntity",
       "properties": [
         {
@@ -201,13 +215,20 @@
           "id": "7:8858034248898752137",
           "name": "isSynced",
           "type": 1
+        },
+        {
+          "id": "8:6658050835918813677",
+          "name": "uuid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "3:336069653081213381"
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "3:1757007729880252278",
-  "lastIndexId": "0:0",
+  "lastIndexId": "3:336069653081213381",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

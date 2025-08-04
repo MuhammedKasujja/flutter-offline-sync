@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 8095617417935777367),
     name: 'DataEntity',
-    lastPropertyId: const obx_int.IdUid(10, 3162458236855158872),
+    lastPropertyId: const obx_int.IdUid(11, 8996818882446366634),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -87,6 +87,13 @@ final _entities = <obx_int.ModelEntity>[
         type: 10,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 8996818882446366634),
+        name: 'uuid',
+        type: 9,
+        flags: 2080,
+        indexId: const obx_int.IdUid(2, 3979365755674980984),
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -94,7 +101,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 2751842997314007542),
     name: 'ConfigurationEntity',
-    lastPropertyId: const obx_int.IdUid(18, 1537024117665119458),
+    lastPropertyId: const obx_int.IdUid(19, 351267330874263691),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -205,6 +212,13 @@ final _entities = <obx_int.ModelEntity>[
         type: 9,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(19, 351267330874263691),
+        name: 'uuid',
+        type: 9,
+        flags: 2080,
+        indexId: const obx_int.IdUid(1, 3802401927681834326),
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -212,7 +226,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(3, 1757007729880252278),
     name: 'SyncDeviceEntity',
-    lastPropertyId: const obx_int.IdUid(7, 8858034248898752137),
+    lastPropertyId: const obx_int.IdUid(8, 6658050835918813677),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -256,6 +270,13 @@ final _entities = <obx_int.ModelEntity>[
         name: 'isSynced',
         type: 1,
         flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 6658050835918813677),
+        name: 'uuid',
+        type: 9,
+        flags: 2080,
+        indexId: const obx_int.IdUid(3, 336069653081213381),
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -302,7 +323,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
     lastEntityId: const obx_int.IdUid(3, 1757007729880252278),
-    lastIndexId: const obx_int.IdUid(0, 0),
+    lastIndexId: const obx_int.IdUid(3, 336069653081213381),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -331,7 +352,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : fbb.writeString(object.entityId!);
         final operationOffset = fbb.writeString(object.operation);
         final entityOffset = fbb.writeString(object.entity);
-        fbb.startTable(11);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
+        fbb.startTable(12);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, dataOffset);
         fbb.addOffset(2, tableNameOffset);
@@ -342,6 +366,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(7, object.updatedAt?.millisecondsSinceEpoch);
         fbb.addInt64(8, object.createdAt?.millisecondsSinceEpoch);
         fbb.addInt64(9, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.addOffset(10, uuidOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -369,6 +394,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
+        final uuidParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 24);
         final dataParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 6, '');
@@ -401,6 +429,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = DataEntity(
           id: idParam,
+          uuid: uuidParam,
           data: dataParam,
           tableName: tableNameParam,
           entityId: entityIdParam,
@@ -458,7 +487,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final userNameOffset = object.userName == null
             ? null
             : fbb.writeString(object.userName!);
-        fbb.startTable(19);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
+        fbb.startTable(20);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
         fbb.addOffset(2, accountKeyOffset);
@@ -477,6 +509,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addBool(15, object.isSynced);
         fbb.addOffset(16, connectAccountEndpointOffset);
         fbb.addOffset(17, userNameOffset);
+        fbb.addOffset(18, uuidOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -508,6 +541,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
+        final uuidParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 40);
         final isSyncedParam = const fb.BoolReader().vTableGet(
           buffer,
           rootOffset,
@@ -564,6 +600,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = ConfigurationEntity(
           id: idParam,
+          uuid: uuidParam,
           isSynced: isSyncedParam,
           currentDeviceId: currentDeviceIdParam,
           accountKey: accountKeyParam,
@@ -597,7 +634,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (SyncDeviceEntity object, fb.Builder fbb) {
         final deviceIdOffset = fbb.writeString(object.deviceId);
         final userIdOffset = fbb.writeString(object.userId);
-        fbb.startTable(8);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
+        fbb.startTable(9);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, deviceIdOffset);
         fbb.addOffset(2, userIdOffset);
@@ -605,6 +645,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(4, object.createdAt?.millisecondsSinceEpoch);
         fbb.addInt64(5, object.deletedAt?.millisecondsSinceEpoch);
         fbb.addBool(6, object.isSynced);
+        fbb.addOffset(7, uuidOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -632,6 +673,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
+        final uuidParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 18);
         final isSyncedParam = const fb.BoolReader().vTableGet(
           buffer,
           rootOffset,
@@ -655,6 +699,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
             : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = SyncDeviceEntity(
           id: idParam,
+          uuid: uuidParam,
           isSynced: isSyncedParam,
           deviceId: deviceIdParam,
           userId: userIdParam,
@@ -721,6 +766,11 @@ class DataEntity_ {
   /// See [DataEntity.deletedAt].
   static final deletedAt = obx.QueryDateProperty<DataEntity>(
     _entities[0].properties[9],
+  );
+
+  /// See [DataEntity.uuid].
+  static final uuid = obx.QueryStringProperty<DataEntity>(
+    _entities[0].properties[10],
   );
 }
 
@@ -813,6 +863,11 @@ class ConfigurationEntity_ {
   static final userName = obx.QueryStringProperty<ConfigurationEntity>(
     _entities[1].properties[17],
   );
+
+  /// See [ConfigurationEntity.uuid].
+  static final uuid = obx.QueryStringProperty<ConfigurationEntity>(
+    _entities[1].properties[18],
+  );
 }
 
 /// [SyncDeviceEntity] entity fields to define ObjectBox queries.
@@ -850,5 +905,10 @@ class SyncDeviceEntity_ {
   /// See [SyncDeviceEntity.isSynced].
   static final isSynced = obx.QueryBooleanProperty<SyncDeviceEntity>(
     _entities[2].properties[6],
+  );
+
+  /// See [SyncDeviceEntity.uuid].
+  static final uuid = obx.QueryStringProperty<SyncDeviceEntity>(
+    _entities[2].properties[7],
   );
 }

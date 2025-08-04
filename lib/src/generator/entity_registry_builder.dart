@@ -73,6 +73,7 @@ class EntityRegistryBuilder implements Builder {
         "      .order(${entity}_.updatedAt, flags: Order.descending).build();",
       );
       buffer.writeln("      final updates = query.find();");
+      buffer.writeln("      query.close();");
       buffer.writeln(
         "      return updates.map((ele)=>ele.toSyncJson()).toList();",
       );
@@ -85,11 +86,29 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln(
         "      if ((entity.uuid ?? '').isEmpty) throw Exception('Cannot update $entity without ID');",
       );
-      buffer.writeln("      entity = entity.applyJsonRelationships(store, json);");
       buffer.writeln(
-        "      entity.isSynced = true;",
-      ); // Ensure isSynced is set to true to avoid sync issues
-      buffer.writeln("      return store.box<$entity>().put(entity);");
+        "     /// explictly set [id] to zero to avoid local db primary key out of sequence error ",
+      );
+      buffer.writeln("     entity.id = 0;\n");
+
+      buffer.writeln("     final box = store.box<$entity>();\n");
+
+      buffer.writeln(
+        "     final query = box.query(${entity}_.uuid.equals(entity.uuid!)).build();\n",
+      );
+
+      buffer.writeln("      final model = query.findFirst();\n");
+
+      buffer.writeln("      if(model != null) { entity.id = model.id;}\n");
+
+      buffer.writeln("      query.close();");
+
+      buffer.writeln(
+        "      entity = entity.applyJsonRelationships(store, json);",
+      );
+      // Ensure isSynced is set to true to avoid sync issues
+      buffer.writeln("   entity.isSynced = true;");
+      buffer.writeln("      return box.put(entity);");
       buffer.writeln("    },");
       buffer.writeln("  ),");
     }
@@ -117,7 +136,7 @@ class EntityRegistryBuilder implements Builder {
 
       // 2. Generate toRelationJson extension for the class
       buffer.writeln('extension ${className}RelationJson on $className {');
-      
+
       buffer.writeln('  Map<String, dynamic> toRelationJson() => {');
 
       for (final field in clazz.fields) {
@@ -135,7 +154,9 @@ class EntityRegistryBuilder implements Builder {
 
       buffer.writeln('  };');
       buffer.writeln('\n');
-      buffer.writeln('  $className applyJsonRelationships(Store store, Map<String, dynamic> json) {');
+      buffer.writeln(
+        '  $className applyJsonRelationships(Store store, Map<String, dynamic> json) {',
+      );
       buffer.writeln('    // Apply relations from JSON');
 
       for (final field in clazz.fields) {
@@ -145,18 +166,40 @@ class EntityRegistryBuilder implements Builder {
         if (typeStr.startsWith('ToOne<')) {
           final relatedType = getFieldType(field);
           buffer.writeln(
-            "    if (json.containsKey('$name') && json['$name'] != null) $name.target = $relatedType.fromJson(json['$name']);",
+            "    if (json.containsKey('$name') && json['$name'] != null) {",
           );
+          buffer.writeln(
+            "  var ${name}Entity = $relatedType.fromJson(json['$name']);\n",
+          );
+          buffer.writeln("  final ${name}Box = store.box<$relatedType>();");
+          buffer.writeln(
+            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(${name}Entity.uuid!)).build();\n",
+          );
+
+          buffer.writeln("  final data = query.findFirst();\n");
+
+          buffer.writeln("  if(data != null) { ${name}Entity.id = data.id;}");
+          buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
+          buffer.writeln("  query.close();");
+          buffer.writeln("  $name.target = ${name}Entity;}\n");
         } else if (typeStr.startsWith('ToMany<')) {
           buffer.writeln("    if (json.containsKey('$name')) {");
           buffer.writeln("      $name.clear();");
           final relatedType = getFieldType(field);
           buffer.writeln("      final ${name}Box = store.box<$relatedType>();");
           buffer.writeln("      for (final data in json['$name']) {");
-          buffer.writeln("        final item = $relatedType.fromJson(data);");
-          buffer.writeln("        $name.add(item);");
-          buffer.writeln("      }");
-          buffer.writeln("    }");
+          buffer.writeln(
+            "  var ${name}Entity = $relatedType.fromJson(data);\n",
+          );
+          buffer.writeln(
+            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(${name}Entity.uuid!)).build();\n",
+          );
+          buffer.writeln("  final model = query.findFirst();\n");
+          buffer.writeln("  if(model != null) { ${name}Entity.id = model.id;}");
+          buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
+          buffer.writeln("  query.close();");
+          buffer.writeln("  $name.add(${name}Entity);  }");
+          buffer.writeln("  }\n");
         }
       }
       buffer.writeln('  return this;');
