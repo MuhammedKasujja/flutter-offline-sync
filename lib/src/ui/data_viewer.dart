@@ -52,7 +52,10 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
         child: BlocConsumer<LocalUpdatesBloc, LocalUpdatesState>(
           listener: (context, state) {
             state.whenOrNull(
-              uploaded: (message) => context.toast.success(message),
+              uploaded: (message) {
+                context.toast.success(message);
+                context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+              },
             );
           },
           builder: (context, state) {
