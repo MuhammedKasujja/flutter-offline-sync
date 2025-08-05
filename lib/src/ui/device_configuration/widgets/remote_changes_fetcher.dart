@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_offline_sync/src/blocs/remote_updates/remote_updates_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/blocs.dart';
+import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class RemoteChangesFetcherWidget extends StatelessWidget {
   const RemoteChangesFetcherWidget({super.key});
+
+  void handleAfterRemoteChanges(
+    BuildContext context,
+    RemoteUpdatesState state,
+  ) {
+    state.whenOrNull(
+      success: (remoteUpdates) {
+        context.read<DeviceConfigurationBloc>().add(
+          DeviceConfigurationEvent.showSyncRemoteUpdates(),
+        );
+        // Future.delayed(Duration(seconds: 2), (){
+
+        // });
+        context.read<SyncUpdateBloc>().add(
+          SaveRemoteUpdates(remoteUpdates: remoteUpdates),
+        );
+      },
+      failure: (error) => context.toast.error(error),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Fetching Remote updates')),
-      body: BlocBuilder<RemoteUpdatesBloc, RemoteUpdatesState>(
+      body: BlocConsumer<RemoteUpdatesBloc, RemoteUpdatesState>(
+        listener: handleAfterRemoteChanges,
         builder: (context, state) {
           return state.maybeWhen(
             success:

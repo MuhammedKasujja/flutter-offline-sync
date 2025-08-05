@@ -15,7 +15,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: state.mapOrNull(
               loading:
-                  (data) => Container(
+                  (_) => Container(
                     color: Theme.of(context).cardColor,
                     child: Center(
                       child: Column(
@@ -24,7 +24,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                         spacing: 8,
                         children: [
                           CircularProgressIndicator(),
-                          Text('Please wait...'),
+                          Text('Saving data, Please wait...'),
                         ],
                       ),
                     ),

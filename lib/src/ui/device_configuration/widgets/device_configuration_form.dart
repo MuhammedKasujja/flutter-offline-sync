@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_offline_sync/src/blocs/device_configuration/device_configuration_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/blocs.dart';
 import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/ui/app_form.dart';
+import 'package:flutter_offline_sync/src/utils/toast.dart';
 import 'package:flutter_offline_sync/src/utils/validations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,6 +50,18 @@ class _DeviceConfigurationFormState
     );
   }
 
+  void handleAfterDeviceConfigured(
+    BuildContext context,
+    DeviceConfigurationState state,
+  ) {
+    state.whenOrNull(
+      success: (message, configStep) {
+        context.read<RemoteUpdatesBloc>().add(FetchRemotePendingUpdates());
+      },
+      error: (configStep, error) => context.toast.error(error.toString()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,10 +103,13 @@ class _DeviceConfigurationFormState
                   obscureText: true,
                   validator: Validations.requiredField,
                 ),
-                Center(
-                  child: FilledButton(
-                    onPressed: handleRegisterDevice,
-                    child: Text('Sync Device'),
+                BlocListener<DeviceConfigurationBloc, DeviceConfigurationState>(
+                  listener: handleAfterDeviceConfigured,
+                  child: Center(
+                    child: FilledButton(
+                      onPressed: handleRegisterDevice,
+                      child: Text('Sync Device'),
+                    ),
                   ),
                 ),
               ],

@@ -568,11 +568,11 @@ return uploadLocalChanges(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DateTime? lastSyncDate)?  fetchLocalChanges,TResult Function( List<Map<String, dynamic>> data)?  uploadLocalChanges,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DateTime? lastSyncDate)?  fetchLocalChanges,TResult Function()?  uploadLocalChanges,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case FetchLocalChanges() when fetchLocalChanges != null:
 return fetchLocalChanges(_that.lastSyncDate);case UploadLocalChanges() when uploadLocalChanges != null:
-return uploadLocalChanges(_that.data);case _:
+return uploadLocalChanges();case _:
   return orElse();
 
 }
@@ -590,11 +590,11 @@ return uploadLocalChanges(_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DateTime? lastSyncDate)  fetchLocalChanges,required TResult Function( List<Map<String, dynamic>> data)  uploadLocalChanges,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DateTime? lastSyncDate)  fetchLocalChanges,required TResult Function()  uploadLocalChanges,}) {final _that = this;
 switch (_that) {
 case FetchLocalChanges():
 return fetchLocalChanges(_that.lastSyncDate);case UploadLocalChanges():
-return uploadLocalChanges(_that.data);case _:
+return uploadLocalChanges();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -611,11 +611,11 @@ return uploadLocalChanges(_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DateTime? lastSyncDate)?  fetchLocalChanges,TResult? Function( List<Map<String, dynamic>> data)?  uploadLocalChanges,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DateTime? lastSyncDate)?  fetchLocalChanges,TResult? Function()?  uploadLocalChanges,}) {final _that = this;
 switch (_that) {
 case FetchLocalChanges() when fetchLocalChanges != null:
 return fetchLocalChanges(_that.lastSyncDate);case UploadLocalChanges() when uploadLocalChanges != null:
-return uploadLocalChanges(_that.data);case _:
+return uploadLocalChanges();case _:
   return null;
 
 }
@@ -693,72 +693,32 @@ as DateTime?,
 
 
 class UploadLocalChanges implements LocalUpdatesEvent {
-   UploadLocalChanges(final  List<Map<String, dynamic>> data): _data = data;
+   UploadLocalChanges();
   
 
- final  List<Map<String, dynamic>> _data;
- List<Map<String, dynamic>> get data {
-  if (_data is EqualUnmodifiableListView) return _data;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_data);
-}
 
 
-/// Create a copy of LocalUpdatesEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UploadLocalChangesCopyWith<UploadLocalChanges> get copyWith => _$UploadLocalChangesCopyWithImpl<UploadLocalChanges>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UploadLocalChanges&&const DeepCollectionEquality().equals(other._data, _data));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UploadLocalChanges);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LocalUpdatesEvent.uploadLocalChanges(data: $data)';
+  return 'LocalUpdatesEvent.uploadLocalChanges()';
 }
 
 
 }
 
-/// @nodoc
-abstract mixin class $UploadLocalChangesCopyWith<$Res> implements $LocalUpdatesEventCopyWith<$Res> {
-  factory $UploadLocalChangesCopyWith(UploadLocalChanges value, $Res Function(UploadLocalChanges) _then) = _$UploadLocalChangesCopyWithImpl;
-@useResult
-$Res call({
- List<Map<String, dynamic>> data
-});
 
 
-
-
-}
-/// @nodoc
-class _$UploadLocalChangesCopyWithImpl<$Res>
-    implements $UploadLocalChangesCopyWith<$Res> {
-  _$UploadLocalChangesCopyWithImpl(this._self, this._then);
-
-  final UploadLocalChanges _self;
-  final $Res Function(UploadLocalChanges) _then;
-
-/// Create a copy of LocalUpdatesEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
-  return _then(UploadLocalChanges(
-null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
-as List<Map<String, dynamic>>,
-  ));
-}
-
-
-}
 
 // dart format on

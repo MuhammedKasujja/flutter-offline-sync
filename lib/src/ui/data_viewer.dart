@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_offline_sync/src/blocs/local_updates/local_updates_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/blocs.dart';
+import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class SyncDataViewer extends StatefulWidget {
   const SyncDataViewer({super.key});
@@ -18,6 +19,17 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
 
   Future fetchLocalUpdates() async {
     context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+  }
+
+  void onRemoteChangesFetched(BuildContext context, RemoteUpdatesState state) {
+    state.whenOrNull(
+      success: (remoteUpdates) {
+        context.read<SyncUpdateBloc>().add(
+          SaveRemoteUpdates(remoteUpdates: remoteUpdates),
+        );
+      },
+      failure: (error) => context.toast.error(error.toString()),
+    );
   }
 
   @override
@@ -41,15 +53,15 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
           },
         ),
       ),
-      floatingActionButton: BlocBuilder<LocalUpdatesBloc, LocalUpdatesState>(
-        builder: (context, state) {
-          return FloatingActionButton(
-            onPressed: () {
-              context.read<LocalUpdatesBloc>().add(UploadLocalChanges());
-            },
-            child: Icon(Icons.sync),
-          );
-        },
+      floatingActionButton: BlocListener<RemoteUpdatesBloc, RemoteUpdatesState>(
+        listener: onRemoteChangesFetched,
+        child: FloatingActionButton(
+          onPressed: () {
+            context.read<LocalUpdatesBloc>().add(UploadLocalChanges());
+            context.read<RemoteUpdatesBloc>().add(FetchRemotePendingUpdates());
+          },
+          child: Icon(Icons.sync),
+        ),
       ),
     );
   }
