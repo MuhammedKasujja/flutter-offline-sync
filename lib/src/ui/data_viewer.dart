@@ -32,11 +32,29 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
     );
   }
 
+  void syncUpdates() {
+    final locallBloc = context.read<LocalUpdatesBloc>();
+    locallBloc.state.whenOrNull(
+      success: (pendingChanges) {
+        // Only trigger upload local changes if there are some local changes
+        if (pendingChanges.isNotEmpty) {
+          locallBloc.add(UploadLocalChanges());
+        }
+      },
+    );
+    context.read<RemoteUpdatesBloc>().add(FetchRemotePendingUpdates());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: BlocBuilder<LocalUpdatesBloc, LocalUpdatesState>(
+        child: BlocConsumer<LocalUpdatesBloc, LocalUpdatesState>(
+          listener: (context, state) {
+            state.whenOrNull(
+              uploaded: (message) => context.toast.success(message),
+            );
+          },
           builder: (context, state) {
             return Padding(
               padding: EdgeInsets.all(16),
@@ -56,10 +74,7 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
       floatingActionButton: BlocListener<RemoteUpdatesBloc, RemoteUpdatesState>(
         listener: onRemoteChangesFetched,
         child: FloatingActionButton(
-          onPressed: () {
-            context.read<LocalUpdatesBloc>().add(UploadLocalChanges());
-            context.read<RemoteUpdatesBloc>().add(FetchRemotePendingUpdates());
-          },
+          onPressed: syncUpdates,
           child: Icon(Icons.sync),
         ),
       ),
