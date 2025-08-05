@@ -12,7 +12,7 @@ class SyncroniserService {
 
   Future startSync(String syncId) async {
     // startLocalSync(syncId);
-    syncLocalData(syncId);
+    syncLocalChanges(syncId);
     startSyncRemoteChanges();
   }
 
@@ -52,7 +52,11 @@ class SyncroniserService {
         });
   }
 
-  void syncLocalData(String updateId) async {
+  Future<void> syncRemoteUpdates(List<DataEntity> remoteUpdates) async {
+    return _repo.syncRemoteUpdates(remoteUpdates);
+  }
+
+  Future syncLocalChanges(String updateId) async {
     final response = await _repo.syncLocalUpdates(
       updateId: updateId,
       extras: FlutterSync.instance.requestExtras,
@@ -63,7 +67,7 @@ class SyncroniserService {
       ConfigService.updateLastSyncDate(response.data!.lastSyncDate);
       _repo.clearUpdatesTable();
     } else {
-      // throw Exception(response.error ?? 'Error syncing local data');
+      throw Exception(response.error ?? 'Error syncing local data');
     }
     //TODO: sync data using sequencially for each entity
 

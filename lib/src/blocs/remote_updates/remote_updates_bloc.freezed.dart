@@ -97,7 +97,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'RemoteUpdatesState.loadInProgress()';
+  return 'RemoteUpdatesState.loading()';
 }
 
 
@@ -105,6 +105,144 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class RemoteUpdatesFetched implements RemoteUpdatesState {
+  const RemoteUpdatesFetched(final  List<DataEntity> data): _data = data;
+  
+
+ final  List<DataEntity> _data;
+ List<DataEntity> get data {
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_data);
+}
+
+
+/// Create a copy of RemoteUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RemoteUpdatesFetchedCopyWith<RemoteUpdatesFetched> get copyWith => _$RemoteUpdatesFetchedCopyWithImpl<RemoteUpdatesFetched>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RemoteUpdatesFetched&&const DeepCollectionEquality().equals(other._data, _data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
+
+@override
+String toString() {
+  return 'RemoteUpdatesState.success(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $RemoteUpdatesFetchedCopyWith<$Res> implements $RemoteUpdatesStateCopyWith<$Res> {
+  factory $RemoteUpdatesFetchedCopyWith(RemoteUpdatesFetched value, $Res Function(RemoteUpdatesFetched) _then) = _$RemoteUpdatesFetchedCopyWithImpl;
+@useResult
+$Res call({
+ List<DataEntity> data
+});
+
+
+
+
+}
+/// @nodoc
+class _$RemoteUpdatesFetchedCopyWithImpl<$Res>
+    implements $RemoteUpdatesFetchedCopyWith<$Res> {
+  _$RemoteUpdatesFetchedCopyWithImpl(this._self, this._then);
+
+  final RemoteUpdatesFetched _self;
+  final $Res Function(RemoteUpdatesFetched) _then;
+
+/// Create a copy of RemoteUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(RemoteUpdatesFetched(
+null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<DataEntity>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class RemoteUpdatesFailure implements RemoteUpdatesState {
+  const RemoteUpdatesFailure(this.error);
+  
+
+ final  dynamic error;
+
+/// Create a copy of RemoteUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RemoteUpdatesFailureCopyWith<RemoteUpdatesFailure> get copyWith => _$RemoteUpdatesFailureCopyWithImpl<RemoteUpdatesFailure>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RemoteUpdatesFailure&&const DeepCollectionEquality().equals(other.error, error));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error));
+
+@override
+String toString() {
+  return 'RemoteUpdatesState.failure(error: $error)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $RemoteUpdatesFailureCopyWith<$Res> implements $RemoteUpdatesStateCopyWith<$Res> {
+  factory $RemoteUpdatesFailureCopyWith(RemoteUpdatesFailure value, $Res Function(RemoteUpdatesFailure) _then) = _$RemoteUpdatesFailureCopyWithImpl;
+@useResult
+$Res call({
+ dynamic error
+});
+
+
+
+
+}
+/// @nodoc
+class _$RemoteUpdatesFailureCopyWithImpl<$Res>
+    implements $RemoteUpdatesFailureCopyWith<$Res> {
+  _$RemoteUpdatesFailureCopyWithImpl(this._self, this._then);
+
+  final RemoteUpdatesFailure _self;
+  final $Res Function(RemoteUpdatesFailure) _then;
+
+/// Create a copy of RemoteUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = freezed,}) {
+  return _then(RemoteUpdatesFailure(
+freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as dynamic,
+  ));
+}
+
+
+}
 
 /// @nodoc
 mixin _$RemoteUpdatesEvent {
@@ -134,6 +272,38 @@ String toString() {
 class $RemoteUpdatesEventCopyWith<$Res>  {
 $RemoteUpdatesEventCopyWith(RemoteUpdatesEvent _, $Res Function(RemoteUpdatesEvent) __);
 }
+
+
+/// @nodoc
+
+
+class FetchRemotePendingUpdates implements RemoteUpdatesEvent {
+   FetchRemotePendingUpdates();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchRemotePendingUpdates);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RemoteUpdatesEvent.fetchRemotePendingData()';
+}
+
+
+}
+
+
 
 
 // dart format on

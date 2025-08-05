@@ -181,6 +181,72 @@ as List<Map<String, dynamic>>,
 /// @nodoc
 
 
+class LocalChangesUploaded implements LocalUpdatesState {
+  const LocalChangesUploaded(this.message);
+  
+
+ final  String? message;
+
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$LocalChangesUploadedCopyWith<LocalChangesUploaded> get copyWith => _$LocalChangesUploadedCopyWithImpl<LocalChangesUploaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalChangesUploaded&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'LocalUpdatesState.uploaded(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $LocalChangesUploadedCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
+  factory $LocalChangesUploadedCopyWith(LocalChangesUploaded value, $Res Function(LocalChangesUploaded) _then) = _$LocalChangesUploadedCopyWithImpl;
+@useResult
+$Res call({
+ String? message
+});
+
+
+
+
+}
+/// @nodoc
+class _$LocalChangesUploadedCopyWithImpl<$Res>
+    implements $LocalChangesUploadedCopyWith<$Res> {
+  _$LocalChangesUploadedCopyWithImpl(this._self, this._then);
+
+  final LocalChangesUploaded _self;
+  final $Res Function(LocalChangesUploaded) _then;
+
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+  return _then(LocalChangesUploaded(
+freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
 class LocalUpdatesFailure implements LocalUpdatesState {
   const LocalUpdatesFailure(this.error);
   
@@ -247,18 +313,53 @@ as dynamic,
 /// @nodoc
 mixin _$LocalUpdatesEvent {
 
- DateTime? get lastSyncDate;
-/// Create a copy of LocalUpdatesEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$LocalUpdatesEventCopyWith<LocalUpdatesEvent> get copyWith => _$LocalUpdatesEventCopyWithImpl<LocalUpdatesEvent>(this as LocalUpdatesEvent, _$identity);
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUpdatesEvent&&(identical(other.lastSyncDate, lastSyncDate) || other.lastSyncDate == lastSyncDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUpdatesEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'LocalUpdatesEvent()';
+}
+
+
+}
+
+/// @nodoc
+class $LocalUpdatesEventCopyWith<$Res>  {
+$LocalUpdatesEventCopyWith(LocalUpdatesEvent _, $Res Function(LocalUpdatesEvent) __);
+}
+
+
+/// @nodoc
+
+
+class GetLocalChanges implements LocalUpdatesEvent {
+   GetLocalChanges({this.lastSyncDate});
+  
+
+ final  DateTime? lastSyncDate;
+
+/// Create a copy of LocalUpdatesEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GetLocalChangesCopyWith<GetLocalChanges> get copyWith => _$GetLocalChangesCopyWithImpl<GetLocalChanges>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetLocalChanges&&(identical(other.lastSyncDate, lastSyncDate) || other.lastSyncDate == lastSyncDate));
 }
 
 
@@ -267,15 +368,15 @@ int get hashCode => Object.hash(runtimeType,lastSyncDate);
 
 @override
 String toString() {
-  return 'LocalUpdatesEvent(lastSyncDate: $lastSyncDate)';
+  return 'LocalUpdatesEvent.getLocalChanges(lastSyncDate: $lastSyncDate)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $LocalUpdatesEventCopyWith<$Res>  {
-  factory $LocalUpdatesEventCopyWith(LocalUpdatesEvent value, $Res Function(LocalUpdatesEvent) _then) = _$LocalUpdatesEventCopyWithImpl;
+abstract mixin class $GetLocalChangesCopyWith<$Res> implements $LocalUpdatesEventCopyWith<$Res> {
+  factory $GetLocalChangesCopyWith(GetLocalChanges value, $Res Function(GetLocalChanges) _then) = _$GetLocalChangesCopyWithImpl;
 @useResult
 $Res call({
  DateTime? lastSyncDate
@@ -286,65 +387,71 @@ $Res call({
 
 }
 /// @nodoc
-class _$LocalUpdatesEventCopyWithImpl<$Res>
-    implements $LocalUpdatesEventCopyWith<$Res> {
-  _$LocalUpdatesEventCopyWithImpl(this._self, this._then);
+class _$GetLocalChangesCopyWithImpl<$Res>
+    implements $GetLocalChangesCopyWith<$Res> {
+  _$GetLocalChangesCopyWithImpl(this._self, this._then);
 
-  final LocalUpdatesEvent _self;
-  final $Res Function(LocalUpdatesEvent) _then;
+  final GetLocalChanges _self;
+  final $Res Function(GetLocalChanges) _then;
 
 /// Create a copy of LocalUpdatesEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? lastSyncDate = freezed,}) {
-  return _then(_self.copyWith(
+@pragma('vm:prefer-inline') $Res call({Object? lastSyncDate = freezed,}) {
+  return _then(GetLocalChanges(
 lastSyncDate: freezed == lastSyncDate ? _self.lastSyncDate : lastSyncDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
 
-}
 
+}
 
 /// @nodoc
 
 
-class FetchLocalUpdates implements LocalUpdatesEvent {
-   FetchLocalUpdates({this.lastSyncDate});
+class UploadLocalChanges implements LocalUpdatesEvent {
+   UploadLocalChanges(final  List<Map<String, dynamic>> data): _data = data;
   
 
-@override final  DateTime? lastSyncDate;
+ final  List<Map<String, dynamic>> _data;
+ List<Map<String, dynamic>> get data {
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_data);
+}
+
 
 /// Create a copy of LocalUpdatesEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$FetchLocalUpdatesCopyWith<FetchLocalUpdates> get copyWith => _$FetchLocalUpdatesCopyWithImpl<FetchLocalUpdates>(this, _$identity);
+$UploadLocalChangesCopyWith<UploadLocalChanges> get copyWith => _$UploadLocalChangesCopyWithImpl<UploadLocalChanges>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchLocalUpdates&&(identical(other.lastSyncDate, lastSyncDate) || other.lastSyncDate == lastSyncDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UploadLocalChanges&&const DeepCollectionEquality().equals(other._data, _data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,lastSyncDate);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
 
 @override
 String toString() {
-  return 'LocalUpdatesEvent.fetchLocalUpdates(lastSyncDate: $lastSyncDate)';
+  return 'LocalUpdatesEvent.uploadLocalChanges(data: $data)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $FetchLocalUpdatesCopyWith<$Res> implements $LocalUpdatesEventCopyWith<$Res> {
-  factory $FetchLocalUpdatesCopyWith(FetchLocalUpdates value, $Res Function(FetchLocalUpdates) _then) = _$FetchLocalUpdatesCopyWithImpl;
-@override @useResult
+abstract mixin class $UploadLocalChangesCopyWith<$Res> implements $LocalUpdatesEventCopyWith<$Res> {
+  factory $UploadLocalChangesCopyWith(UploadLocalChanges value, $Res Function(UploadLocalChanges) _then) = _$UploadLocalChangesCopyWithImpl;
+@useResult
 $Res call({
- DateTime? lastSyncDate
+ List<Map<String, dynamic>> data
 });
 
 
@@ -352,19 +459,19 @@ $Res call({
 
 }
 /// @nodoc
-class _$FetchLocalUpdatesCopyWithImpl<$Res>
-    implements $FetchLocalUpdatesCopyWith<$Res> {
-  _$FetchLocalUpdatesCopyWithImpl(this._self, this._then);
+class _$UploadLocalChangesCopyWithImpl<$Res>
+    implements $UploadLocalChangesCopyWith<$Res> {
+  _$UploadLocalChangesCopyWithImpl(this._self, this._then);
 
-  final FetchLocalUpdates _self;
-  final $Res Function(FetchLocalUpdates) _then;
+  final UploadLocalChanges _self;
+  final $Res Function(UploadLocalChanges) _then;
 
 /// Create a copy of LocalUpdatesEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? lastSyncDate = freezed,}) {
-  return _then(FetchLocalUpdates(
-lastSyncDate: freezed == lastSyncDate ? _self.lastSyncDate : lastSyncDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(UploadLocalChanges(
+null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>,
   ));
 }
 
