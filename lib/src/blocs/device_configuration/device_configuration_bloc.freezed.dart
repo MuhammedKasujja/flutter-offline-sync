@@ -14,30 +14,61 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DeviceConfigurationState {
 
-
+ DeviceConfigStep get configStep;
+/// Create a copy of DeviceConfigurationState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DeviceConfigurationStateCopyWith<DeviceConfigurationState> get copyWith => _$DeviceConfigurationStateCopyWithImpl<DeviceConfigurationState>(this as DeviceConfigurationState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceConfigurationState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceConfigurationState&&(identical(other.configStep, configStep) || other.configStep == configStep));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,configStep);
 
 @override
 String toString() {
-  return 'DeviceConfigurationState()';
+  return 'DeviceConfigurationState(configStep: $configStep)';
 }
 
 
 }
 
 /// @nodoc
-class $DeviceConfigurationStateCopyWith<$Res>  {
-$DeviceConfigurationStateCopyWith(DeviceConfigurationState _, $Res Function(DeviceConfigurationState) __);
+abstract mixin class $DeviceConfigurationStateCopyWith<$Res>  {
+  factory $DeviceConfigurationStateCopyWith(DeviceConfigurationState value, $Res Function(DeviceConfigurationState) _then) = _$DeviceConfigurationStateCopyWithImpl;
+@useResult
+$Res call({
+ DeviceConfigStep configStep
+});
+
+
+
+
+}
+/// @nodoc
+class _$DeviceConfigurationStateCopyWithImpl<$Res>
+    implements $DeviceConfigurationStateCopyWith<$Res> {
+  _$DeviceConfigurationStateCopyWithImpl(this._self, this._then);
+
+  final DeviceConfigurationState _self;
+  final $Res Function(DeviceConfigurationState) _then;
+
+/// Create a copy of DeviceConfigurationState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? configStep = null,}) {
+  return _then(_self.copyWith(
+configStep: null == configStep ? _self.configStep : configStep // ignore: cast_nullable_to_non_nullable
+as DeviceConfigStep,
+  ));
+}
+
 }
 
 
@@ -128,13 +159,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( String? message)?  success,TResult Function( dynamic error)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DeviceConfigStep configStep)?  initial,TResult Function( DeviceConfigStep configStep)?  loading,TResult Function( String? message,  DeviceConfigStep configStep)?  success,TResult Function( DeviceConfigStep configStep,  dynamic error)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial();case _LoadInProgress() when loading != null:
-return loading();case _Sucessfully() when success != null:
-return success(_that.message);case _Failure() when error != null:
-return error(_that.error);case _:
+return initial(_that.configStep);case _LoadInProgress() when loading != null:
+return loading(_that.configStep);case _Sucessfully() when success != null:
+return success(_that.message,_that.configStep);case _Failure() when error != null:
+return error(_that.configStep,_that.error);case _:
   return orElse();
 
 }
@@ -152,13 +183,13 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( String? message)  success,required TResult Function( dynamic error)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DeviceConfigStep configStep)  initial,required TResult Function( DeviceConfigStep configStep)  loading,required TResult Function( String? message,  DeviceConfigStep configStep)  success,required TResult Function( DeviceConfigStep configStep,  dynamic error)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
-return initial();case _LoadInProgress():
-return loading();case _Sucessfully():
-return success(_that.message);case _Failure():
-return error(_that.error);case _:
+return initial(_that.configStep);case _LoadInProgress():
+return loading(_that.configStep);case _Sucessfully():
+return success(_that.message,_that.configStep);case _Failure():
+return error(_that.configStep,_that.error);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -175,13 +206,13 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( String? message)?  success,TResult? Function( dynamic error)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DeviceConfigStep configStep)?  initial,TResult? Function( DeviceConfigStep configStep)?  loading,TResult? Function( String? message,  DeviceConfigStep configStep)?  success,TResult? Function( DeviceConfigStep configStep,  dynamic error)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial();case _LoadInProgress() when loading != null:
-return loading();case _Sucessfully() when success != null:
-return success(_that.message);case _Failure() when error != null:
-return error(_that.error);case _:
+return initial(_that.configStep);case _LoadInProgress() when loading != null:
+return loading(_that.configStep);case _Sucessfully() when success != null:
+return success(_that.message,_that.configStep);case _Failure() when error != null:
+return error(_that.configStep,_that.error);case _:
   return null;
 
 }
@@ -193,78 +224,147 @@ return error(_that.error);case _:
 
 
 class _Initial implements DeviceConfigurationState {
-  const _Initial();
+  const _Initial({required this.configStep});
   
 
+@override final  DeviceConfigStep configStep;
 
-
+/// Create a copy of DeviceConfigurationState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$InitialCopyWith<_Initial> get copyWith => __$InitialCopyWithImpl<_Initial>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial&&(identical(other.configStep, configStep) || other.configStep == configStep));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,configStep);
 
 @override
 String toString() {
-  return 'DeviceConfigurationState.initial()';
+  return 'DeviceConfigurationState.initial(configStep: $configStep)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$InitialCopyWith<$Res> implements $DeviceConfigurationStateCopyWith<$Res> {
+  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) _then) = __$InitialCopyWithImpl;
+@override @useResult
+$Res call({
+ DeviceConfigStep configStep
+});
 
 
+
+
+}
+/// @nodoc
+class __$InitialCopyWithImpl<$Res>
+    implements _$InitialCopyWith<$Res> {
+  __$InitialCopyWithImpl(this._self, this._then);
+
+  final _Initial _self;
+  final $Res Function(_Initial) _then;
+
+/// Create a copy of DeviceConfigurationState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? configStep = null,}) {
+  return _then(_Initial(
+configStep: null == configStep ? _self.configStep : configStep // ignore: cast_nullable_to_non_nullable
+as DeviceConfigStep,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
 
 class _LoadInProgress implements DeviceConfigurationState {
-  const _LoadInProgress();
+  const _LoadInProgress({required this.configStep});
   
 
+@override final  DeviceConfigStep configStep;
 
-
+/// Create a copy of DeviceConfigurationState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadInProgressCopyWith<_LoadInProgress> get copyWith => __$LoadInProgressCopyWithImpl<_LoadInProgress>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadInProgress);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadInProgress&&(identical(other.configStep, configStep) || other.configStep == configStep));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,configStep);
 
 @override
 String toString() {
-  return 'DeviceConfigurationState.loading()';
+  return 'DeviceConfigurationState.loading(configStep: $configStep)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$LoadInProgressCopyWith<$Res> implements $DeviceConfigurationStateCopyWith<$Res> {
+  factory _$LoadInProgressCopyWith(_LoadInProgress value, $Res Function(_LoadInProgress) _then) = __$LoadInProgressCopyWithImpl;
+@override @useResult
+$Res call({
+ DeviceConfigStep configStep
+});
 
 
+
+
+}
+/// @nodoc
+class __$LoadInProgressCopyWithImpl<$Res>
+    implements _$LoadInProgressCopyWith<$Res> {
+  __$LoadInProgressCopyWithImpl(this._self, this._then);
+
+  final _LoadInProgress _self;
+  final $Res Function(_LoadInProgress) _then;
+
+/// Create a copy of DeviceConfigurationState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? configStep = null,}) {
+  return _then(_LoadInProgress(
+configStep: null == configStep ? _self.configStep : configStep // ignore: cast_nullable_to_non_nullable
+as DeviceConfigStep,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
 
 class _Sucessfully implements DeviceConfigurationState {
-  const _Sucessfully({this.message});
+  const _Sucessfully({this.message, required this.configStep});
   
 
  final  String? message;
+@override final  DeviceConfigStep configStep;
 
 /// Create a copy of DeviceConfigurationState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$SucessfullyCopyWith<_Sucessfully> get copyWith => __$SucessfullyCopyWithImpl<_Sucessfully>(this, _$identity);
 
@@ -272,16 +372,16 @@ _$SucessfullyCopyWith<_Sucessfully> get copyWith => __$SucessfullyCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Sucessfully&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Sucessfully&&(identical(other.message, message) || other.message == message)&&(identical(other.configStep, configStep) || other.configStep == configStep));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode => Object.hash(runtimeType,message,configStep);
 
 @override
 String toString() {
-  return 'DeviceConfigurationState.success(message: $message)';
+  return 'DeviceConfigurationState.success(message: $message, configStep: $configStep)';
 }
 
 
@@ -290,9 +390,9 @@ String toString() {
 /// @nodoc
 abstract mixin class _$SucessfullyCopyWith<$Res> implements $DeviceConfigurationStateCopyWith<$Res> {
   factory _$SucessfullyCopyWith(_Sucessfully value, $Res Function(_Sucessfully) _then) = __$SucessfullyCopyWithImpl;
-@useResult
+@override @useResult
 $Res call({
- String? message
+ String? message, DeviceConfigStep configStep
 });
 
 
@@ -309,10 +409,11 @@ class __$SucessfullyCopyWithImpl<$Res>
 
 /// Create a copy of DeviceConfigurationState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? configStep = null,}) {
   return _then(_Sucessfully(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,configStep: null == configStep ? _self.configStep : configStep // ignore: cast_nullable_to_non_nullable
+as DeviceConfigStep,
   ));
 }
 
@@ -323,14 +424,15 @@ as String?,
 
 
 class _Failure implements DeviceConfigurationState {
-  const _Failure(this.error);
+  const _Failure({required this.configStep, this.error});
   
 
+@override final  DeviceConfigStep configStep;
  final  dynamic error;
 
 /// Create a copy of DeviceConfigurationState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$FailureCopyWith<_Failure> get copyWith => __$FailureCopyWithImpl<_Failure>(this, _$identity);
 
@@ -338,16 +440,16 @@ _$FailureCopyWith<_Failure> get copyWith => __$FailureCopyWithImpl<_Failure>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Failure&&const DeepCollectionEquality().equals(other.error, error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Failure&&(identical(other.configStep, configStep) || other.configStep == configStep)&&const DeepCollectionEquality().equals(other.error, error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error));
+int get hashCode => Object.hash(runtimeType,configStep,const DeepCollectionEquality().hash(error));
 
 @override
 String toString() {
-  return 'DeviceConfigurationState.error(error: $error)';
+  return 'DeviceConfigurationState.error(configStep: $configStep, error: $error)';
 }
 
 
@@ -356,9 +458,9 @@ String toString() {
 /// @nodoc
 abstract mixin class _$FailureCopyWith<$Res> implements $DeviceConfigurationStateCopyWith<$Res> {
   factory _$FailureCopyWith(_Failure value, $Res Function(_Failure) _then) = __$FailureCopyWithImpl;
-@useResult
+@override @useResult
 $Res call({
- dynamic error
+ DeviceConfigStep configStep, dynamic error
 });
 
 
@@ -375,9 +477,10 @@ class __$FailureCopyWithImpl<$Res>
 
 /// Create a copy of DeviceConfigurationState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? error = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? configStep = null,Object? error = freezed,}) {
   return _then(_Failure(
-freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+configStep: null == configStep ? _self.configStep : configStep // ignore: cast_nullable_to_non_nullable
+as DeviceConfigStep,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as dynamic,
   ));
 }
@@ -388,61 +491,30 @@ as dynamic,
 /// @nodoc
 mixin _$DeviceConfigurationEvent {
 
- SyncDeviceRequest get requestDetails;
-/// Create a copy of DeviceConfigurationEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DeviceConfigurationEventCopyWith<DeviceConfigurationEvent> get copyWith => _$DeviceConfigurationEventCopyWithImpl<DeviceConfigurationEvent>(this as DeviceConfigurationEvent, _$identity);
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceConfigurationEvent&&(identical(other.requestDetails, requestDetails) || other.requestDetails == requestDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceConfigurationEvent);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,requestDetails);
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'DeviceConfigurationEvent(requestDetails: $requestDetails)';
+  return 'DeviceConfigurationEvent()';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DeviceConfigurationEventCopyWith<$Res>  {
-  factory $DeviceConfigurationEventCopyWith(DeviceConfigurationEvent value, $Res Function(DeviceConfigurationEvent) _then) = _$DeviceConfigurationEventCopyWithImpl;
-@useResult
-$Res call({
- SyncDeviceRequest requestDetails
-});
-
-
-
-
-}
-/// @nodoc
-class _$DeviceConfigurationEventCopyWithImpl<$Res>
-    implements $DeviceConfigurationEventCopyWith<$Res> {
-  _$DeviceConfigurationEventCopyWithImpl(this._self, this._then);
-
-  final DeviceConfigurationEvent _self;
-  final $Res Function(DeviceConfigurationEvent) _then;
-
-/// Create a copy of DeviceConfigurationEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? requestDetails = null,}) {
-  return _then(_self.copyWith(
-requestDetails: null == requestDetails ? _self.requestDetails : requestDetails // ignore: cast_nullable_to_non_nullable
-as SyncDeviceRequest,
-  ));
-}
-
+class $DeviceConfigurationEventCopyWith<$Res>  {
+$DeviceConfigurationEventCopyWith(DeviceConfigurationEvent _, $Res Function(DeviceConfigurationEvent) __);
 }
 
 
@@ -460,11 +532,12 @@ extension DeviceConfigurationEventPatterns on DeviceConfigurationEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( RegisterDevice value)?  registerDevice,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( RegisterDevice value)?  registerDevice,TResult Function( _ShowSyncRemoteUpdates value)?  showSyncRemoteUpdates,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case RegisterDevice() when registerDevice != null:
-return registerDevice(_that);case _:
+return registerDevice(_that);case _ShowSyncRemoteUpdates() when showSyncRemoteUpdates != null:
+return showSyncRemoteUpdates(_that);case _:
   return orElse();
 
 }
@@ -482,11 +555,12 @@ return registerDevice(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( RegisterDevice value)  registerDevice,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( RegisterDevice value)  registerDevice,required TResult Function( _ShowSyncRemoteUpdates value)  showSyncRemoteUpdates,}){
 final _that = this;
 switch (_that) {
 case RegisterDevice():
-return registerDevice(_that);case _:
+return registerDevice(_that);case _ShowSyncRemoteUpdates():
+return showSyncRemoteUpdates(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -503,11 +577,12 @@ return registerDevice(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( RegisterDevice value)?  registerDevice,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( RegisterDevice value)?  registerDevice,TResult? Function( _ShowSyncRemoteUpdates value)?  showSyncRemoteUpdates,}){
 final _that = this;
 switch (_that) {
 case RegisterDevice() when registerDevice != null:
-return registerDevice(_that);case _:
+return registerDevice(_that);case _ShowSyncRemoteUpdates() when showSyncRemoteUpdates != null:
+return showSyncRemoteUpdates(_that);case _:
   return null;
 
 }
@@ -524,10 +599,11 @@ return registerDevice(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( SyncDeviceRequest requestDetails)?  registerDevice,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( SyncDeviceRequest requestDetails)?  registerDevice,TResult Function()?  showSyncRemoteUpdates,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case RegisterDevice() when registerDevice != null:
-return registerDevice(_that.requestDetails);case _:
+return registerDevice(_that.requestDetails);case _ShowSyncRemoteUpdates() when showSyncRemoteUpdates != null:
+return showSyncRemoteUpdates();case _:
   return orElse();
 
 }
@@ -545,10 +621,11 @@ return registerDevice(_that.requestDetails);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( SyncDeviceRequest requestDetails)  registerDevice,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( SyncDeviceRequest requestDetails)  registerDevice,required TResult Function()  showSyncRemoteUpdates,}) {final _that = this;
 switch (_that) {
 case RegisterDevice():
-return registerDevice(_that.requestDetails);case _:
+return registerDevice(_that.requestDetails);case _ShowSyncRemoteUpdates():
+return showSyncRemoteUpdates();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -565,10 +642,11 @@ return registerDevice(_that.requestDetails);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( SyncDeviceRequest requestDetails)?  registerDevice,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( SyncDeviceRequest requestDetails)?  registerDevice,TResult? Function()?  showSyncRemoteUpdates,}) {final _that = this;
 switch (_that) {
 case RegisterDevice() when registerDevice != null:
-return registerDevice(_that.requestDetails);case _:
+return registerDevice(_that.requestDetails);case _ShowSyncRemoteUpdates() when showSyncRemoteUpdates != null:
+return showSyncRemoteUpdates();case _:
   return null;
 
 }
@@ -583,11 +661,11 @@ class RegisterDevice implements DeviceConfigurationEvent {
    RegisterDevice(this.requestDetails);
   
 
-@override final  SyncDeviceRequest requestDetails;
+ final  SyncDeviceRequest requestDetails;
 
 /// Create a copy of DeviceConfigurationEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $RegisterDeviceCopyWith<RegisterDevice> get copyWith => _$RegisterDeviceCopyWithImpl<RegisterDevice>(this, _$identity);
 
@@ -613,7 +691,7 @@ String toString() {
 /// @nodoc
 abstract mixin class $RegisterDeviceCopyWith<$Res> implements $DeviceConfigurationEventCopyWith<$Res> {
   factory $RegisterDeviceCopyWith(RegisterDevice value, $Res Function(RegisterDevice) _then) = _$RegisterDeviceCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  SyncDeviceRequest requestDetails
 });
@@ -632,7 +710,7 @@ class _$RegisterDeviceCopyWithImpl<$Res>
 
 /// Create a copy of DeviceConfigurationEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? requestDetails = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? requestDetails = null,}) {
   return _then(RegisterDevice(
 null == requestDetails ? _self.requestDetails : requestDetails // ignore: cast_nullable_to_non_nullable
 as SyncDeviceRequest,
@@ -641,5 +719,37 @@ as SyncDeviceRequest,
 
 
 }
+
+/// @nodoc
+
+
+class _ShowSyncRemoteUpdates implements DeviceConfigurationEvent {
+   _ShowSyncRemoteUpdates();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShowSyncRemoteUpdates);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'DeviceConfigurationEvent.showSyncRemoteUpdates()';
+}
+
+
+}
+
+
+
 
 // dart format on

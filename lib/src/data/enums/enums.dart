@@ -40,5 +40,9 @@ enum SyncRequestMode {
 enum DeviceConfigStep {
   form,
   fetchingRemoteChanges,
-  syncingRemoteChanges,
+  syncingRemoteChanges;
+
+  bool get isFormStep => this == DeviceConfigStep.form;
+  bool get isFetchRemoteStep => this == DeviceConfigStep.fetchingRemoteChanges;
+  bool get isSyncUpdatesStep => this == DeviceConfigStep.syncingRemoteChanges;
 }

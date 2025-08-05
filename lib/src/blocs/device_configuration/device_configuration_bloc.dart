@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_offline_sync/src/data/enums/enums.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/device/device_config_service_impl.dart';
@@ -11,10 +12,15 @@ part 'device_configuration_bloc.freezed.dart';
 
 class DeviceConfigurationBloc
     extends Bloc<DeviceConfigurationEvent, DeviceConfigurationState> {
-  DeviceConfigurationBloc() : super(const DeviceConfigurationState.initial()) {
+  DeviceConfigurationBloc()
+    : super(
+        const DeviceConfigurationState.initial(
+          configStep: DeviceConfigStep.form,
+        ),
+      ) {
     on<RegisterDevice>((event, emit) async {
       try {
-        emit(DeviceConfigurationState.loading());
+        emit(DeviceConfigurationState.loading(configStep: state.configStep));
         final response = await DeviceConfigServiceImpl(
           apiClient: AppConfig.instance.getClient(),
         ).registerDevice(event.requestDetails);
@@ -28,12 +34,26 @@ class DeviceConfigurationBloc
         emit(
           DeviceConfigurationState.success(
             message: 'Device registered Successfully!',
+            configStep: DeviceConfigStep.fetchingRemoteChanges,
           ),
         );
       } catch (error, stackTrace) {
-        emit(DeviceConfigurationState.error(error));
+        emit(
+          DeviceConfigurationState.error(
+            error: error,
+            configStep: state.configStep,
+          ),
+        );
         logger.error(stackTrace);
       }
+    });
+
+    on<_ShowSyncRemoteUpdates>((event, emit) {
+      emit(
+        DeviceConfigurationState.initial(
+          configStep: DeviceConfigStep.syncingRemoteChanges,
+        ),
+      );
     });
   }
 }

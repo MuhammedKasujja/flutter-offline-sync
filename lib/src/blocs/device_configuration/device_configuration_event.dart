@@ -5,4 +5,6 @@ abstract class DeviceConfigurationEvent with _$DeviceConfigurationEvent {
   factory DeviceConfigurationEvent.registerDevice(
     SyncDeviceRequest requestDetails,
   ) = RegisterDevice;
+  factory DeviceConfigurationEvent.showSyncRemoteUpdates() =
+      _ShowSyncRemoteUpdates;
 }
