@@ -32,7 +32,9 @@ class SyncConfigurationsView extends StatefulWidget {
 class _SyncConfigurationsViewState extends State<SyncConfigurationsView> {
   Future<void> handleDataReset() async {
     await ConfigService.resetSyncDates();
-    context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+    if (mounted) {
+      context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+    }
   }
 
   @override

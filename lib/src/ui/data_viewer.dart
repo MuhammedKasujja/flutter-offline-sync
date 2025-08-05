@@ -22,15 +22,6 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
 
   @override
   Widget build(BuildContext context) {
-    // ref.listen<AsyncValue<void>>(manualSyncManagerProvider, (prev, next) {
-    //   next.whenOrNull(
-    //     data: (_) {
-    //       context.toast.success('Syncronizations Completed Successfully!');
-    //       fetchLocalUpdates();
-    //     },
-    //     error: (e, _) => context.toast.error('Failed: $e'),
-    //   );
-    // });
     return Scaffold(
       body: SingleChildScrollView(
         child: BlocBuilder<LocalUpdatesBloc, LocalUpdatesState>(
@@ -50,13 +41,16 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
           },
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed:
-      //       syncManager.isLoading
-      //           ? null
-      //           : () => ref.read(manualSyncManagerProvider.notifier).syncData(),
-      //   child: Icon(Icons.sync),
-      // ),
+      floatingActionButton: BlocBuilder<LocalUpdatesBloc, LocalUpdatesState>(
+        builder: (context, state) {
+          return FloatingActionButton(
+            onPressed: () {
+              context.read<LocalUpdatesBloc>().add(UploadLocalChanges());
+            },
+            child: Icon(Icons.sync),
+          );
+        },
+      ),
     );
   }
 }
