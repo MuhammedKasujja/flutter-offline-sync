@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -41,6 +40,154 @@ class $LocalUpdatesStateCopyWith<$Res>  {
 $LocalUpdatesStateCopyWith(LocalUpdatesState _, $Res Function(LocalUpdatesState) __);
 }
 
+
+/// Adds pattern-matching-related methods to [LocalUpdatesState].
+extension LocalUpdatesStatePatterns on LocalUpdatesState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _LoadInProgress value)?  loading,TResult Function( _LocalUpdatesLoaded value)?  success,TResult Function( _LocalChangesUploaded value)?  uploaded,TResult Function( _LocalUpdatesFailure value)?  failure,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Initial() when initial != null:
+return initial(_that);case _LoadInProgress() when loading != null:
+return loading(_that);case _LocalUpdatesLoaded() when success != null:
+return success(_that);case _LocalChangesUploaded() when uploaded != null:
+return uploaded(_that);case _LocalUpdatesFailure() when failure != null:
+return failure(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _LoadInProgress value)  loading,required TResult Function( _LocalUpdatesLoaded value)  success,required TResult Function( _LocalChangesUploaded value)  uploaded,required TResult Function( _LocalUpdatesFailure value)  failure,}){
+final _that = this;
+switch (_that) {
+case _Initial():
+return initial(_that);case _LoadInProgress():
+return loading(_that);case _LocalUpdatesLoaded():
+return success(_that);case _LocalChangesUploaded():
+return uploaded(_that);case _LocalUpdatesFailure():
+return failure(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _LoadInProgress value)?  loading,TResult? Function( _LocalUpdatesLoaded value)?  success,TResult? Function( _LocalChangesUploaded value)?  uploaded,TResult? Function( _LocalUpdatesFailure value)?  failure,}){
+final _that = this;
+switch (_that) {
+case _Initial() when initial != null:
+return initial(_that);case _LoadInProgress() when loading != null:
+return loading(_that);case _LocalUpdatesLoaded() when success != null:
+return success(_that);case _LocalChangesUploaded() when uploaded != null:
+return uploaded(_that);case _LocalUpdatesFailure() when failure != null:
+return failure(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Map<String, dynamic>> data)?  success,TResult Function( String? message)?  uploaded,TResult Function( dynamic error)?  failure,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Initial() when initial != null:
+return initial();case _LoadInProgress() when loading != null:
+return loading();case _LocalUpdatesLoaded() when success != null:
+return success(_that.data);case _LocalChangesUploaded() when uploaded != null:
+return uploaded(_that.message);case _LocalUpdatesFailure() when failure != null:
+return failure(_that.error);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Map<String, dynamic>> data)  success,required TResult Function( String? message)  uploaded,required TResult Function( dynamic error)  failure,}) {final _that = this;
+switch (_that) {
+case _Initial():
+return initial();case _LoadInProgress():
+return loading();case _LocalUpdatesLoaded():
+return success(_that.data);case _LocalChangesUploaded():
+return uploaded(_that.message);case _LocalUpdatesFailure():
+return failure(_that.error);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Map<String, dynamic>> data)?  success,TResult? Function( String? message)?  uploaded,TResult? Function( dynamic error)?  failure,}) {final _that = this;
+switch (_that) {
+case _Initial() when initial != null:
+return initial();case _LoadInProgress() when loading != null:
+return loading();case _LocalUpdatesLoaded() when success != null:
+return success(_that.data);case _LocalChangesUploaded() when uploaded != null:
+return uploaded(_that.message);case _LocalUpdatesFailure() when failure != null:
+return failure(_that.error);case _:
+  return null;
+
+}
+}
+
+}
 
 /// @nodoc
 
@@ -109,8 +256,8 @@ String toString() {
 /// @nodoc
 
 
-class LocalUpdatesLoaded implements LocalUpdatesState {
-  const LocalUpdatesLoaded(final  List<Map<String, dynamic>> data): _data = data;
+class _LocalUpdatesLoaded implements LocalUpdatesState {
+  const _LocalUpdatesLoaded(final  List<Map<String, dynamic>> data): _data = data;
   
 
  final  List<Map<String, dynamic>> _data;
@@ -125,13 +272,13 @@ class LocalUpdatesLoaded implements LocalUpdatesState {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$LocalUpdatesLoadedCopyWith<LocalUpdatesLoaded> get copyWith => _$LocalUpdatesLoadedCopyWithImpl<LocalUpdatesLoaded>(this, _$identity);
+_$LocalUpdatesLoadedCopyWith<_LocalUpdatesLoaded> get copyWith => __$LocalUpdatesLoadedCopyWithImpl<_LocalUpdatesLoaded>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUpdatesLoaded&&const DeepCollectionEquality().equals(other._data, _data));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalUpdatesLoaded&&const DeepCollectionEquality().equals(other._data, _data));
 }
 
 
@@ -147,8 +294,8 @@ String toString() {
 }
 
 /// @nodoc
-abstract mixin class $LocalUpdatesLoadedCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
-  factory $LocalUpdatesLoadedCopyWith(LocalUpdatesLoaded value, $Res Function(LocalUpdatesLoaded) _then) = _$LocalUpdatesLoadedCopyWithImpl;
+abstract mixin class _$LocalUpdatesLoadedCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
+  factory _$LocalUpdatesLoadedCopyWith(_LocalUpdatesLoaded value, $Res Function(_LocalUpdatesLoaded) _then) = __$LocalUpdatesLoadedCopyWithImpl;
 @useResult
 $Res call({
  List<Map<String, dynamic>> data
@@ -159,17 +306,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$LocalUpdatesLoadedCopyWithImpl<$Res>
-    implements $LocalUpdatesLoadedCopyWith<$Res> {
-  _$LocalUpdatesLoadedCopyWithImpl(this._self, this._then);
+class __$LocalUpdatesLoadedCopyWithImpl<$Res>
+    implements _$LocalUpdatesLoadedCopyWith<$Res> {
+  __$LocalUpdatesLoadedCopyWithImpl(this._self, this._then);
 
-  final LocalUpdatesLoaded _self;
-  final $Res Function(LocalUpdatesLoaded) _then;
+  final _LocalUpdatesLoaded _self;
+  final $Res Function(_LocalUpdatesLoaded) _then;
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
-  return _then(LocalUpdatesLoaded(
+  return _then(_LocalUpdatesLoaded(
 null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>,
   ));
@@ -181,8 +328,8 @@ as List<Map<String, dynamic>>,
 /// @nodoc
 
 
-class LocalChangesUploaded implements LocalUpdatesState {
-  const LocalChangesUploaded(this.message);
+class _LocalChangesUploaded implements LocalUpdatesState {
+  const _LocalChangesUploaded(this.message);
   
 
  final  String? message;
@@ -191,13 +338,13 @@ class LocalChangesUploaded implements LocalUpdatesState {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$LocalChangesUploadedCopyWith<LocalChangesUploaded> get copyWith => _$LocalChangesUploadedCopyWithImpl<LocalChangesUploaded>(this, _$identity);
+_$LocalChangesUploadedCopyWith<_LocalChangesUploaded> get copyWith => __$LocalChangesUploadedCopyWithImpl<_LocalChangesUploaded>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalChangesUploaded&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalChangesUploaded&&(identical(other.message, message) || other.message == message));
 }
 
 
@@ -213,8 +360,8 @@ String toString() {
 }
 
 /// @nodoc
-abstract mixin class $LocalChangesUploadedCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
-  factory $LocalChangesUploadedCopyWith(LocalChangesUploaded value, $Res Function(LocalChangesUploaded) _then) = _$LocalChangesUploadedCopyWithImpl;
+abstract mixin class _$LocalChangesUploadedCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
+  factory _$LocalChangesUploadedCopyWith(_LocalChangesUploaded value, $Res Function(_LocalChangesUploaded) _then) = __$LocalChangesUploadedCopyWithImpl;
 @useResult
 $Res call({
  String? message
@@ -225,17 +372,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$LocalChangesUploadedCopyWithImpl<$Res>
-    implements $LocalChangesUploadedCopyWith<$Res> {
-  _$LocalChangesUploadedCopyWithImpl(this._self, this._then);
+class __$LocalChangesUploadedCopyWithImpl<$Res>
+    implements _$LocalChangesUploadedCopyWith<$Res> {
+  __$LocalChangesUploadedCopyWithImpl(this._self, this._then);
 
-  final LocalChangesUploaded _self;
-  final $Res Function(LocalChangesUploaded) _then;
+  final _LocalChangesUploaded _self;
+  final $Res Function(_LocalChangesUploaded) _then;
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
-  return _then(LocalChangesUploaded(
+  return _then(_LocalChangesUploaded(
 freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -247,8 +394,8 @@ as String?,
 /// @nodoc
 
 
-class LocalUpdatesFailure implements LocalUpdatesState {
-  const LocalUpdatesFailure(this.error);
+class _LocalUpdatesFailure implements LocalUpdatesState {
+  const _LocalUpdatesFailure(this.error);
   
 
  final  dynamic error;
@@ -257,13 +404,13 @@ class LocalUpdatesFailure implements LocalUpdatesState {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$LocalUpdatesFailureCopyWith<LocalUpdatesFailure> get copyWith => _$LocalUpdatesFailureCopyWithImpl<LocalUpdatesFailure>(this, _$identity);
+_$LocalUpdatesFailureCopyWith<_LocalUpdatesFailure> get copyWith => __$LocalUpdatesFailureCopyWithImpl<_LocalUpdatesFailure>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUpdatesFailure&&const DeepCollectionEquality().equals(other.error, error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalUpdatesFailure&&const DeepCollectionEquality().equals(other.error, error));
 }
 
 
@@ -279,8 +426,8 @@ String toString() {
 }
 
 /// @nodoc
-abstract mixin class $LocalUpdatesFailureCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
-  factory $LocalUpdatesFailureCopyWith(LocalUpdatesFailure value, $Res Function(LocalUpdatesFailure) _then) = _$LocalUpdatesFailureCopyWithImpl;
+abstract mixin class _$LocalUpdatesFailureCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
+  factory _$LocalUpdatesFailureCopyWith(_LocalUpdatesFailure value, $Res Function(_LocalUpdatesFailure) _then) = __$LocalUpdatesFailureCopyWithImpl;
 @useResult
 $Res call({
  dynamic error
@@ -291,17 +438,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$LocalUpdatesFailureCopyWithImpl<$Res>
-    implements $LocalUpdatesFailureCopyWith<$Res> {
-  _$LocalUpdatesFailureCopyWithImpl(this._self, this._then);
+class __$LocalUpdatesFailureCopyWithImpl<$Res>
+    implements _$LocalUpdatesFailureCopyWith<$Res> {
+  __$LocalUpdatesFailureCopyWithImpl(this._self, this._then);
 
-  final LocalUpdatesFailure _self;
-  final $Res Function(LocalUpdatesFailure) _then;
+  final _LocalUpdatesFailure _self;
+  final $Res Function(_LocalUpdatesFailure) _then;
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? error = freezed,}) {
-  return _then(LocalUpdatesFailure(
+  return _then(_LocalUpdatesFailure(
 freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as dynamic,
   ));
@@ -340,11 +487,147 @@ $LocalUpdatesEventCopyWith(LocalUpdatesEvent _, $Res Function(LocalUpdatesEvent)
 }
 
 
+/// Adds pattern-matching-related methods to [LocalUpdatesEvent].
+extension LocalUpdatesEventPatterns on LocalUpdatesEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( FetchLocalChanges value)?  fetchLocalChanges,TResult Function( UploadLocalChanges value)?  uploadLocalChanges,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case FetchLocalChanges() when fetchLocalChanges != null:
+return fetchLocalChanges(_that);case UploadLocalChanges() when uploadLocalChanges != null:
+return uploadLocalChanges(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( FetchLocalChanges value)  fetchLocalChanges,required TResult Function( UploadLocalChanges value)  uploadLocalChanges,}){
+final _that = this;
+switch (_that) {
+case FetchLocalChanges():
+return fetchLocalChanges(_that);case UploadLocalChanges():
+return uploadLocalChanges(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( FetchLocalChanges value)?  fetchLocalChanges,TResult? Function( UploadLocalChanges value)?  uploadLocalChanges,}){
+final _that = this;
+switch (_that) {
+case FetchLocalChanges() when fetchLocalChanges != null:
+return fetchLocalChanges(_that);case UploadLocalChanges() when uploadLocalChanges != null:
+return uploadLocalChanges(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DateTime? lastSyncDate)?  fetchLocalChanges,TResult Function( List<Map<String, dynamic>> data)?  uploadLocalChanges,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case FetchLocalChanges() when fetchLocalChanges != null:
+return fetchLocalChanges(_that.lastSyncDate);case UploadLocalChanges() when uploadLocalChanges != null:
+return uploadLocalChanges(_that.data);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DateTime? lastSyncDate)  fetchLocalChanges,required TResult Function( List<Map<String, dynamic>> data)  uploadLocalChanges,}) {final _that = this;
+switch (_that) {
+case FetchLocalChanges():
+return fetchLocalChanges(_that.lastSyncDate);case UploadLocalChanges():
+return uploadLocalChanges(_that.data);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DateTime? lastSyncDate)?  fetchLocalChanges,TResult? Function( List<Map<String, dynamic>> data)?  uploadLocalChanges,}) {final _that = this;
+switch (_that) {
+case FetchLocalChanges() when fetchLocalChanges != null:
+return fetchLocalChanges(_that.lastSyncDate);case UploadLocalChanges() when uploadLocalChanges != null:
+return uploadLocalChanges(_that.data);case _:
+  return null;
+
+}
+}
+
+}
+
 /// @nodoc
 
 
-class GetLocalChanges implements LocalUpdatesEvent {
-   GetLocalChanges({this.lastSyncDate});
+class FetchLocalChanges implements LocalUpdatesEvent {
+   FetchLocalChanges({this.lastSyncDate});
   
 
  final  DateTime? lastSyncDate;
@@ -353,13 +636,13 @@ class GetLocalChanges implements LocalUpdatesEvent {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$GetLocalChangesCopyWith<GetLocalChanges> get copyWith => _$GetLocalChangesCopyWithImpl<GetLocalChanges>(this, _$identity);
+$FetchLocalChangesCopyWith<FetchLocalChanges> get copyWith => _$FetchLocalChangesCopyWithImpl<FetchLocalChanges>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetLocalChanges&&(identical(other.lastSyncDate, lastSyncDate) || other.lastSyncDate == lastSyncDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchLocalChanges&&(identical(other.lastSyncDate, lastSyncDate) || other.lastSyncDate == lastSyncDate));
 }
 
 
@@ -368,15 +651,15 @@ int get hashCode => Object.hash(runtimeType,lastSyncDate);
 
 @override
 String toString() {
-  return 'LocalUpdatesEvent.getLocalChanges(lastSyncDate: $lastSyncDate)';
+  return 'LocalUpdatesEvent.fetchLocalChanges(lastSyncDate: $lastSyncDate)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $GetLocalChangesCopyWith<$Res> implements $LocalUpdatesEventCopyWith<$Res> {
-  factory $GetLocalChangesCopyWith(GetLocalChanges value, $Res Function(GetLocalChanges) _then) = _$GetLocalChangesCopyWithImpl;
+abstract mixin class $FetchLocalChangesCopyWith<$Res> implements $LocalUpdatesEventCopyWith<$Res> {
+  factory $FetchLocalChangesCopyWith(FetchLocalChanges value, $Res Function(FetchLocalChanges) _then) = _$FetchLocalChangesCopyWithImpl;
 @useResult
 $Res call({
  DateTime? lastSyncDate
@@ -387,17 +670,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$GetLocalChangesCopyWithImpl<$Res>
-    implements $GetLocalChangesCopyWith<$Res> {
-  _$GetLocalChangesCopyWithImpl(this._self, this._then);
+class _$FetchLocalChangesCopyWithImpl<$Res>
+    implements $FetchLocalChangesCopyWith<$Res> {
+  _$FetchLocalChangesCopyWithImpl(this._self, this._then);
 
-  final GetLocalChanges _self;
-  final $Res Function(GetLocalChanges) _then;
+  final FetchLocalChanges _self;
+  final $Res Function(FetchLocalChanges) _then;
 
 /// Create a copy of LocalUpdatesEvent
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? lastSyncDate = freezed,}) {
-  return _then(GetLocalChanges(
+  return _then(FetchLocalChanges(
 lastSyncDate: freezed == lastSyncDate ? _self.lastSyncDate : lastSyncDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));

@@ -12,7 +12,7 @@ abstract class SyncUpdateState with _$SyncUpdateState {
     String? message,
     required List<DataEntity> remoteUpdates,
   }) = _SyncUpdateSucessfully;
-  const factory SyncUpdateState.failure({
+  const factory SyncUpdateState.error({
     required List<DataEntity> remoteUpdates,
     required dynamic error,
   }) = _SyncUpdateFailure;

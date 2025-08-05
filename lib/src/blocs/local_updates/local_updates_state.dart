@@ -5,8 +5,8 @@ sealed class LocalUpdatesState with _$LocalUpdatesState {
   const factory LocalUpdatesState.initial() = _Initial;
   const factory LocalUpdatesState.loading() = _LoadInProgress;
   const factory LocalUpdatesState.success(List<Map<String, dynamic>> data) =
-      LocalUpdatesLoaded;
+      _LocalUpdatesLoaded;
   const factory LocalUpdatesState.uploaded(String? message) =
-      LocalChangesUploaded;
-  const factory LocalUpdatesState.failure(dynamic error) = LocalUpdatesFailure;
+      _LocalChangesUploaded;
+  const factory LocalUpdatesState.failure(dynamic error) = _LocalUpdatesFailure;
 }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_offline_sync/src/blocs/local_updates/local_updates_bloc.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
-import 'package:flutter_offline_sync/src/providers/local_data_updates.dart';
 import 'package:flutter_offline_sync/src/ui/sync_devices_view.dart';
 
 import 'configurations_edit.dart';
 import 'data_viewer.dart';
 
-class SyncConfigurationsView extends ConsumerStatefulWidget {
+class SyncConfigurationsView extends StatefulWidget {
   const SyncConfigurationsView({
     super.key,
     required this.isAdmin,
@@ -26,15 +26,13 @@ class SyncConfigurationsView extends ConsumerStatefulWidget {
   final String? syncUserId;
 
   @override
-  ConsumerState<SyncConfigurationsView> createState() =>
-      _SyncConfigurationsViewState();
+  State<SyncConfigurationsView> createState() => _SyncConfigurationsViewState();
 }
 
-class _SyncConfigurationsViewState
-    extends ConsumerState<SyncConfigurationsView> {
+class _SyncConfigurationsViewState extends State<SyncConfigurationsView> {
   Future<void> handleDataReset() async {
     await ConfigService.resetSyncDates();
-    ref.read(localDataUpdatesProvider.notifier).fetchLocalUpdates();
+    context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
   }
 
   @override

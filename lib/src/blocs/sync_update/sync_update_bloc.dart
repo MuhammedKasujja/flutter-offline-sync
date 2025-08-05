@@ -29,7 +29,7 @@ class SyncUpdateBloc extends Bloc<SyncUpdateEvent, SyncUpdateState> {
         }
       } catch (error) {
         emit(
-          SyncUpdateState.failure(
+          SyncUpdateState.error(
             error: error,
             remoteUpdates: event.remoteUpdates,
           ),

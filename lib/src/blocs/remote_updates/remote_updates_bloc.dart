@@ -21,7 +21,7 @@ class RemoteUpdatesBloc extends Bloc<RemoteUpdatesEvent, RemoteUpdatesState> {
               await SyncroniserService(
                 AppConfig.instance.syncronizer,
               ).fetchRemotePendingData();
-          emit(RemoteUpdatesFetched(data));
+          emit(_RemoteUpdatesFetched(data));
         } else {
           throw Exception(
             'Please setup the device to enable getting remote changes',

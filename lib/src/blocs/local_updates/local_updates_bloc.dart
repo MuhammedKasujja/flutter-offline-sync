@@ -11,7 +11,7 @@ part 'local_updates_bloc.freezed.dart';
 
 class LocalUpdatesBloc extends Bloc<LocalUpdatesEvent, LocalUpdatesState> {
   LocalUpdatesBloc() : super(const LocalUpdatesState.initial()) {
-    on<GetLocalChanges>((event, emit) async {
+    on<FetchLocalChanges>((event, emit) async {
       try {
         emit(LocalUpdatesState.loading());
         final config = await ConfigService.getSettings();

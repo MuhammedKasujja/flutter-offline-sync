@@ -5,7 +5,7 @@ sealed class RemoteUpdatesState with _$RemoteUpdatesState {
   const factory RemoteUpdatesState.initial() = _Initial;
   const factory RemoteUpdatesState.loading() = _LoadInProgress;
   const factory RemoteUpdatesState.success(List<DataEntity> data) =
-      RemoteUpdatesFetched;
+      _RemoteUpdatesFetched;
   const factory RemoteUpdatesState.failure(dynamic error) =
-      RemoteUpdatesFailure;
+      _RemoteUpdatesFailure;
 }

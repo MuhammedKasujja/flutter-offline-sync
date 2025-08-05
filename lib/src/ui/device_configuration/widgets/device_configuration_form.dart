@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/device_configuration/device_configuration_bloc.dart';
 import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
-import 'package:flutter_offline_sync/src/providers/register_device.dart';
 import 'package:flutter_offline_sync/src/ui/app_form.dart';
 import 'package:flutter_offline_sync/src/utils/validations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,19 +34,19 @@ class _DeviceConfigurationFormState
     if (!isValid) {
       return;
     }
-
-    ref
-        .read(registerDeviceProvider.notifier)
-        .registerDevice(
-          SyncDeviceRequest(
-            userId: kDefaultConnectDeviceUserID,
-            accountKey: accountKeyController.text.trim(),
-            username: usernameController.text.trim(),
-            adminEmail: adminEmailController.text.trim(),
-            adminPassword: passwordController.text.trim(),
-            apiRegisterUrl: baseUrlController.text.trim(),
-          ),
-        );
+    if (!mounted) return;
+    context.read<DeviceConfigurationBloc>().add(
+      RegisterDevice(
+        SyncDeviceRequest(
+          userId: kDefaultConnectDeviceUserID,
+          accountKey: accountKeyController.text.trim(),
+          username: usernameController.text.trim(),
+          adminEmail: adminEmailController.text.trim(),
+          adminPassword: passwordController.text.trim(),
+          apiRegisterUrl: baseUrlController.text.trim(),
+        ),
+      ),
+    );
   }
 
   @override
