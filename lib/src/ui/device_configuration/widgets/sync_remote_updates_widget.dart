@@ -51,37 +51,34 @@ class SyncRemoteChangesWidget extends StatelessWidget {
             ),
           ],
           body: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: DataTable(
-                columns: [
-                  DataColumn(label: Text('Entity')),
-                  DataColumn(label: Text('Operation')),
-                  DataColumn(label: Text('Date')),
-                  DataColumn(label: Text('Action')),
-                ],
-                rows:
-                    state.remoteUpdates
-                        .map(
-                          (data) => DataRow(
-                            cells: [
-                              DataCell(Text(data.entity.toString())),
-                              DataCell(Text(data.operation)),
-                              DataCell(
-                                Text(data.updatedAt?.toIso8601String() ?? ''),
+            scrollDirection: Axis.vertical,
+            child: DataTable(
+              columns: [
+                DataColumn(label: Text('Entity')),
+                DataColumn(label: Text('Operation')),
+                DataColumn(label: Text('Date')),
+                DataColumn(label: Text('Action')),
+              ],
+              rows:
+                  state.remoteUpdates
+                      .map(
+                        (data) => DataRow(
+                          cells: [
+                            DataCell(Text(data.entity.toString())),
+                            DataCell(Text(data.operation)),
+                            DataCell(
+                              Text(data.updatedAt?.toIso8601String() ?? ''),
+                            ),
+                            DataCell(
+                              TextButton(
+                                onPressed: () {},
+                                child: Icon(Icons.save),
                               ),
-                              DataCell(
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Icon(Icons.save),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                        .toList(),
-              ),
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
             ),
           ),
         );
