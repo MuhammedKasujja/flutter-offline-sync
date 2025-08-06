@@ -51,6 +51,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
             ),
           ],
           body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
             child: DataTable(
               columns: [
                 DataColumn(label: Text('Entity')),

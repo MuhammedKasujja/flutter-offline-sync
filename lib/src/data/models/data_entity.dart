@@ -60,6 +60,7 @@ class DataEntity {
       operation: json['state'] ?? 'create',
       entity: json['entity'],
       entityId: json['entityId']?.toString(),
+      /// TODO: handle naming cases i.e [createdAt, deletedAt, updatedAt]
       createdAt:
           json['data']['created_at'] != null
               ? DateTime.parse(json['data']['created_at'])
