@@ -12,7 +12,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           success: (message, remoteUpdates) {
-            context.toast.success(message);
+            context.toast.success('Remote updates saved');
           },
         );
       },
