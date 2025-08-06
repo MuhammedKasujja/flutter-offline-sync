@@ -55,12 +55,14 @@ extension SyncUpdateEventPatterns on SyncUpdateEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SaveRemoteUpdates value)?  saveRemoteUpdates,TResult Function( SyncSingleUpdate value)?  syncUpdate,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SaveRemoteUpdates value)?  saveRemoteUpdates,TResult Function( SyncSingleUpdate value)?  syncUpdate,TResult Function( StageRemoteChanges value)?  stageRemoteChanges,TResult Function( PersistRemoteChangesManually value)?  persistRemoteChangesManually,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case SaveRemoteUpdates() when saveRemoteUpdates != null:
 return saveRemoteUpdates(_that);case SyncSingleUpdate() when syncUpdate != null:
-return syncUpdate(_that);case _:
+return syncUpdate(_that);case StageRemoteChanges() when stageRemoteChanges != null:
+return stageRemoteChanges(_that);case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
+return persistRemoteChangesManually(_that);case _:
   return orElse();
 
 }
@@ -78,12 +80,14 @@ return syncUpdate(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SaveRemoteUpdates value)  saveRemoteUpdates,required TResult Function( SyncSingleUpdate value)  syncUpdate,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SaveRemoteUpdates value)  saveRemoteUpdates,required TResult Function( SyncSingleUpdate value)  syncUpdate,required TResult Function( StageRemoteChanges value)  stageRemoteChanges,required TResult Function( PersistRemoteChangesManually value)  persistRemoteChangesManually,}){
 final _that = this;
 switch (_that) {
 case SaveRemoteUpdates():
 return saveRemoteUpdates(_that);case SyncSingleUpdate():
-return syncUpdate(_that);}
+return syncUpdate(_that);case StageRemoteChanges():
+return stageRemoteChanges(_that);case PersistRemoteChangesManually():
+return persistRemoteChangesManually(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -97,12 +101,14 @@ return syncUpdate(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SaveRemoteUpdates value)?  saveRemoteUpdates,TResult? Function( SyncSingleUpdate value)?  syncUpdate,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SaveRemoteUpdates value)?  saveRemoteUpdates,TResult? Function( SyncSingleUpdate value)?  syncUpdate,TResult? Function( StageRemoteChanges value)?  stageRemoteChanges,TResult? Function( PersistRemoteChangesManually value)?  persistRemoteChangesManually,}){
 final _that = this;
 switch (_that) {
 case SaveRemoteUpdates() when saveRemoteUpdates != null:
 return saveRemoteUpdates(_that);case SyncSingleUpdate() when syncUpdate != null:
-return syncUpdate(_that);case _:
+return syncUpdate(_that);case StageRemoteChanges() when stageRemoteChanges != null:
+return stageRemoteChanges(_that);case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
+return persistRemoteChangesManually(_that);case _:
   return null;
 
 }
@@ -119,11 +125,13 @@ return syncUpdate(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<DataEntity> remoteUpdates)?  saveRemoteUpdates,TResult Function( DataEntity remoteUpdate)?  syncUpdate,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<DataEntity> remoteUpdates)?  saveRemoteUpdates,TResult Function( DataEntity remoteUpdate)?  syncUpdate,TResult Function( List<DataEntity> changes)?  stageRemoteChanges,TResult Function()?  persistRemoteChangesManually,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SaveRemoteUpdates() when saveRemoteUpdates != null:
 return saveRemoteUpdates(_that.remoteUpdates);case SyncSingleUpdate() when syncUpdate != null:
-return syncUpdate(_that.remoteUpdate);case _:
+return syncUpdate(_that.remoteUpdate);case StageRemoteChanges() when stageRemoteChanges != null:
+return stageRemoteChanges(_that.changes);case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
+return persistRemoteChangesManually();case _:
   return orElse();
 
 }
@@ -141,11 +149,13 @@ return syncUpdate(_that.remoteUpdate);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<DataEntity> remoteUpdates)  saveRemoteUpdates,required TResult Function( DataEntity remoteUpdate)  syncUpdate,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<DataEntity> remoteUpdates)  saveRemoteUpdates,required TResult Function( DataEntity remoteUpdate)  syncUpdate,required TResult Function( List<DataEntity> changes)  stageRemoteChanges,required TResult Function()  persistRemoteChangesManually,}) {final _that = this;
 switch (_that) {
 case SaveRemoteUpdates():
 return saveRemoteUpdates(_that.remoteUpdates);case SyncSingleUpdate():
-return syncUpdate(_that.remoteUpdate);}
+return syncUpdate(_that.remoteUpdate);case StageRemoteChanges():
+return stageRemoteChanges(_that.changes);case PersistRemoteChangesManually():
+return persistRemoteChangesManually();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -159,11 +169,13 @@ return syncUpdate(_that.remoteUpdate);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<DataEntity> remoteUpdates)?  saveRemoteUpdates,TResult? Function( DataEntity remoteUpdate)?  syncUpdate,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<DataEntity> remoteUpdates)?  saveRemoteUpdates,TResult? Function( DataEntity remoteUpdate)?  syncUpdate,TResult? Function( List<DataEntity> changes)?  stageRemoteChanges,TResult? Function()?  persistRemoteChangesManually,}) {final _that = this;
 switch (_that) {
 case SaveRemoteUpdates() when saveRemoteUpdates != null:
 return saveRemoteUpdates(_that.remoteUpdates);case SyncSingleUpdate() when syncUpdate != null:
-return syncUpdate(_that.remoteUpdate);case _:
+return syncUpdate(_that.remoteUpdate);case StageRemoteChanges() when stageRemoteChanges != null:
+return stageRemoteChanges(_that.changes);case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
+return persistRemoteChangesManually();case _:
   return null;
 
 }
@@ -308,6 +320,110 @@ as DataEntity,
 
 
 }
+
+/// @nodoc
+
+
+class StageRemoteChanges implements SyncUpdateEvent {
+   StageRemoteChanges({required final  List<DataEntity> changes}): _changes = changes;
+  
+
+ final  List<DataEntity> _changes;
+ List<DataEntity> get changes {
+  if (_changes is EqualUnmodifiableListView) return _changes;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_changes);
+}
+
+
+/// Create a copy of SyncUpdateEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StageRemoteChangesCopyWith<StageRemoteChanges> get copyWith => _$StageRemoteChangesCopyWithImpl<StageRemoteChanges>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StageRemoteChanges&&const DeepCollectionEquality().equals(other._changes, _changes));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_changes));
+
+@override
+String toString() {
+  return 'SyncUpdateEvent.stageRemoteChanges(changes: $changes)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StageRemoteChangesCopyWith<$Res> implements $SyncUpdateEventCopyWith<$Res> {
+  factory $StageRemoteChangesCopyWith(StageRemoteChanges value, $Res Function(StageRemoteChanges) _then) = _$StageRemoteChangesCopyWithImpl;
+@useResult
+$Res call({
+ List<DataEntity> changes
+});
+
+
+
+
+}
+/// @nodoc
+class _$StageRemoteChangesCopyWithImpl<$Res>
+    implements $StageRemoteChangesCopyWith<$Res> {
+  _$StageRemoteChangesCopyWithImpl(this._self, this._then);
+
+  final StageRemoteChanges _self;
+  final $Res Function(StageRemoteChanges) _then;
+
+/// Create a copy of SyncUpdateEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? changes = null,}) {
+  return _then(StageRemoteChanges(
+changes: null == changes ? _self._changes : changes // ignore: cast_nullable_to_non_nullable
+as List<DataEntity>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class PersistRemoteChangesManually implements SyncUpdateEvent {
+   PersistRemoteChangesManually();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersistRemoteChangesManually);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SyncUpdateEvent.persistRemoteChangesManually()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 mixin _$SyncUpdateState {

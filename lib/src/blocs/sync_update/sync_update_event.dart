@@ -7,4 +7,7 @@ sealed class SyncUpdateEvent with _$SyncUpdateEvent {
   }) = SaveRemoteUpdates;
   factory SyncUpdateEvent.syncUpdate({required DataEntity remoteUpdate}) =
       SyncSingleUpdate;
+  factory SyncUpdateEvent.stageRemoteChanges({required List<DataEntity> changes}) =
+      StageRemoteChanges;
+  factory SyncUpdateEvent.persistRemoteChangesManually() = PersistRemoteChangesManually;
 }

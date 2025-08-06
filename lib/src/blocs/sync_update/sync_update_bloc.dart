@@ -36,5 +36,13 @@ class SyncUpdateBloc extends Bloc<SyncUpdateEvent, SyncUpdateState> {
         );
       }
     });
+
+    on<PersistRemoteChangesManually>((event, emit) {
+      add(SaveRemoteUpdates(remoteUpdates: state.remoteUpdates));
+    });
+
+    on<StageRemoteChanges>((event, emit) {
+      emit(_SyncUpdateSucessfully(remoteUpdates: event.changes));
+    });
   }
 }

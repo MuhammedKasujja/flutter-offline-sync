@@ -48,7 +48,7 @@ class UserModel {
   UserModel? save() {
     isSynced = false; // Mark as not synced
     updatedAt = DateTime.now();
-    uuid = getRandomString(24);
+    uuid ??= getRandomString(24);
     final saved = saveEntity(this);
     return saved;
   }

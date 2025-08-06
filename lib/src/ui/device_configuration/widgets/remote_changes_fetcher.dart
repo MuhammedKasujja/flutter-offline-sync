@@ -12,15 +12,16 @@ class RemoteChangesFetcherWidget extends StatelessWidget {
   ) {
     state.whenOrNull(
       success: (remoteUpdates) {
-        context.read<DeviceConfigurationBloc>().add(
-          DeviceConfigurationEvent.showSyncRemoteUpdates(),
-        );
-        // Future.delayed(Duration(seconds: 2), (){
-
-        // });
-        context.read<SyncUpdateBloc>().add(
-          SaveRemoteUpdates(remoteUpdates: remoteUpdates),
-        );
+        Future.delayed(Duration(seconds: 1), () {
+          if (context.mounted) {
+            context.read<DeviceConfigurationBloc>().add(
+              DeviceConfigurationEvent.showSyncRemoteUpdates(),
+            );
+            context.read<SyncUpdateBloc>().add(
+              StageRemoteChanges(changes: remoteUpdates),
+            );
+          }
+        });
       },
       failure: (error) => context.toast.error(error),
     );
@@ -36,19 +37,24 @@ class RemoteChangesFetcherWidget extends StatelessWidget {
           return state.maybeWhen(
             success:
                 // this only shows when no updates are found otherwise [SyncRemoteChangesWidget] is visible
-                (_) => Center(
+                (updates) => Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     spacing: 8,
                     children: [
-                      Text('No updates found'),
-                      FilledButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Close'),
+                      Text(
+                        updates.isEmpty
+                            ? 'No updates found'
+                            : '${updates.length} Remote updates found',
                       ),
+                      if (updates.isEmpty)
+                        FilledButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Close'),
+                        ),
                     ],
                   ),
                 ),

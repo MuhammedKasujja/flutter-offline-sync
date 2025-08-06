@@ -30,6 +30,8 @@ dart run build_runner build --delete-conflicting-outputs
 4. `isSynced` ( property to track synced models to avoid duplicate syncs from going to the server)
 5. `uuid?`  unique field to track the entity otherthan using auto generated objectbox primary keys `id` 
 
+### NOTE: make sure each entity has UUID and it shoul be final
+
 #### ID to track devices without `syncUserId`
 ```dart
 kDefaultConnectDeviceUserID = 'user_id_unknown';
