@@ -52,13 +52,26 @@ class DataEntity {
   }
 
   factory DataEntity.fromJson(Map<String, dynamic> json) {
+    final data = jsonEncode(json['data']);
     return DataEntity(
       uuid: json['uuid'],
-      data: jsonEncode(json['data']),
+      data: data,
       tableName: json['entity'],
       operation: json['state'] ?? 'create',
       entity: json['entity'],
       entityId: json['entityId']?.toString(),
+      createdAt:
+          json['data']['created_at'] != null
+              ? DateTime.parse(json['data']['created_at'])
+              : null,
+      deletedAt:
+          json['data']['deleted_at'] != null
+              ? DateTime.parse(json['data']['deleted_at'])
+              : null,
+      updatedAt:
+          json['data']['updated_at'] != null
+              ? DateTime.parse(json['data']['updated_at'])
+              : null,
     );
   }
 }

@@ -1,73 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:flutter_offline_sync/src/providers/local_data_updates.dart';
-import 'package:flutter_offline_sync/src/providers/manual_sync_manager.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/blocs.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
-class SyncDataViewer extends ConsumerStatefulWidget {
+class SyncDataViewer extends StatefulWidget {
   const SyncDataViewer({super.key});
 
   @override
-  ConsumerState<SyncDataViewer> createState() => _SyncDataViewerState();
+  State<SyncDataViewer> createState() => _SyncDataViewerState();
 }
 
-class _SyncDataViewerState extends ConsumerState<SyncDataViewer> {
+class _SyncDataViewerState extends State<SyncDataViewer> {
   @override
   void initState() {
-    Future.microtask(
-      () => ref.read(localDataUpdatesProvider.notifier).fetchLocalUpdates(),
-    );
+    Future.microtask(fetchLocalUpdates);
     super.initState();
   }
 
   Future fetchLocalUpdates() async {
-    ref.read(localDataUpdatesProvider.notifier).fetchLocalUpdates();
+    context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+  }
+
+  void onRemoteChangesFetched(BuildContext context, RemoteUpdatesState state) {
+    state.whenOrNull(
+      success: (remoteUpdates) {
+        context.read<SyncUpdateBloc>().add(
+          SaveRemoteUpdates(remoteUpdates: remoteUpdates),
+        );
+      },
+      failure: (error) => context.toast.error(error.toString()),
+    );
+  }
+
+  void syncUpdates() {
+    final locallBloc = context.read<LocalUpdatesBloc>();
+    locallBloc.state.whenOrNull(
+      success: (pendingChanges) {
+        // Only trigger upload local changes if there are some local changes
+        if (pendingChanges.isNotEmpty) {
+          locallBloc.add(UploadLocalChanges());
+        }
+      },
+    );
+    context.read<RemoteUpdatesBloc>().add(FetchRemotePendingUpdates());
   }
 
   @override
   Widget build(BuildContext context) {
-    final syncManager = ref.watch(manualSyncManagerProvider);
-    ref.listen<AsyncValue<void>>(manualSyncManagerProvider, (prev, next) {
-      next.whenOrNull(
-        data: (_) {
-          context.toast.success('Syncronizations Completed Successfully!');
-          fetchLocalUpdates();
-        },
-        error: (e, _) => context.toast.error('Failed: $e'),
-      );
-    });
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Consumer(
-            builder: (context, ref, _) {
-              final provider = ref.watch(localDataUpdatesProvider);
-              switch (provider) {
-                case AsyncData(:final value):
-                  return RefreshIndicator(
-                    onRefresh: fetchLocalUpdates,
-                    child:
-                        value.isEmpty
+        child: BlocConsumer<LocalUpdatesBloc, LocalUpdatesState>(
+          listener: (context, state) {
+            state.whenOrNull(
+              uploaded: (message) {
+                context.toast.success(message);
+                context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+              },
+            );
+          },
+          builder: (context, state) {
+            return Padding(
+              padding: EdgeInsets.all(16),
+              child: state.maybeWhen(
+                success:
+                    (data) =>
+                        data.isEmpty
                             ? Center(child: Text('No local updates available'))
-                            : _jsonViewer(value),
-                  );
-                case AsyncError(:final error):
-                  return Center(child: Text('$error'));
-                default:
-                  return Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
+                            : _jsonViewer(data),
+                failure: (error) => Center(child: Text('$error')),
+                orElse: () => Center(child: CircularProgressIndicator()),
+              ),
+            );
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:
-            syncManager.isLoading
-                ? null
-                : () => ref.read(manualSyncManagerProvider.notifier).syncData(),
-        child: Icon(Icons.sync),
+      floatingActionButton: BlocListener<RemoteUpdatesBloc, RemoteUpdatesState>(
+        listener: onRemoteChangesFetched,
+        child: FloatingActionButton(
+          onPressed: syncUpdates,
+          child: Icon(Icons.sync),
+        ),
       ),
     );
   }
