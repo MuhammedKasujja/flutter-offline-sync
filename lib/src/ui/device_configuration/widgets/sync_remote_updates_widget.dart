@@ -69,7 +69,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                               DataCell(Text(data.entity.toString())),
                               DataCell(Text(data.operation)),
                               DataCell(
-                                Text(data.updatedAt?.toIso8601String() ?? ''),
+                                Text(data.createdAt?.toIso8601String() ?? ''),
                               ),
                               DataCell(
                                 TextButton(
