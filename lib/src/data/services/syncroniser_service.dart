@@ -149,7 +149,7 @@ List<Map<String, dynamic>> _sortRemoteUpdatesByDate(
 ) {
   final updates = updatesJson.map(DataEntity.fromJson).toList();
 
-  updates.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
+  updates.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
 
   return updates.map((u) => u.toJson()).toList();
 }
