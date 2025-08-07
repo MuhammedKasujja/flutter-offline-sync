@@ -57,9 +57,9 @@ class EntityRegistryBuilder implements Builder {
     buffer.writeln(
       "import 'package:flutter_offline_sync/src/generator/entity_registry.dart';",
     );
-    buffer.writeln(
-      "import 'package:flutter_offline_sync/src/utils/logger.dart';",
-    );
+    // buffer.writeln(
+    //   "import 'package:flutter_offline_sync/src/utils/logger.dart';",
+    // );
     buffer.writeln(generateExportObjectboxG(buildStep));
 
     for (final entity in classes) {
@@ -191,7 +191,7 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
           buffer.writeln("  query.close();");
           buffer.writeln("  $name.target = ${name}Entity;}\n");
-          buffer.writeln("   logger.info(json['$name']);");
+          // buffer.writeln("   logger.info(json['$name']);");
         } else if (typeStr.startsWith('ToMany<')) {
           buffer.writeln("    if (json.containsKey('$name')) {");
           buffer.writeln("      $name.clear();");
@@ -210,7 +210,7 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln("  query.close();");
           buffer.writeln("  $name.add(${name}Entity);  }");
           buffer.writeln("  }\n");
-          buffer.writeln("   logger.info(json['$name']);");
+          // buffer.writeln("   logger.info(json['$name']);");
         }
       }
       buffer.writeln('  return this;');
