@@ -21,10 +21,11 @@ class SyncRemoteChangesWidget extends StatelessWidget {
           appBar: AppBar(
             title: Text('Remote Changes'),
             actions: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(state.remoteUpdates.length.toString()),
-              ),
+              if (state.remoteUpdates.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(state.remoteUpdates.length.toString()),
+                ),
             ],
           ),
           persistentFooterButtons: [
@@ -39,14 +40,15 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                   },
                   child: Text('Close'),
                 ),
-                FilledButton(
-                  onPressed: () {
-                    context.read<SyncUpdateBloc>().add(
-                      PersistRemoteChangesManually(),
-                    );
-                  },
-                  child: Text('Save Changes'),
-                ),
+                if (state.remoteUpdates.isNotEmpty)
+                  FilledButton(
+                    onPressed: () {
+                      context.read<SyncUpdateBloc>().add(
+                        PersistRemoteChangesManually(),
+                      );
+                    },
+                    child: Text('Save Changes'),
+                  ),
               ],
             ),
           ],
