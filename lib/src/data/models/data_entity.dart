@@ -39,6 +39,7 @@ class DataEntity {
   });
 
   Map<String, dynamic> toJson() {
+    final update = jsonDecode(data);
     return {
       'uuid': uuid,
       'tableName': tableName,
@@ -48,9 +49,9 @@ class DataEntity {
       'state': operation,
       'updateId': id,
       'isSynced': isSynced,
-      // 'created_at': update['created_at'],
-      // 'deleted_at': update['deleted_at'],
-      // 'updated_at': update['updated_at'],
+      'created_at': update['created_at'],
+      'deleted_at': update['deleted_at'],
+      'updated_at': update['updated_at'],
     };
   }
 
