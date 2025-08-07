@@ -1,6 +1,11 @@
+import 'dart:math';
+
+import 'package:example/data/models/post_model.dart';
 import 'package:example/data/models/user_model.dart';
+import 'package:example/data/utils.dart';
 import 'package:example/database.dart';
 import 'package:example/ui/user_edit_screen.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 
@@ -13,6 +18,7 @@ class UsersScreen extends StatefulWidget {
 
 class _UsersScreenState extends State<UsersScreen> {
   List<UserModel> users = [];
+  final faker = Faker();
 
   @override
   void initState() {
@@ -102,6 +108,42 @@ class _UsersScreenState extends State<UsersScreen> {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          for (var i = 0; i < 10; i++) {
+            handleSave();
+          }
+          fetchUsers();
+        },
+        child: Icon(Icons.save),
+      ),
     );
+  }
+
+  void handleSave() {
+    final user = UserModel(
+      age: faker.vehicle.hashCode,
+      email: faker.internet.email(),
+      name: faker.person.name(),
+      phone: faker.phoneNumber.us(),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+    final random = Random();
+    int postCount = random.nextInt(5) + 1; // Generates 1 to 5
+    final List<PostModel> posts = [];
+    for (var i = 0; i < postCount; i++) {
+      final post = PostModel(
+        title: faker.sport.name(),
+        content: faker.lorem.sentence(),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        uuid: getRandomString(24),
+      );
+      posts.add(post);
+    }
+
+    user.posts.addAll([...posts]);
+    user.save();
   }
 }
