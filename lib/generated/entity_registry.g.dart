@@ -10,6 +10,7 @@
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
+import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:flutter_offline_sync/objectbox.g.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';

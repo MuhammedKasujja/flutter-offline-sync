@@ -10,6 +10,7 @@
 
 import 'package:flutter_offline_sync/flutter_offline_sync.dart';
 import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
+import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:example/objectbox.g.dart';
 import 'package:example/data/models/role_model.dart';
 import 'package:example/data/models/user_model.dart';
@@ -204,6 +205,7 @@ extension UserModelRelationJson on UserModel {
       }
     }
 
+    logger.info(json['posts']);
     return this;
   }
 
@@ -246,6 +248,7 @@ extension PostModelRelationJson on PostModel {
       user.target = userEntity;
     }
 
+    logger.info(json['user']);
     return this;
   }
 
