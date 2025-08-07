@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
@@ -82,11 +80,16 @@ class DataSyncroniser extends IDataSyncroniser {
       return;
     }
     try {
-      for (var remoteData in remoteUpdates) {
-        /// updating local database with remote changes
+      // lift json decode to a separate Isolate to avoid blocking the UI
+      final decodedList = await compute(
+        Parser.decodeRemoteEntitiesInIsolate,
+        remoteUpdates,
+      );
+
+      for (var entry in decodedList) {
         FlutterSync.instance.entityRegistry.save(
-          remoteData.entity,
-          jsonDecode(remoteData.data),
+          entry.key, // EntityName
+          entry.value, // Entity JSON
         );
       }
     } catch (error, stackTrace) {
@@ -143,18 +146,9 @@ class DataSyncroniser extends IDataSyncroniser {
   }
 }
 
-SyncDataEntityList _parseSyncDataEntityList(List<dynamic> json) {
-  return SyncDataEntityList.fromJson(json);
-}
-
 // SyncDataEntityList parseAndSortSyncDataEntityList(List<dynamic> json) {
 //   final list = SyncDataEntityList.fromJson(json);
 //   list.entities.sort((a, b) => a.updatedAt.compareTo(a.updatedAt));
 //   return list;
 // }
 
-Future<SyncDataEntityList> _parseRemoteUpdatesInBackground(
-  List<dynamic> json,
-) async {
-  return await compute(_parseSyncDataEntityList, json);
-}

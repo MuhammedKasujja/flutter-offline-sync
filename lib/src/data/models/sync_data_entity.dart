@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 
 class SyncDataEntity {
@@ -85,5 +87,14 @@ class LocalSyncDataResponse {
 class Parser {
   static SyncDataEntityList parseRemoteUpdates(List<dynamic> json) {
     return SyncDataEntityList.fromJson(json);
+  }
+
+  static List<MapEntry<String, dynamic>> decodeRemoteEntitiesInIsolate(
+    List<DataEntity> remoteUpdates,
+  ) {
+    return remoteUpdates.map((remoteData) {
+      final decoded = jsonDecode(remoteData.data);
+      return MapEntry(remoteData.entity, decoded);
+    }).toList();
   }
 }
