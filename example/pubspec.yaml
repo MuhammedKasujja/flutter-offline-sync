@@ -19,6 +19,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   freezed_annotation: ^3.0.0
   built_value: ^8.9.2
+  faker: ^2.2.0
 
 dev_dependencies:
   flutter_test:

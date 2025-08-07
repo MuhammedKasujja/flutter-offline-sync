@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/constants.dart';
@@ -118,7 +119,7 @@ class DataSyncroniser extends IDataSyncroniser {
         throw Exception('Remote sync endpoint is not configured');
       }
 
-      final response = await _apiClient.get(
+      final response = await _apiClient.get<List<dynamic>>(
         _config.getRemoteEndpoint,
         queryParameters: {
           'deviceId': _config.currentDeviceId,
@@ -126,8 +127,11 @@ class DataSyncroniser extends IDataSyncroniser {
         },
       );
       if (response.isSuccess) {
-        logger.info(response.data);
-        final updates = SyncDataEntityList.fromJson(response.data);
+        // final updates = await _parseRemoteUpdatesInBackground(response.data!);
+        final updates = await compute(
+          Parser.parseRemoteUpdates,
+          response.data!,
+        );
 
         return ApiResponse(success: response.isSuccess, data: updates.entities);
       }
@@ -137,4 +141,20 @@ class DataSyncroniser extends IDataSyncroniser {
       return ApiResponse.error(error.toString());
     }
   }
+}
+
+SyncDataEntityList _parseSyncDataEntityList(List<dynamic> json) {
+  return SyncDataEntityList.fromJson(json);
+}
+
+// SyncDataEntityList parseAndSortSyncDataEntityList(List<dynamic> json) {
+//   final list = SyncDataEntityList.fromJson(json);
+//   list.entities.sort((a, b) => a.updatedAt.compareTo(a.updatedAt));
+//   return list;
+// }
+
+Future<SyncDataEntityList> _parseRemoteUpdatesInBackground(
+  List<dynamic> json,
+) async {
+  return await compute(_parseSyncDataEntityList, json);
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/flutter_sync.dart';
@@ -116,7 +117,7 @@ class SyncroniserService {
     final List<DataEntity> dataUpdates =
         response.data!.expand((item) => item.data).toList();
 
-    return dataUpdates;
+    return _sortInBackground(dataUpdates);
   }
 
   Future<void> retryWithBackoff(
@@ -141,4 +142,23 @@ class SyncroniserService {
       }
     }
   }
+}
+
+List<Map<String, dynamic>> _sortRemoteUpdatesByDate(
+  List<Map<String, dynamic>> updatesJson,
+) {
+  final updates = updatesJson.map(DataEntity.fromJson).toList();
+
+  updates.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
+
+  return updates.map((u) => u.toJson()).toList();
+}
+
+Future<List<DataEntity>> _sortInBackground(List<DataEntity> updates) async {
+  final sorted = await compute(
+    _sortRemoteUpdatesByDate,
+    updates.map((u) => u.toJson()).toList(),
+  );
+
+  return sorted.map(DataEntity.fromJson).toList();
 }

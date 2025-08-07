@@ -48,6 +48,9 @@ class DataEntity {
       'state': operation,
       'updateId': id,
       'isSynced': isSynced,
+      // 'created_at': update['created_at'],
+      // 'deleted_at': update['deleted_at'],
+      // 'updated_at': update['updated_at'],
     };
   }
 
@@ -60,6 +63,7 @@ class DataEntity {
       operation: json['state'] ?? 'create',
       entity: json['entity'],
       entityId: json['entityId']?.toString(),
+
       /// TODO: handle naming cases i.e [createdAt, deletedAt, updatedAt]
       createdAt:
           json['data']['created_at'] != null

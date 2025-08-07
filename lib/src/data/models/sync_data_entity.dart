@@ -81,3 +81,9 @@ class LocalSyncDataResponse {
     return {'lastUpdateId': lastUpdateId, 'lastSyncDate': lastSyncDate};
   }
 }
+
+class Parser {
+  static SyncDataEntityList parseRemoteUpdates(List<dynamic> json) {
+    return SyncDataEntityList.fromJson(json);
+  }
+}
