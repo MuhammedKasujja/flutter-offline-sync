@@ -25,7 +25,7 @@ class DeviceConfigurationBloc
           apiClient: AppConfig.instance.getClient(),
         ).registerDevice(event.requestDetails);
         if (!response.isSuccess) {
-          throw Exception(response.error ?? 'Unknown error');
+          throw Exception(response.error ?? 'Unknown error occured');
         }
 
         /// refresh global settings after saving device

@@ -27,6 +27,7 @@ class DeviceConfigServiceImpl extends DeviceConfigService {
 
     if (reseponse.isSuccess) {
       config = config.copyWith(
+        accountKey: request.accountKey,
         baseUrl: formatApiBaseUrl(request.apiRegisterUrl),
         userName: request.username,
         userId: request.userId,
