@@ -49,6 +49,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
         userId: widget.syncUserId,
         userName: userNameController.text.trim(),
         syncUrl: baseUrlController.text.trim(),
+        accountKey: accountKeyController.text.trim(),
       );
       if (response.isSuccess) {
         await saveConfig();

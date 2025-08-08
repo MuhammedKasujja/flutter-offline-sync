@@ -14,6 +14,7 @@ class RemoteConfigService extends IRemoteConfigService {
     required String? userId,
     required String userName,
     required String syncUrl,
+    required String accountKey,
   }) async {
     final settings = await ConfigService.getSettings();
 
@@ -31,7 +32,7 @@ class RemoteConfigService extends IRemoteConfigService {
       url,
       data: {
         'deviceId': settings.currentDeviceId,
-        'accountKey': settings.accountKey,
+        'accountKey': accountKey,
         'userId': userId,
         'userName': userName,
       },
@@ -54,13 +55,14 @@ class RemoteConfigService extends IRemoteConfigService {
     required String userId,
     required String deviceId,
     required String userName,
+    required String accountKey,
   }) async {
     final settings = await ConfigService.getSettings();
     return apiClient.post(
       settings!.addSyncDeviceEndpoint!,
       data: {
         'deviceId': deviceId,
-        'accountKey': settings.accountKey,
+        'accountKey': accountKey,
         'userId': userId,
         'userName': userName,
       },
@@ -73,6 +75,7 @@ abstract class IRemoteConfigService {
     required String userId,
     required String deviceId,
     required String userName,
+    required String accountKey,
   });
   Future<ApiResponse> getSyncDevices();
   Future<ApiResponse> deleteSyncDevice({required String deviceId});
@@ -80,5 +83,6 @@ abstract class IRemoteConfigService {
     required String? userId,
     required String userName,
     required String syncUrl,
+    required String accountKey,
   });
 }
