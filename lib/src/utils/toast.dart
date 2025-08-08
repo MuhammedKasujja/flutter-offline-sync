@@ -4,9 +4,11 @@ class ToastNotification {
   final BuildContext context;
   ToastNotification(this.context);
 
-  void error(String? error) {
-    if (error == null) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+  void error(dynamic error) {
+    if (error == null || error.toString().isEmpty) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(error.toString())));
   }
 
   void success(String? message) {
