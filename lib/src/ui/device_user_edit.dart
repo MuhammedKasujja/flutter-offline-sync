@@ -21,7 +21,8 @@ class _DeviceUserEditState extends State<DeviceUserEdit> {
         userId: 'userId', // Replace with actual user ID
         // deviceId: deviceIdController.text,
         userName: userNameController.text.trim(),
-        syncUrl: ''
+        syncUrl: '',
+        accountKey: '',
       );
       if (response.isSuccess) {
         context.toast.success('Device saved successfully');
