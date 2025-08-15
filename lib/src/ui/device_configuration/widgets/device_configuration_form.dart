@@ -69,6 +69,12 @@ class _DeviceConfigurationFormState
       appBar: AppBar(
         title: Text('Setup Device'),
         backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: AppForm(
