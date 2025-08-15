@@ -67,53 +67,50 @@ class _DeviceConfigurationFormState
     return Scaffold(
       appBar: AppBar(title: Text('Setup Device')),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: AppForm(
-            focusNode: _focusNode,
-            formKey: _formKey,
-            child: Column(
-              spacing: 16,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Account Key'),
-                TextFormField(
-                  controller: accountKeyController,
-                  validator: Validations.requiredField,
-                ),
-                Text('Sync Base Url'),
-                TextFormField(
-                  controller: baseUrlController,
-                  validator: Validations.requiredField,
-                ),
-                Text('Device Username'),
-                TextFormField(
-                  controller: usernameController,
-                  validator: Validations.requiredField,
-                ),
-                Text('Admin Email'),
-                TextFormField(
-                  controller: adminEmailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: Validations.requiredField,
-                ),
-                Text('Admin Password'),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  validator: Validations.requiredField,
-                ),
-                BlocListener<DeviceConfigurationBloc, DeviceConfigurationState>(
-                  listener: handleAfterDeviceConfigured,
-                  child: Center(
-                    child: FilledButton(
-                      onPressed: handleRegisterDevice,
-                      child: Text('Sync Device'),
-                    ),
+        child: AppForm(
+          focusNode: _focusNode,
+          formKey: _formKey,
+          child: Column(
+            spacing: 16,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Account Key'),
+              TextFormField(
+                controller: accountKeyController,
+                validator: Validations.requiredField,
+              ),
+              Text('Sync Base Url'),
+              TextFormField(
+                controller: baseUrlController,
+                validator: Validations.requiredField,
+              ),
+              Text('Device Username'),
+              TextFormField(
+                controller: usernameController,
+                validator: Validations.requiredField,
+              ),
+              Text('Admin Email'),
+              TextFormField(
+                controller: adminEmailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: Validations.requiredField,
+              ),
+              Text('Admin Password'),
+              TextFormField(
+                controller: passwordController,
+                obscureText: true,
+                validator: Validations.requiredField,
+              ),
+              BlocListener<DeviceConfigurationBloc, DeviceConfigurationState>(
+                listener: handleAfterDeviceConfigured,
+                child: Center(
+                  child: FilledButton(
+                    onPressed: handleRegisterDevice,
+                    child: Text('Sync Device'),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
