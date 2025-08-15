@@ -29,6 +29,12 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                 ),
             ],
             backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ),
           persistentFooterButtons: [
             Row(
