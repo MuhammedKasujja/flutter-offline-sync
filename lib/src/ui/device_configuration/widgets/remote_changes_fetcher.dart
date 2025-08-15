@@ -30,7 +30,11 @@ class RemoteChangesFetcherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Fetching Remote updates')),
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: Text('Fetching Remote updates'),
+        backgroundColor: Colors.transparent,
+      ),
       body: BlocConsumer<RemoteUpdatesBloc, RemoteUpdatesState>(
         listener: handleAfterRemoteChanges,
         builder: (context, state) {

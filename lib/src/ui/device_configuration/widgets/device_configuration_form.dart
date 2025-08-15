@@ -65,7 +65,11 @@ class _DeviceConfigurationFormState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Setup Device')),
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: Text('Setup Device'),
+        backgroundColor: Colors.transparent,
+      ),
       body: SingleChildScrollView(
         child: AppForm(
           focusNode: _focusNode,

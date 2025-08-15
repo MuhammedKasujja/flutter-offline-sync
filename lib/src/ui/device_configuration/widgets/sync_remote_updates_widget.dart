@@ -18,6 +18,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
             title: Text('Remote Changes'),
             actions: [
@@ -27,6 +28,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                   child: Text(state.remoteUpdates.length.toString()),
                 ),
             ],
+            backgroundColor: Colors.transparent,
           ),
           persistentFooterButtons: [
             Row(

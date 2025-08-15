@@ -21,15 +21,11 @@ class DeviceConfiguration extends StatelessWidget {
       },
       child: BlocBuilder<DeviceConfigurationBloc, DeviceConfigurationState>(
         builder: (context, state) {
-          return Padding(
-            padding: EdgeInsets.zero,
-            child:
-                state.configStep.isFetchRemoteStep
-                    ? RemoteChangesFetcherWidget()
-                    : state.configStep.isSyncUpdatesStep
-                    ? SyncRemoteChangesWidget()
-                    : DeviceConfigurationForm(),
-          );
+          return state.configStep.isFetchRemoteStep
+              ? RemoteChangesFetcherWidget()
+              : state.configStep.isSyncUpdatesStep
+              ? SyncRemoteChangesWidget()
+              : DeviceConfigurationForm();
         },
       ),
     );
