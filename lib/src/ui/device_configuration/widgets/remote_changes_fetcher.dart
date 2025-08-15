@@ -32,12 +32,6 @@ class RemoteChangesFetcherWidget extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
         title: Text('Fetching Remote updates'),
         backgroundColor: Colors.transparent,
       ),
