@@ -17,9 +17,7 @@ class RemoteChangesFetcherWidget extends StatelessWidget {
             context.read<DeviceConfigurationBloc>().add(
               DeviceConfigurationEvent.showSyncRemoteUpdates(),
             );
-            context.read<SyncUpdateBloc>().add(
-              StageRemoteChanges(changes: remoteUpdates),
-            );
+            context.read<SyncUpdateBloc>().add(StageRemoteChanges());
           }
         });
       },

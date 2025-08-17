@@ -60,9 +60,10 @@ class SyncRemoteChangesWidget extends StatelessWidget {
               scrollDirection: Axis.vertical,
               child: DataTable(
                 columns: [
-                  DataColumn(label: Text('Entity')),
-                  DataColumn(label: Text('Operation')),
                   DataColumn(label: Text('Date')),
+                  DataColumn(label: Text('Device')),
+                  DataColumn(label: Text('User ID')),
+                  DataColumn(label: Text('Total Updates')),
                   DataColumn(label: Text('Action')),
                 ],
                 rows:
@@ -70,11 +71,10 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                         .map(
                           (data) => DataRow(
                             cells: [
-                              DataCell(Text(data.entity.toString())),
-                              DataCell(Text(data.operation)),
-                              DataCell(
-                                Text(data.createdAt?.toIso8601String() ?? ''),
-                              ),
+                              DataCell(Text(data.createdAt.toIso8601String())),
+                              DataCell(Text(data.deviceId)),
+                              DataCell(Text(data.userId)),
+                              DataCell(Text(data.data.length.toString())),
                               DataCell(
                                 TextButton(
                                   onPressed: () {},

@@ -3,11 +3,11 @@ part of 'sync_update_bloc.dart';
 @freezed
 sealed class SyncUpdateEvent with _$SyncUpdateEvent {
   factory SyncUpdateEvent.saveRemoteUpdates({
-    required List<DataEntity> remoteUpdates,
+    required List<SyncDataEntity> remoteUpdates,
   }) = SaveRemoteUpdates;
-  factory SyncUpdateEvent.syncUpdate({required DataEntity remoteUpdate}) =
+  factory SyncUpdateEvent.syncUpdate({required SyncDataEntity remoteUpdate}) =
       SyncSingleUpdate;
-  factory SyncUpdateEvent.stageRemoteChanges({required List<DataEntity> changes}) =
-      StageRemoteChanges;
-  factory SyncUpdateEvent.persistRemoteChangesManually() = PersistRemoteChangesManually;
+  factory SyncUpdateEvent.stageRemoteChanges() = StageRemoteChanges;
+  factory SyncUpdateEvent.persistRemoteChangesManually() =
+      PersistRemoteChangesManually;
 }

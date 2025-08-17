@@ -125,12 +125,12 @@ return persistRemoteChangesManually(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<DataEntity> remoteUpdates)?  saveRemoteUpdates,TResult Function( DataEntity remoteUpdate)?  syncUpdate,TResult Function( List<DataEntity> changes)?  stageRemoteChanges,TResult Function()?  persistRemoteChangesManually,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<SyncDataEntity> remoteUpdates)?  saveRemoteUpdates,TResult Function( SyncDataEntity remoteUpdate)?  syncUpdate,TResult Function()?  stageRemoteChanges,TResult Function()?  persistRemoteChangesManually,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SaveRemoteUpdates() when saveRemoteUpdates != null:
 return saveRemoteUpdates(_that.remoteUpdates);case SyncSingleUpdate() when syncUpdate != null:
 return syncUpdate(_that.remoteUpdate);case StageRemoteChanges() when stageRemoteChanges != null:
-return stageRemoteChanges(_that.changes);case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
+return stageRemoteChanges();case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
 return persistRemoteChangesManually();case _:
   return orElse();
 
@@ -149,12 +149,12 @@ return persistRemoteChangesManually();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<DataEntity> remoteUpdates)  saveRemoteUpdates,required TResult Function( DataEntity remoteUpdate)  syncUpdate,required TResult Function( List<DataEntity> changes)  stageRemoteChanges,required TResult Function()  persistRemoteChangesManually,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<SyncDataEntity> remoteUpdates)  saveRemoteUpdates,required TResult Function( SyncDataEntity remoteUpdate)  syncUpdate,required TResult Function()  stageRemoteChanges,required TResult Function()  persistRemoteChangesManually,}) {final _that = this;
 switch (_that) {
 case SaveRemoteUpdates():
 return saveRemoteUpdates(_that.remoteUpdates);case SyncSingleUpdate():
 return syncUpdate(_that.remoteUpdate);case StageRemoteChanges():
-return stageRemoteChanges(_that.changes);case PersistRemoteChangesManually():
+return stageRemoteChanges();case PersistRemoteChangesManually():
 return persistRemoteChangesManually();}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -169,12 +169,12 @@ return persistRemoteChangesManually();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<DataEntity> remoteUpdates)?  saveRemoteUpdates,TResult? Function( DataEntity remoteUpdate)?  syncUpdate,TResult? Function( List<DataEntity> changes)?  stageRemoteChanges,TResult? Function()?  persistRemoteChangesManually,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<SyncDataEntity> remoteUpdates)?  saveRemoteUpdates,TResult? Function( SyncDataEntity remoteUpdate)?  syncUpdate,TResult? Function()?  stageRemoteChanges,TResult? Function()?  persistRemoteChangesManually,}) {final _that = this;
 switch (_that) {
 case SaveRemoteUpdates() when saveRemoteUpdates != null:
 return saveRemoteUpdates(_that.remoteUpdates);case SyncSingleUpdate() when syncUpdate != null:
 return syncUpdate(_that.remoteUpdate);case StageRemoteChanges() when stageRemoteChanges != null:
-return stageRemoteChanges(_that.changes);case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
+return stageRemoteChanges();case PersistRemoteChangesManually() when persistRemoteChangesManually != null:
 return persistRemoteChangesManually();case _:
   return null;
 
@@ -187,11 +187,11 @@ return persistRemoteChangesManually();case _:
 
 
 class SaveRemoteUpdates implements SyncUpdateEvent {
-   SaveRemoteUpdates({required final  List<DataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
+   SaveRemoteUpdates({required final  List<SyncDataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
   
 
- final  List<DataEntity> _remoteUpdates;
- List<DataEntity> get remoteUpdates {
+ final  List<SyncDataEntity> _remoteUpdates;
+ List<SyncDataEntity> get remoteUpdates {
   if (_remoteUpdates is EqualUnmodifiableListView) return _remoteUpdates;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_remoteUpdates);
@@ -228,7 +228,7 @@ abstract mixin class $SaveRemoteUpdatesCopyWith<$Res> implements $SyncUpdateEven
   factory $SaveRemoteUpdatesCopyWith(SaveRemoteUpdates value, $Res Function(SaveRemoteUpdates) _then) = _$SaveRemoteUpdatesCopyWithImpl;
 @useResult
 $Res call({
- List<DataEntity> remoteUpdates
+ List<SyncDataEntity> remoteUpdates
 });
 
 
@@ -248,7 +248,7 @@ class _$SaveRemoteUpdatesCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? remoteUpdates = null,}) {
   return _then(SaveRemoteUpdates(
 remoteUpdates: null == remoteUpdates ? _self._remoteUpdates : remoteUpdates // ignore: cast_nullable_to_non_nullable
-as List<DataEntity>,
+as List<SyncDataEntity>,
   ));
 }
 
@@ -262,7 +262,7 @@ class SyncSingleUpdate implements SyncUpdateEvent {
    SyncSingleUpdate({required this.remoteUpdate});
   
 
- final  DataEntity remoteUpdate;
+ final  SyncDataEntity remoteUpdate;
 
 /// Create a copy of SyncUpdateEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -294,7 +294,7 @@ abstract mixin class $SyncSingleUpdateCopyWith<$Res> implements $SyncUpdateEvent
   factory $SyncSingleUpdateCopyWith(SyncSingleUpdate value, $Res Function(SyncSingleUpdate) _then) = _$SyncSingleUpdateCopyWithImpl;
 @useResult
 $Res call({
- DataEntity remoteUpdate
+ SyncDataEntity remoteUpdate
 });
 
 
@@ -314,7 +314,7 @@ class _$SyncSingleUpdateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? remoteUpdate = null,}) {
   return _then(SyncSingleUpdate(
 remoteUpdate: null == remoteUpdate ? _self.remoteUpdate : remoteUpdate // ignore: cast_nullable_to_non_nullable
-as DataEntity,
+as SyncDataEntity,
   ));
 }
 
@@ -325,73 +325,33 @@ as DataEntity,
 
 
 class StageRemoteChanges implements SyncUpdateEvent {
-   StageRemoteChanges({required final  List<DataEntity> changes}): _changes = changes;
+   StageRemoteChanges();
   
 
- final  List<DataEntity> _changes;
- List<DataEntity> get changes {
-  if (_changes is EqualUnmodifiableListView) return _changes;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_changes);
-}
 
 
-/// Create a copy of SyncUpdateEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$StageRemoteChangesCopyWith<StageRemoteChanges> get copyWith => _$StageRemoteChangesCopyWithImpl<StageRemoteChanges>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StageRemoteChanges&&const DeepCollectionEquality().equals(other._changes, _changes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StageRemoteChanges);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_changes));
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'SyncUpdateEvent.stageRemoteChanges(changes: $changes)';
+  return 'SyncUpdateEvent.stageRemoteChanges()';
 }
 
 
 }
 
-/// @nodoc
-abstract mixin class $StageRemoteChangesCopyWith<$Res> implements $SyncUpdateEventCopyWith<$Res> {
-  factory $StageRemoteChangesCopyWith(StageRemoteChanges value, $Res Function(StageRemoteChanges) _then) = _$StageRemoteChangesCopyWithImpl;
-@useResult
-$Res call({
- List<DataEntity> changes
-});
 
 
-
-
-}
-/// @nodoc
-class _$StageRemoteChangesCopyWithImpl<$Res>
-    implements $StageRemoteChangesCopyWith<$Res> {
-  _$StageRemoteChangesCopyWithImpl(this._self, this._then);
-
-  final StageRemoteChanges _self;
-  final $Res Function(StageRemoteChanges) _then;
-
-/// Create a copy of SyncUpdateEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? changes = null,}) {
-  return _then(StageRemoteChanges(
-changes: null == changes ? _self._changes : changes // ignore: cast_nullable_to_non_nullable
-as List<DataEntity>,
-  ));
-}
-
-
-}
 
 /// @nodoc
 
@@ -428,7 +388,7 @@ String toString() {
 /// @nodoc
 mixin _$SyncUpdateState {
 
- List<DataEntity> get remoteUpdates;
+ List<SyncDataEntity> get remoteUpdates;
 /// Create a copy of SyncUpdateState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -459,7 +419,7 @@ abstract mixin class $SyncUpdateStateCopyWith<$Res>  {
   factory $SyncUpdateStateCopyWith(SyncUpdateState value, $Res Function(SyncUpdateState) _then) = _$SyncUpdateStateCopyWithImpl;
 @useResult
 $Res call({
- List<DataEntity> remoteUpdates
+ List<SyncDataEntity> remoteUpdates
 });
 
 
@@ -479,7 +439,7 @@ class _$SyncUpdateStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? remoteUpdates = null,}) {
   return _then(_self.copyWith(
 remoteUpdates: null == remoteUpdates ? _self.remoteUpdates : remoteUpdates // ignore: cast_nullable_to_non_nullable
-as List<DataEntity>,
+as List<SyncDataEntity>,
   ));
 }
 
@@ -500,13 +460,14 @@ extension SyncUpdateStatePatterns on SyncUpdateState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _LoadInProgress value)?  loading,TResult Function( _SyncUpdateSucessfully value)?  success,TResult Function( _SyncUpdateFailure value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _LoadInProgress value)?  loading,TResult Function( _SyncUpdateSucessfully value)?  success,TResult Function( _SyncStagedChanges value)?  stagedChanges,TResult Function( _SyncUpdateFailure value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _LoadInProgress() when loading != null:
 return loading(_that);case _SyncUpdateSucessfully() when success != null:
-return success(_that);case _SyncUpdateFailure() when error != null:
+return success(_that);case _SyncStagedChanges() when stagedChanges != null:
+return stagedChanges(_that);case _SyncUpdateFailure() when error != null:
 return error(_that);case _:
   return orElse();
 
@@ -525,13 +486,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _LoadInProgress value)  loading,required TResult Function( _SyncUpdateSucessfully value)  success,required TResult Function( _SyncUpdateFailure value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _LoadInProgress value)  loading,required TResult Function( _SyncUpdateSucessfully value)  success,required TResult Function( _SyncStagedChanges value)  stagedChanges,required TResult Function( _SyncUpdateFailure value)  error,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case _LoadInProgress():
 return loading(_that);case _SyncUpdateSucessfully():
-return success(_that);case _SyncUpdateFailure():
+return success(_that);case _SyncStagedChanges():
+return stagedChanges(_that);case _SyncUpdateFailure():
 return error(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -549,13 +511,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _LoadInProgress value)?  loading,TResult? Function( _SyncUpdateSucessfully value)?  success,TResult? Function( _SyncUpdateFailure value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _LoadInProgress value)?  loading,TResult? Function( _SyncUpdateSucessfully value)?  success,TResult? Function( _SyncStagedChanges value)?  stagedChanges,TResult? Function( _SyncUpdateFailure value)?  error,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _LoadInProgress() when loading != null:
 return loading(_that);case _SyncUpdateSucessfully() when success != null:
-return success(_that);case _SyncUpdateFailure() when error != null:
+return success(_that);case _SyncStagedChanges() when stagedChanges != null:
+return stagedChanges(_that);case _SyncUpdateFailure() when error != null:
 return error(_that);case _:
   return null;
 
@@ -573,12 +536,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<DataEntity> remoteUpdates)?  initial,TResult Function( List<DataEntity> remoteUpdates)?  loading,TResult Function( String? message,  List<DataEntity> remoteUpdates)?  success,TResult Function( List<DataEntity> remoteUpdates,  dynamic error)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<SyncDataEntity> remoteUpdates)?  initial,TResult Function( List<SyncDataEntity> remoteUpdates)?  loading,TResult Function( String? message,  List<SyncDataEntity> remoteUpdates)?  success,TResult Function( List<SyncDataEntity> remoteUpdates)?  stagedChanges,TResult Function( List<SyncDataEntity> remoteUpdates,  dynamic error)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that.remoteUpdates);case _LoadInProgress() when loading != null:
 return loading(_that.remoteUpdates);case _SyncUpdateSucessfully() when success != null:
-return success(_that.message,_that.remoteUpdates);case _SyncUpdateFailure() when error != null:
+return success(_that.message,_that.remoteUpdates);case _SyncStagedChanges() when stagedChanges != null:
+return stagedChanges(_that.remoteUpdates);case _SyncUpdateFailure() when error != null:
 return error(_that.remoteUpdates,_that.error);case _:
   return orElse();
 
@@ -597,12 +561,13 @@ return error(_that.remoteUpdates,_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<DataEntity> remoteUpdates)  initial,required TResult Function( List<DataEntity> remoteUpdates)  loading,required TResult Function( String? message,  List<DataEntity> remoteUpdates)  success,required TResult Function( List<DataEntity> remoteUpdates,  dynamic error)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<SyncDataEntity> remoteUpdates)  initial,required TResult Function( List<SyncDataEntity> remoteUpdates)  loading,required TResult Function( String? message,  List<SyncDataEntity> remoteUpdates)  success,required TResult Function( List<SyncDataEntity> remoteUpdates)  stagedChanges,required TResult Function( List<SyncDataEntity> remoteUpdates,  dynamic error)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that.remoteUpdates);case _LoadInProgress():
 return loading(_that.remoteUpdates);case _SyncUpdateSucessfully():
-return success(_that.message,_that.remoteUpdates);case _SyncUpdateFailure():
+return success(_that.message,_that.remoteUpdates);case _SyncStagedChanges():
+return stagedChanges(_that.remoteUpdates);case _SyncUpdateFailure():
 return error(_that.remoteUpdates,_that.error);case _:
   throw StateError('Unexpected subclass');
 
@@ -620,12 +585,13 @@ return error(_that.remoteUpdates,_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<DataEntity> remoteUpdates)?  initial,TResult? Function( List<DataEntity> remoteUpdates)?  loading,TResult? Function( String? message,  List<DataEntity> remoteUpdates)?  success,TResult? Function( List<DataEntity> remoteUpdates,  dynamic error)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<SyncDataEntity> remoteUpdates)?  initial,TResult? Function( List<SyncDataEntity> remoteUpdates)?  loading,TResult? Function( String? message,  List<SyncDataEntity> remoteUpdates)?  success,TResult? Function( List<SyncDataEntity> remoteUpdates)?  stagedChanges,TResult? Function( List<SyncDataEntity> remoteUpdates,  dynamic error)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that.remoteUpdates);case _LoadInProgress() when loading != null:
 return loading(_that.remoteUpdates);case _SyncUpdateSucessfully() when success != null:
-return success(_that.message,_that.remoteUpdates);case _SyncUpdateFailure() when error != null:
+return success(_that.message,_that.remoteUpdates);case _SyncStagedChanges() when stagedChanges != null:
+return stagedChanges(_that.remoteUpdates);case _SyncUpdateFailure() when error != null:
 return error(_that.remoteUpdates,_that.error);case _:
   return null;
 
@@ -638,11 +604,11 @@ return error(_that.remoteUpdates,_that.error);case _:
 
 
 class _Initial implements SyncUpdateState {
-  const _Initial({required final  List<DataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
+  const _Initial({required final  List<SyncDataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
   
 
- final  List<DataEntity> _remoteUpdates;
-@override List<DataEntity> get remoteUpdates {
+ final  List<SyncDataEntity> _remoteUpdates;
+@override List<SyncDataEntity> get remoteUpdates {
   if (_remoteUpdates is EqualUnmodifiableListView) return _remoteUpdates;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_remoteUpdates);
@@ -679,7 +645,7 @@ abstract mixin class _$InitialCopyWith<$Res> implements $SyncUpdateStateCopyWith
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) _then) = __$InitialCopyWithImpl;
 @override @useResult
 $Res call({
- List<DataEntity> remoteUpdates
+ List<SyncDataEntity> remoteUpdates
 });
 
 
@@ -699,7 +665,7 @@ class __$InitialCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? remoteUpdates = null,}) {
   return _then(_Initial(
 remoteUpdates: null == remoteUpdates ? _self._remoteUpdates : remoteUpdates // ignore: cast_nullable_to_non_nullable
-as List<DataEntity>,
+as List<SyncDataEntity>,
   ));
 }
 
@@ -710,11 +676,11 @@ as List<DataEntity>,
 
 
 class _LoadInProgress implements SyncUpdateState {
-  const _LoadInProgress({required final  List<DataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
+  const _LoadInProgress({required final  List<SyncDataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
   
 
- final  List<DataEntity> _remoteUpdates;
-@override List<DataEntity> get remoteUpdates {
+ final  List<SyncDataEntity> _remoteUpdates;
+@override List<SyncDataEntity> get remoteUpdates {
   if (_remoteUpdates is EqualUnmodifiableListView) return _remoteUpdates;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_remoteUpdates);
@@ -751,7 +717,7 @@ abstract mixin class _$LoadInProgressCopyWith<$Res> implements $SyncUpdateStateC
   factory _$LoadInProgressCopyWith(_LoadInProgress value, $Res Function(_LoadInProgress) _then) = __$LoadInProgressCopyWithImpl;
 @override @useResult
 $Res call({
- List<DataEntity> remoteUpdates
+ List<SyncDataEntity> remoteUpdates
 });
 
 
@@ -771,7 +737,7 @@ class __$LoadInProgressCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? remoteUpdates = null,}) {
   return _then(_LoadInProgress(
 remoteUpdates: null == remoteUpdates ? _self._remoteUpdates : remoteUpdates // ignore: cast_nullable_to_non_nullable
-as List<DataEntity>,
+as List<SyncDataEntity>,
   ));
 }
 
@@ -782,12 +748,12 @@ as List<DataEntity>,
 
 
 class _SyncUpdateSucessfully implements SyncUpdateState {
-  const _SyncUpdateSucessfully({this.message, required final  List<DataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
+  const _SyncUpdateSucessfully({this.message, required final  List<SyncDataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
   
 
  final  String? message;
- final  List<DataEntity> _remoteUpdates;
-@override List<DataEntity> get remoteUpdates {
+ final  List<SyncDataEntity> _remoteUpdates;
+@override List<SyncDataEntity> get remoteUpdates {
   if (_remoteUpdates is EqualUnmodifiableListView) return _remoteUpdates;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_remoteUpdates);
@@ -824,7 +790,7 @@ abstract mixin class _$SyncUpdateSucessfullyCopyWith<$Res> implements $SyncUpdat
   factory _$SyncUpdateSucessfullyCopyWith(_SyncUpdateSucessfully value, $Res Function(_SyncUpdateSucessfully) _then) = __$SyncUpdateSucessfullyCopyWithImpl;
 @override @useResult
 $Res call({
- String? message, List<DataEntity> remoteUpdates
+ String? message, List<SyncDataEntity> remoteUpdates
 });
 
 
@@ -845,7 +811,79 @@ class __$SyncUpdateSucessfullyCopyWithImpl<$Res>
   return _then(_SyncUpdateSucessfully(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,remoteUpdates: null == remoteUpdates ? _self._remoteUpdates : remoteUpdates // ignore: cast_nullable_to_non_nullable
-as List<DataEntity>,
+as List<SyncDataEntity>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _SyncStagedChanges implements SyncUpdateState {
+  const _SyncStagedChanges({required final  List<SyncDataEntity> remoteUpdates}): _remoteUpdates = remoteUpdates;
+  
+
+ final  List<SyncDataEntity> _remoteUpdates;
+@override List<SyncDataEntity> get remoteUpdates {
+  if (_remoteUpdates is EqualUnmodifiableListView) return _remoteUpdates;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_remoteUpdates);
+}
+
+
+/// Create a copy of SyncUpdateState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SyncStagedChangesCopyWith<_SyncStagedChanges> get copyWith => __$SyncStagedChangesCopyWithImpl<_SyncStagedChanges>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SyncStagedChanges&&const DeepCollectionEquality().equals(other._remoteUpdates, _remoteUpdates));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_remoteUpdates));
+
+@override
+String toString() {
+  return 'SyncUpdateState.stagedChanges(remoteUpdates: $remoteUpdates)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SyncStagedChangesCopyWith<$Res> implements $SyncUpdateStateCopyWith<$Res> {
+  factory _$SyncStagedChangesCopyWith(_SyncStagedChanges value, $Res Function(_SyncStagedChanges) _then) = __$SyncStagedChangesCopyWithImpl;
+@override @useResult
+$Res call({
+ List<SyncDataEntity> remoteUpdates
+});
+
+
+
+
+}
+/// @nodoc
+class __$SyncStagedChangesCopyWithImpl<$Res>
+    implements _$SyncStagedChangesCopyWith<$Res> {
+  __$SyncStagedChangesCopyWithImpl(this._self, this._then);
+
+  final _SyncStagedChanges _self;
+  final $Res Function(_SyncStagedChanges) _then;
+
+/// Create a copy of SyncUpdateState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? remoteUpdates = null,}) {
+  return _then(_SyncStagedChanges(
+remoteUpdates: null == remoteUpdates ? _self._remoteUpdates : remoteUpdates // ignore: cast_nullable_to_non_nullable
+as List<SyncDataEntity>,
   ));
 }
 
@@ -856,11 +894,11 @@ as List<DataEntity>,
 
 
 class _SyncUpdateFailure implements SyncUpdateState {
-  const _SyncUpdateFailure({required final  List<DataEntity> remoteUpdates, required this.error}): _remoteUpdates = remoteUpdates;
+  const _SyncUpdateFailure({required final  List<SyncDataEntity> remoteUpdates, required this.error}): _remoteUpdates = remoteUpdates;
   
 
- final  List<DataEntity> _remoteUpdates;
-@override List<DataEntity> get remoteUpdates {
+ final  List<SyncDataEntity> _remoteUpdates;
+@override List<SyncDataEntity> get remoteUpdates {
   if (_remoteUpdates is EqualUnmodifiableListView) return _remoteUpdates;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_remoteUpdates);
@@ -898,7 +936,7 @@ abstract mixin class _$SyncUpdateFailureCopyWith<$Res> implements $SyncUpdateSta
   factory _$SyncUpdateFailureCopyWith(_SyncUpdateFailure value, $Res Function(_SyncUpdateFailure) _then) = __$SyncUpdateFailureCopyWithImpl;
 @override @useResult
 $Res call({
- List<DataEntity> remoteUpdates, dynamic error
+ List<SyncDataEntity> remoteUpdates, dynamic error
 });
 
 
@@ -918,7 +956,7 @@ class __$SyncUpdateFailureCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? remoteUpdates = null,Object? error = freezed,}) {
   return _then(_SyncUpdateFailure(
 remoteUpdates: null == remoteUpdates ? _self._remoteUpdates : remoteUpdates // ignore: cast_nullable_to_non_nullable
-as List<DataEntity>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as List<SyncDataEntity>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as dynamic,
   ));
 }

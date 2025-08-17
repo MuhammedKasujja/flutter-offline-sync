@@ -16,6 +16,7 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'src/data/models/configuration_entity.dart';
 import 'src/data/models/data_entity.dart';
+import 'src/data/models/remote_update_entity.dart';
 import 'src/data/models/sync_device_entity.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -282,6 +283,59 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(4, 1243067544576093045),
+    name: 'RemoteUpdateEntity',
+    lastPropertyId: const obx_int.IdUid(7, 2858323529693737734),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 2469104698067902535),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1863854322225138047),
+        name: 'uuid',
+        type: 9,
+        flags: 2080,
+        indexId: const obx_int.IdUid(4, 4909793079609122257),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 4233498888462780353),
+        name: 'isSynced',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 8961065214515420561),
+        name: 'data',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 9059217487780271706),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 7756937699261535801),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 2858323529693737734),
+        name: 'deletedAt',
+        type: 10,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -322,8 +376,8 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(3, 1757007729880252278),
-    lastIndexId: const obx_int.IdUid(3, 336069653081213381),
+    lastEntityId: const obx_int.IdUid(4, 1243067544576093045),
+    lastIndexId: const obx_int.IdUid(4, 4909793079609122257),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -711,6 +765,88 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    RemoteUpdateEntity: obx_int.EntityDefinition<RemoteUpdateEntity>(
+      model: _entities[3],
+      toOneRelations: (RemoteUpdateEntity object) => [],
+      toManyRelations: (RemoteUpdateEntity object) => {},
+      getId: (RemoteUpdateEntity object) => object.id,
+      setId: (RemoteUpdateEntity object, int id) {
+        object.id = id;
+      },
+      objectToFB: (RemoteUpdateEntity object, fb.Builder fbb) {
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
+        final dataOffset = fbb.writeString(object.data);
+        fbb.startTable(8);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, uuidOffset);
+        fbb.addBool(2, object.isSynced);
+        fbb.addOffset(3, dataOffset);
+        fbb.addInt64(4, object.updatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(5, object.createdAt?.millisecondsSinceEpoch);
+        fbb.addInt64(6, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final updatedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          12,
+        );
+        final createdAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          14,
+        );
+        final deletedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          16,
+        );
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final uuidParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 6);
+        final dataParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          8,
+          false,
+        );
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final object = RemoteUpdateEntity(
+          id: idParam,
+          uuid: uuidParam,
+          data: dataParam,
+          isSynced: isSyncedParam,
+          createdAt: createdAtParam,
+          updatedAt: updatedAtParam,
+          deletedAt: deletedAtParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -910,5 +1046,43 @@ class SyncDeviceEntity_ {
   /// See [SyncDeviceEntity.uuid].
   static final uuid = obx.QueryStringProperty<SyncDeviceEntity>(
     _entities[2].properties[7],
+  );
+}
+
+/// [RemoteUpdateEntity] entity fields to define ObjectBox queries.
+class RemoteUpdateEntity_ {
+  /// See [RemoteUpdateEntity.id].
+  static final id = obx.QueryIntegerProperty<RemoteUpdateEntity>(
+    _entities[3].properties[0],
+  );
+
+  /// See [RemoteUpdateEntity.uuid].
+  static final uuid = obx.QueryStringProperty<RemoteUpdateEntity>(
+    _entities[3].properties[1],
+  );
+
+  /// See [RemoteUpdateEntity.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<RemoteUpdateEntity>(
+    _entities[3].properties[2],
+  );
+
+  /// See [RemoteUpdateEntity.data].
+  static final data = obx.QueryStringProperty<RemoteUpdateEntity>(
+    _entities[3].properties[3],
+  );
+
+  /// See [RemoteUpdateEntity.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<RemoteUpdateEntity>(
+    _entities[3].properties[4],
+  );
+
+  /// See [RemoteUpdateEntity.createdAt].
+  static final createdAt = obx.QueryDateProperty<RemoteUpdateEntity>(
+    _entities[3].properties[5],
+  );
+
+  /// See [RemoteUpdateEntity.deletedAt].
+  static final deletedAt = obx.QueryDateProperty<RemoteUpdateEntity>(
+    _entities[3].properties[6],
   );
 }

@@ -14,6 +14,7 @@ import 'package:flutter_offline_sync/objectbox.g.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/configuration_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_device_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/remote_update_entity.dart';
 
 final Map<String, EntityHandler> _generatedRegistry = {
   'DataEntity': EntityHandler(
@@ -143,6 +144,49 @@ final Map<String, EntityHandler> _generatedRegistry = {
       return box.put(entity);
     },
   ),
+  'RemoteUpdateEntity': EntityHandler(
+    boxFactory: (store) => store.box<RemoteUpdateEntity>(),
+    fetchFunction: (store, lastSync) {
+      final box = store.box<RemoteUpdateEntity>();
+      final query = box
+          .query(
+            RemoteUpdateEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(RemoteUpdateEntity_.isSynced.equals(false)),
+          )
+          .order(RemoteUpdateEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final updates = query.find();
+      query.close();
+      return updates.map((ele) => ele.toSyncJson()).toList();
+    },
+    deleteFunction: (store, id) => store.box<RemoteUpdateEntity>().remove(id),
+    updateFunction: (store, json) {
+      RemoteUpdateEntity entity = RemoteUpdateEntity.fromJson(json);
+      if ((entity.uuid ?? '').isEmpty)
+        throw Exception('Cannot update RemoteUpdateEntity without ID');
+
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<RemoteUpdateEntity>();
+
+      final query = box
+          .query(RemoteUpdateEntity_.uuid.equals(entity.uuid!))
+          .build();
+
+      final model = query.findFirst();
+
+      if (model != null) {
+        entity.id = model.id;
+      }
+
+      query.close();
+      entity = entity.applyJsonRelationships(store, json);
+      entity.isSynced = true;
+      return box.put(entity);
+    },
+  ),
 };
 
 final class ObjectboxSyncRegistry extends EntityRegistry {
@@ -222,6 +266,32 @@ extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "SyncDeviceEntity"});
+    map.addAll({"entityId": this.uuid});
+    map.addAll({"state": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
+}
+
+extension RemoteUpdateEntityRelationJson on RemoteUpdateEntity {
+  Map<String, dynamic> toRelationJson() => {};
+
+  RemoteUpdateEntity applyJsonRelationships(
+    Store store,
+    Map<String, dynamic> json,
+  ) {
+    // Apply relations from JSON
+    return this;
+  }
+
+  Map<String, dynamic> toSyncJson() {
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entity": "RemoteUpdateEntity"});
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({

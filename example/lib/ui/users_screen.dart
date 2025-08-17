@@ -59,7 +59,9 @@ class _UsersScreenState extends State<UsersScreen> {
                 context,
                 MaterialPageRoute(
                   builder:
-                      (context) => DeviceConfiguration(onDeviceSynced: () {}),
+                      (context) => Scaffold(
+                        body: DeviceConfiguration(onDeviceSynced: () {}),
+                      ),
                 ),
               );
             },
@@ -100,7 +102,16 @@ class _UsersScreenState extends State<UsersScreen> {
             final user = users[index];
             return ListTile(
               title: Text(user.name),
-              subtitle: Text(user.email),
+              subtitle: Row(
+                spacing: 4,
+                children: [
+                  Text(user.email),
+                  Chip(
+                    label: Text(user.posts.length.toString()),
+                    padding: EdgeInsets.all(1),
+                  ),
+                ],
+              ),
               trailing: IconButton(
                 onPressed: () => deleteUser(user.id),
                 icon: Icon(

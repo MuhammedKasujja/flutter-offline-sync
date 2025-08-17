@@ -11,6 +11,7 @@
 ///
 /// like no internet connection on the user device or route not found on the serve
 ///
+library;
 
 class ApiResponse<T> {
   bool success;

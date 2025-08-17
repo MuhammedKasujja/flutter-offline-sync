@@ -1,6 +1,9 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
+import 'dart:convert';
+
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/remote_update_entity.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
+import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
 import 'package:flutter_offline_sync/src/flutter_sync.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
@@ -51,10 +54,6 @@ class SyncroniserService {
         .catchError((error) {
           logger.error('Error starting sync remote changes', error);
         });
-  }
-
-  Future<void> syncRemoteUpdates(List<DataEntity> remoteUpdates) async {
-    return _repo.syncRemoteUpdates(remoteUpdates);
   }
 
   Future syncLocalChanges(String updateId) async {
@@ -108,16 +107,18 @@ class SyncroniserService {
     }
   }
 
-  Future<List<DataEntity>> fetchRemotePendingData() async {
+  Future<List<SyncDataEntity>> fetchRemotePendingData() async {
     final response = await _repo.fetchRemoteUpdates();
     if (response.isError) {
       throw Exception(response.error ?? 'Unknown error occured');
     }
 
-    final List<DataEntity> dataUpdates =
-        response.data!.expand((item) => item.data).toList();
+    for (var remoteUpdate in response.data ?? []) {
+      final remoteUpload = RemoteUpdateEntity(data: jsonEncode(remoteUpdate));
+      remoteUpload.save();
+    }
 
-    return _sortInBackground(dataUpdates);
+    return response.data ?? [];
   }
 
   Future<void> retryWithBackoff(
@@ -142,23 +143,4 @@ class SyncroniserService {
       }
     }
   }
-}
-
-List<Map<String, dynamic>> _sortRemoteUpdatesByDate(
-  List<Map<String, dynamic>> updatesJson,
-) {
-  final updates = updatesJson.map(DataEntity.fromJson).toList();
-
-  updates.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
-
-  return updates.map((u) => u.toJson()).toList();
-}
-
-Future<List<DataEntity>> _sortInBackground(List<DataEntity> updates) async {
-  final sorted = await compute(
-    _sortRemoteUpdatesByDate,
-    updates.map((u) => u.toJson()).toList(),
-  );
-
-  return sorted.map(DataEntity.fromJson).toList();
 }
