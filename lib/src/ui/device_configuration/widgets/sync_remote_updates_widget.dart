@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/sync_update/sync_update_bloc.dart';
+import 'package:flutter_offline_sync/src/utils/formatting.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class SyncRemoteChangesWidget extends StatelessWidget {
@@ -64,23 +65,16 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                   DataColumn(label: Text('Device')),
                   DataColumn(label: Text('User ID')),
                   DataColumn(label: Text('Total Updates')),
-                  DataColumn(label: Text('Action')),
                 ],
                 rows:
                     state.remoteUpdates
                         .map(
                           (data) => DataRow(
                             cells: [
-                              DataCell(Text(data.createdAt.toIso8601String())),
+                              DataCell(Text(formatDate(data.createdAt))),
                               DataCell(Text(data.deviceId)),
                               DataCell(Text(data.userId)),
                               DataCell(Text(data.data.length.toString())),
-                              DataCell(
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Icon(Icons.save),
-                                ),
-                              ),
                             ],
                           ),
                         )

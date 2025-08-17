@@ -28,7 +28,7 @@ const kDemoRemoteDownloadUrl = 'accounts/data-uploads';
 const kDemoRemoteUploadUrl = 'accounts/data-uploads';
 const kDemoRemoteAddSyncDeviceUrl = 'sync-devices';
 const kDemoConnectAccountEndpoint = 'accounts/connect-device';
-const kDemoAccountKey = 'WEY2RZD5Y8PAJZU5H0T91NMIHP2OJDLG';
+const kDemoAccountKey = 'YCU7IK1KTBWJ5ZOPAXBL2VUAJ61HGQH4';
 
 const kDefaultConnectDeviceUserID = 'user_id_unknown';
 

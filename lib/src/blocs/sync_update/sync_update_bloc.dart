@@ -40,7 +40,11 @@ class SyncUpdateBloc extends Bloc<SyncUpdateEvent, SyncUpdateState> {
 
     on<StageRemoteChanges>((event, emit) async {
       try {
-        final changes = await RemoteChangesService().getRemoteLocalUnSavedData();
+        final changes =
+            await RemoteChangesService().getRemoteLocalUnSavedData();
+        if (changes.isEmpty) {
+          throw Exception('No updates found');
+        }
         emit(_SyncStagedChanges(remoteUpdates: changes));
       } catch (error) {
         emit(
