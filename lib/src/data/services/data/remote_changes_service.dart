@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_offline_sync/src/data/interfaces/remote_syncronizer.dart';
 
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/remote_update_entity.dart';
@@ -9,11 +10,13 @@ import 'package:flutter_offline_sync/src/flutter_sync.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
-class RemoteChangesService {
+class RemoteChangesService extends RemoteSyncronizer {
+  @override
   Future<List<RemoteUpdateEntity>> getSavedRemoteChanges() {
     return getBox<RemoteUpdateEntity>().getAllAsync();
   }
 
+  @override
   Future<List<SyncDataEntity>> getRemoteLocalUnSavedData() async {
     final changes = await getSavedRemoteChanges();
     List<SyncDataEntity> remote = [];
@@ -25,15 +28,17 @@ class RemoteChangesService {
     return remote;
   }
 
+  @override
   Future<List<DataEntity>> fetchRemoteNonSyncedData() async {
     final remotes = await getRemoteLocalUnSavedData();
 
     final List<DataEntity> dataUpdates =
         remotes.expand((item) => item.data).toList();
 
-    return _sortInBackground(dataUpdates);
+    return sortInBackground(dataUpdates);
   }
 
+  @override
   Future<void> syncRemoteUpdates() async {
     final remoteUpdates = await fetchRemoteNonSyncedData();
 
@@ -62,21 +67,22 @@ class RemoteChangesService {
     }
   }
 
+  @override
   Future<int> clearUpdatesTable() async {
     return getBox<RemoteUpdateEntity>().removeAllAsync();
   }
 }
 
-Future<List<DataEntity>> _sortInBackground(List<DataEntity> updates) async {
+Future<List<DataEntity>> sortInBackground(List<DataEntity> updates) async {
   final sorted = await compute(
-    _sortRemoteUpdatesByDate,
+    sortRemoteUpdatesByDate,
     updates.map((u) => u.toJson()).toList(),
   );
 
   return sorted.map(DataEntity.fromJson).toList();
 }
 
-List<Map<String, dynamic>> _sortRemoteUpdatesByDate(
+List<Map<String, dynamic>> sortRemoteUpdatesByDate(
   List<Map<String, dynamic>> updatesJson,
 ) {
   final updates = updatesJson.map(DataEntity.fromJson).toList();
