@@ -11,6 +11,7 @@ void main() async {
 
   await FlutterSync.init(
     registry: ObjectboxSyncRegistry(ObjectBox.instance.store),
+    initEntityChecker: null,
   );
   runApp(const MainApp());
 }

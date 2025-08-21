@@ -35,7 +35,12 @@ class RemoteChangesService extends RemoteSyncronizer {
     final List<DataEntity> dataUpdates =
         remotes.expand((item) => item.data).toList();
 
-    return sortInBackground(dataUpdates);
+    final sortByCreatedAt = await FlutterSync.canSyncUsingCreatedAt();
+
+    return sortInBackground(
+      updates: dataUpdates,
+      sortByCreatedAt: sortByCreatedAt,
+    );
   }
 
   @override
@@ -73,21 +78,31 @@ class RemoteChangesService extends RemoteSyncronizer {
   }
 }
 
-Future<List<DataEntity>> sortInBackground(List<DataEntity> updates) async {
-  final sorted = await compute(
-    sortRemoteUpdatesByDate,
-    updates.map((u) => u.toJson()).toList(),
-  );
+Future<List<DataEntity>> sortInBackground({
+  required List<DataEntity> updates,
+  bool sortByCreatedAt = false,
+}) async {
+  final sorted = await compute(sortRemoteUpdatesByDate, {
+    'updates': updates.map((u) => u.toJson()).toList(),
+    'sortByCreatedAt': sortByCreatedAt,
+  });
 
   return sorted.map(DataEntity.fromJson).toList();
 }
 
-List<Map<String, dynamic>> sortRemoteUpdatesByDate(
-  List<Map<String, dynamic>> updatesJson,
-) {
-  final updates = updatesJson.map(DataEntity.fromJson).toList();
+List<Map<String, dynamic>> sortRemoteUpdatesByDate(Map<String, dynamic> map) {
+  final sortByCreatedAt = map['sortByCreatedAt'] as bool;
 
-  updates.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
+  final updates =
+      (map['updates'] as List<Map<String, dynamic>>)
+          .map(DataEntity.fromJson)
+          .toList();
+
+  if (sortByCreatedAt) {
+    updates.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+  } else {
+    updates.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
+  }
 
   return updates.map((u) => u.toJson()).toList();
 }

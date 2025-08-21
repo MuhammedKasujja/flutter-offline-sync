@@ -8,6 +8,8 @@ class FlutterSync {
 
   late EntityRegistry _entityRegistry;
 
+  late String? _initEntityChecker;
+
   late Map<String, dynamic> _requestExtras = {};
 
   Map<String, dynamic> get requestExtras => _requestExtras;
@@ -18,11 +20,16 @@ class FlutterSync {
 
   EntityRegistry get entityRegistry => _entityRegistry;
 
-  static Future<void> init({required EntityRegistry registry}) async {
+  /// [initEntityChecker] param used to check id some data already exists in teh local database
+  static Future<void> init({
+    required EntityRegistry registry,
+    required String? initEntityChecker,
+  }) async {
     if (!_initialized) {
       await ObjectBox.create();
       _singleton._entityRegistry = registry;
       _initialized = true;
+      _singleton._initEntityChecker = initEntityChecker;
     }
   }
 
@@ -33,6 +40,22 @@ class FlutterSync {
   static Future<void> setAuthToken(String? authToken) async {
     ConfigService.saveAuthToken(authToken);
     restart();
+  }
+
+  ///  Use sync `createdAt` for sorting updates if this is the first time syncing data
+  /// 
+  ///  OR when [_initEntityChecker] is null or empty 
+  static Future<bool> canSyncUsingCreatedAt() async {
+    final syncChecker = _singleton._initEntityChecker;
+    if ((syncChecker ?? '').isEmpty) return true;
+
+    final date = DateTime(1992, 7, 22);
+    final entityUpdates = _singleton._entityRegistry.fetchEntityUpdates(
+      syncChecker!,
+      date,
+    );
+
+    return entityUpdates.isEmpty;
   }
 
   /// More data to go along with data upload request
