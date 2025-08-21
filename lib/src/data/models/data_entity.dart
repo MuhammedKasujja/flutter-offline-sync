@@ -56,10 +56,9 @@ class DataEntity {
   }
 
   factory DataEntity.fromJson(Map<String, dynamic> json) {
-    final data = jsonEncode(json['data']);
     return DataEntity(
       uuid: json['uuid'],
-      data: data,
+      data: jsonEncode(json['data']),
       tableName: json['entity'],
       operation: json['state'] ?? 'create',
       entity: json['entity'],

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_offline_sync/src/data/interfaces/remote_syncronizer.dart';
 
+import 'package:flutter_offline_sync/src/data/interfaces/remote_syncronizer.dart';
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/remote_update_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
@@ -87,7 +87,7 @@ List<Map<String, dynamic>> sortRemoteUpdatesByDate(
 ) {
   final updates = updatesJson.map(DataEntity.fromJson).toList();
 
-  updates.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+  updates.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
 
   return updates.map((u) => u.toJson()).toList();
 }
