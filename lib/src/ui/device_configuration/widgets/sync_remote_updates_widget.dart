@@ -44,13 +44,21 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                   child: Text('Close'),
                 ),
                 if (state.remoteUpdates.isNotEmpty)
-                  FilledButton(
+                  FilledButton.icon(
                     onPressed: () {
                       context.read<SyncUpdateBloc>().add(
                         PersistRemoteChangesManually(),
                       );
                     },
-                    child: Text('Save Changes'),
+                    label: Text('Save Changes'),
+                    icon: state.whenOrNull(
+                      loading:
+                          (_) => SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(),
+                          ),
+                    ),
                   ),
               ],
             ),
