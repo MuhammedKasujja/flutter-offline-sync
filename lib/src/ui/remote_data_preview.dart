@@ -100,7 +100,18 @@ class RemoteUpdatesSkelton extends StatelessWidget {
                   ],
                 ),
               ),
-          orElse: () => Center(child: Text('No Remote Updates')),
+          orElse:
+              () => Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 12,
+                  children: [
+                    Icon(Icons.info_outline),
+                    Text('No Remote Updates'),
+                  ],
+                ),
+              ),
         );
       },
     );
