@@ -27,9 +27,10 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
   void onRemoteChangesFetched(BuildContext context, RemoteUpdatesState state) {
     state.whenOrNull(
       success: (remoteUpdates) {
-        context.read<SyncUpdateBloc>().add(
-          SaveRemoteUpdates(remoteUpdates: remoteUpdates),
-        );
+        // context.read<SyncUpdateBloc>().add(
+        //   SaveRemoteUpdates(remoteUpdates: remoteUpdates),
+        // );
+        context.read<SyncUpdateBloc>().add(StageRemoteChanges());
       },
       failure: (error) => context.toast.error(error.toString()),
     );
