@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_offline_sync/src/ui/sync_devices_view.dart';
+import 'package:flutter_offline_sync/src/utils/platforms.dart';
 
 import 'configurations_edit.dart';
 import 'data_viewer.dart';
@@ -28,6 +29,7 @@ class SyncConfigurationsView extends StatelessWidget {
       length: isAdmin ? 3 : 2,
       child: Scaffold(
         endDrawer: Drawer(
+          width: isDesktop(context) ? 400 : null,
           child: ConfigurationsEdit(
             canConfigApi: canConfigApi,
             syncUserId: syncUserId,

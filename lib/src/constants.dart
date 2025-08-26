@@ -21,7 +21,7 @@ const kErrorUnexpectedError = "Unexpected error occurred";
 const kErrorFileTooLarge = "Uploaded file is too large";
 const kErrorSyncSettingsMissing = "Sync Config settings not available";
 
-const kDemoMode = true;
+const bool kDemoMode = true;
 
 const kDemoBaseUrl = 'http://192.168.1.4:3000/api/';
 const kDemoRemoteDownloadUrl = 'accounts/data-uploads';
@@ -33,6 +33,8 @@ const kDemoAccountKey = 'YCU7IK1KTBWJ5ZOPAXBL2VUAJ61HGQH4';
 const kDefaultConnectDeviceUserID = 'user_id_unknown';
 
 /// Total data preview limit to avoid lagging while displaying large data changes
-const kDataPreviewThreshold = 100;
+const int kDataPreviewThreshold = 100;
+
+const double kMobileLayoutWidth = 700;
 
 /// API errors end ///
