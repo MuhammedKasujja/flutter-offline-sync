@@ -108,7 +108,7 @@ class RemoteUpdatesSkelton extends StatelessWidget {
                   spacing: 12,
                   children: [
                     Icon(Icons.info_outline),
-                    Text('No Remote Updates'),
+                    Text('No Remote Updates Found!'),
                   ],
                 ),
               ),

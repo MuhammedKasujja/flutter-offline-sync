@@ -60,6 +60,7 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
                 context.toast.success(message);
                 context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
               },
+              failure: (error) => context.toast.error(error),
             );
           },
           builder: (context, state) {
@@ -69,7 +70,17 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
                 success:
                     (data) =>
                         data.isEmpty
-                            ? Center(child: Text('No local updates available'))
+                            ? Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                spacing: 12,
+                                children: [
+                                  Icon(Icons.info_outline),
+                                  Text('No Local changes available!'),
+                                ],
+                              ),
+                            )
                             : data.length > kDataPreviewThreshold
                             ? LargerDataPreviewWidget(
                               data: data,
