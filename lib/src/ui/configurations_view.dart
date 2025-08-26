@@ -5,6 +5,7 @@ import 'package:flutter_offline_sync/src/utils/platforms.dart';
 
 import 'configurations_edit.dart';
 import 'data_viewer.dart';
+import 'remote_data_preview.dart';
 
 class SyncConfigurationsView extends StatelessWidget {
   const SyncConfigurationsView({
@@ -41,7 +42,7 @@ class SyncConfigurationsView extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Local updates'),
-              Tab(text: 'Config'),
+              Tab(text: 'Remote Changes'),
               if (isAdmin) Tab(text: 'Devices'),
             ],
           ),
@@ -75,11 +76,7 @@ class SyncConfigurationsView extends StatelessWidget {
         body: TabBarView(
           children: [
             SyncDataViewer(),
-            ConfigurationsEdit(
-              canConfigApi: canConfigApi,
-              syncUserId: syncUserId,
-              isAdmin: isAdmin,
-            ),
+            RemoteDataPreviewWidget(),
             if (isAdmin) SyncDevicesView(),
           ],
         ),

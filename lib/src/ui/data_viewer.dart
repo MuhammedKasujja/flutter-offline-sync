@@ -86,6 +86,7 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
         listener: onRemoteChangesFetched,
         child: FloatingActionButton(
           onPressed: syncUpdates,
+          tooltip: 'Upload changes',
           child: Icon(Icons.sync),
         ),
       ),
