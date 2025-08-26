@@ -67,7 +67,6 @@ class ConfigService {
     var config = await getSettings();
     config ??= await saveCurrentDeviceId();
 
-    config?.currentDeviceId = null;
     config?.currentDeviceId = Uuid().v4();
 
     return saveSettings(config);
@@ -84,10 +83,13 @@ class ConfigService {
   }
 
   static Future<ConfigurationEntity?> getRefreshedConfig() async {
-    // TODO: use [ConfigService.saveCurrentDeviceId()] in PRODUCTION
-    // to avoid registering same device with another sync devic account
-
-    await ConfigService.regenerateDeviceId();
+    if (kReleaseMode) {
+      // using [ConfigService.saveCurrentDeviceId()] in PRODUCTION
+      // to avoid registering same device with another sync devic account
+      await ConfigService.saveCurrentDeviceId();
+    } else {
+      await ConfigService.regenerateDeviceId();
+    }
     return await ConfigService.getSettings();
   }
 }
