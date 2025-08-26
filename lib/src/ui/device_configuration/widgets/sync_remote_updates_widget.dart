@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/sync_update/sync_update_bloc.dart';
-import 'package:flutter_offline_sync/src/utils/formatting.dart';
+import 'package:flutter_offline_sync/src/ui/data_viewer/remote_data_preview_table.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class SyncRemoteChangesWidget extends StatelessWidget {
@@ -66,33 +66,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
               ],
             ),
           ],
-          body: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: DataTable(
-                columns: [
-                  DataColumn(label: Text('Date')),
-                  DataColumn(label: Text('Device')),
-                  DataColumn(label: Text('User ID')),
-                  DataColumn(label: Text('Total Updates')),
-                ],
-                rows:
-                    state.remoteUpdates
-                        .map(
-                          (data) => DataRow(
-                            cells: [
-                              DataCell(Text(formatDate(data.createdAt))),
-                              DataCell(Text(data.deviceId)),
-                              DataCell(Text(data.userId)),
-                              DataCell(Text(data.data.length.toString())),
-                            ],
-                          ),
-                        )
-                        .toList(),
-              ),
-            ),
-          ),
+          body: RemoteDataPreviewTable(dataUpdates: state.remoteUpdates),
         );
       },
     );
