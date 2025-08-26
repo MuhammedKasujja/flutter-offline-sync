@@ -15,10 +15,14 @@ class SyncConfigurationsView extends StatefulWidget {
     required this.isAdmin,
     required this.canConfigApi,
     required this.syncUserId,
+    this.viewLocalAsJson = false,
   });
 
   /// Admin accounts can reset last syncronization dates
   final bool isAdmin;
+
+  /// view local updates in JSON format and only if `kDataPreviewThreshold`
+  final bool viewLocalAsJson;
 
   /// Allow changing sync API endpoints
   final bool canConfigApi;
@@ -95,7 +99,7 @@ class _SyncConfigurationsViewState extends State<SyncConfigurationsView> {
         ),
         body: TabBarView(
           children: [
-            SyncDataViewer(),
+            SyncDataViewer(viewJson: widget.viewLocalAsJson),
             RemoteDataPreviewWidget(),
             if (widget.isAdmin) SyncDevicesView(),
           ],

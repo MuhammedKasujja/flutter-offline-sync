@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/blocs.dart';
 import 'package:flutter_offline_sync/src/constants.dart';
+import 'package:flutter_offline_sync/src/ui/data_viewer/json_viewer_widget.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 import 'data_viewer/larger_data_preview.dart';
 
 class SyncDataViewer extends StatefulWidget {
-  const SyncDataViewer({super.key});
+  const SyncDataViewer({super.key, required this.viewJson});
+  final bool viewJson;
 
   @override
   State<SyncDataViewer> createState() => _SyncDataViewerState();
@@ -52,47 +54,48 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: BlocConsumer<LocalUpdatesBloc, LocalUpdatesState>(
-          listener: (context, state) {
-            state.whenOrNull(
-              uploaded: (message) {
-                context.toast.success(message);
-                context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
-              },
-              failure: (error) => context.toast.error(error),
-            );
-          },
-          builder: (context, state) {
-            return Padding(
-              padding: EdgeInsets.all(16),
-              child: state.maybeWhen(
-                success:
-                    (data) =>
-                        data.isEmpty
-                            ? Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                spacing: 12,
-                                children: [
-                                  Icon(Icons.info_outline),
-                                  Text('No Local changes available!'),
-                                ],
-                              ),
-                            )
-                            : data.length > kDataPreviewThreshold
-                            ? LargerDataPreviewWidget(
-                              data: data,
-                              onSyncUpdates: syncUpdates,
-                            )
-                            : _jsonViewer(data),
-                failure: (error) => Center(child: Text('$error')),
-                orElse: () => Center(child: CircularProgressIndicator()),
-              ),
-            );
-          },
-        ),
+      body: BlocConsumer<LocalUpdatesBloc, LocalUpdatesState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            uploaded: (message) {
+              context.toast.success(message);
+              context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+            },
+            failure: (error) => context.toast.error(error),
+          );
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: EdgeInsets.all(16),
+            child: state.maybeWhen(
+              success:
+                  (data) =>
+                      data.isEmpty
+                          ? Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              spacing: 12,
+                              children: [
+                                Icon(Icons.info_outline),
+                                Text('No Local changes available!'),
+                              ],
+                            ),
+                          )
+                          : widget.viewJson &&
+                              data.length < kDataPreviewThreshold
+                          ? SingleChildScrollView(
+                            child: JsonViewerWidget(data: data),
+                          )
+                          : LargerDataPreviewWidget(
+                            data: data,
+                            onSyncUpdates: syncUpdates,
+                          ),
+              failure: (error) => Center(child: Text('$error')),
+              orElse: () => Center(child: CircularProgressIndicator()),
+            ),
+          );
+        },
       ),
       floatingActionButton: BlocListener<RemoteUpdatesBloc, RemoteUpdatesState>(
         listener: onRemoteChangesFetched,
@@ -103,42 +106,5 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
         ),
       ),
     );
-  }
-}
-
-Widget _jsonViewer(dynamic json) {
-  if (json is Map<String, dynamic>) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children:
-          json.entries.map((e) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${e.key}: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Expanded(child: _jsonViewer(e.value)),
-              ],
-            );
-          }).toList(),
-    );
-  } else if (json is List) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children:
-          json.asMap().entries.map((entry) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('[${entry.key}]: '),
-                Expanded(child: _jsonViewer(entry.value)),
-              ],
-            );
-          }).toList(),
-    );
-  } else {
-    return Text(json.toString());
   }
 }

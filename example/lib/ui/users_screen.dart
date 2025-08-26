@@ -77,6 +77,7 @@ class _UsersScreenState extends State<UsersScreen> {
                         isAdmin: true,
                         canConfigApi: false,
                         syncUserId: '67889',
+                        viewLocalAsJson: false,
                       ),
                 ),
               );

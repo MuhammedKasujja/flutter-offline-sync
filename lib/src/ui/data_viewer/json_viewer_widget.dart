@@ -10,7 +10,7 @@ class JsonViewerWidget extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
-            data.entries.map((e) {
+            (data as Map<String, dynamic>).entries.map((e) {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -27,7 +27,7 @@ class JsonViewerWidget extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
-            data.asMap().entries.map((entry) {
+            (data as List).asMap().entries.map((entry) {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
