@@ -53,58 +53,61 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<LocalUpdatesBloc, LocalUpdatesState>(
-        listener: (context, state) {
-          state.whenOrNull(
-            uploaded: (message) {
-              context.toast.success(message);
-              context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
-            },
-            failure: (error) => context.toast.error(error),
-          );
-        },
-        builder: (context, state) {
-          return Padding(
+    return BlocConsumer<LocalUpdatesBloc, LocalUpdatesState>(
+      listener: (context, state) {
+        state.whenOrNull(
+          uploaded: (message, _) {
+            context.toast.success(message);
+            context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+          },
+          failure: (error, _) => context.toast.error(error),
+        );
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: state.mapOrNull(
+            loading:
+                (_) => PreferredSize(
+                  preferredSize: const Size.fromHeight(10),
+                  child: LinearProgressIndicator(),
+                ),
+          ),
+          body: Padding(
             padding: EdgeInsets.all(16),
-            child: state.maybeWhen(
-              success:
-                  (data) =>
-                      data.isEmpty
-                          ? Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              spacing: 12,
-                              children: [
-                                Icon(Icons.info_outline),
-                                Text('No Local changes available!'),
-                              ],
-                            ),
-                          )
-                          : widget.viewJson &&
-                              data.length < kDataPreviewThreshold
-                          ? SingleChildScrollView(
-                            child: JsonViewerWidget(data: data),
-                          )
-                          : LargerDataPreviewWidget(
-                            data: data,
-                            onSyncUpdates: syncUpdates,
-                          ),
-              failure: (error) => Center(child: Text('$error')),
-              orElse: () => Center(child: CircularProgressIndicator()),
-            ),
-          );
-        },
-      ),
-      floatingActionButton: BlocListener<RemoteUpdatesBloc, RemoteUpdatesState>(
-        listener: onRemoteChangesFetched,
-        child: FloatingActionButton(
-          onPressed: syncUpdates,
-          tooltip: 'Upload changes',
-          child: Icon(Icons.sync),
-        ),
-      ),
+            child:
+                state.data != null && state.data!.isNotEmpty
+                    ? (widget.viewJson &&
+                            state.data!.length < kDataPreviewThreshold)
+                        ? SingleChildScrollView(
+                          child: JsonViewerWidget(data: state.data ?? []),
+                        )
+                        : LargerDataPreviewWidget(
+                          data: state.data ?? [],
+                          onSyncUpdates: syncUpdates,
+                        )
+                    : Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 12,
+                        children: [
+                          Icon(Icons.info_outline),
+                          Text('No Local changes available!'),
+                        ],
+                      ),
+                    ),
+          ),
+          floatingActionButton:
+              BlocListener<RemoteUpdatesBloc, RemoteUpdatesState>(
+                listener: onRemoteChangesFetched,
+                child: FloatingActionButton(
+                  onPressed: syncUpdates,
+                  tooltip: 'Upload changes',
+                  child: Icon(Icons.sync),
+                ),
+              ),
+        );
+      },
     );
   }
 }

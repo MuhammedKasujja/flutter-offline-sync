@@ -14,30 +14,61 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LocalUpdatesState {
 
-
+ List<Map<String, dynamic>>? get data;
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$LocalUpdatesStateCopyWith<LocalUpdatesState> get copyWith => _$LocalUpdatesStateCopyWithImpl<LocalUpdatesState>(this as LocalUpdatesState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUpdatesState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUpdatesState&&const DeepCollectionEquality().equals(other.data, data));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
 
 @override
 String toString() {
-  return 'LocalUpdatesState()';
+  return 'LocalUpdatesState(data: $data)';
 }
 
 
 }
 
 /// @nodoc
-class $LocalUpdatesStateCopyWith<$Res>  {
-$LocalUpdatesStateCopyWith(LocalUpdatesState _, $Res Function(LocalUpdatesState) __);
+abstract mixin class $LocalUpdatesStateCopyWith<$Res>  {
+  factory $LocalUpdatesStateCopyWith(LocalUpdatesState value, $Res Function(LocalUpdatesState) _then) = _$LocalUpdatesStateCopyWithImpl;
+@useResult
+$Res call({
+ List<Map<String, dynamic>> data
+});
+
+
+
+
+}
+/// @nodoc
+class _$LocalUpdatesStateCopyWithImpl<$Res>
+    implements $LocalUpdatesStateCopyWith<$Res> {
+  _$LocalUpdatesStateCopyWithImpl(this._self, this._then);
+
+  final LocalUpdatesState _self;
+  final $Res Function(LocalUpdatesState) _then;
+
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? data = null,}) {
+  return _then(_self.copyWith(
+data: null == data ? _self.data! : data // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>,
+  ));
+}
+
 }
 
 
@@ -128,14 +159,14 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Map<String, dynamic>> data)?  success,TResult Function( String? message)?  uploaded,TResult Function( dynamic error)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<Map<String, dynamic>>? data)?  initial,TResult Function( List<Map<String, dynamic>>? data)?  loading,TResult Function( List<Map<String, dynamic>> data)?  success,TResult Function( String? message,  List<Map<String, dynamic>>? data)?  uploaded,TResult Function( dynamic error,  List<Map<String, dynamic>>? data)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial();case _LoadInProgress() when loading != null:
-return loading();case _LocalUpdatesLoaded() when success != null:
+return initial(_that.data);case _LoadInProgress() when loading != null:
+return loading(_that.data);case _LocalUpdatesLoaded() when success != null:
 return success(_that.data);case _LocalChangesUploaded() when uploaded != null:
-return uploaded(_that.message);case _LocalUpdatesFailure() when failure != null:
-return failure(_that.error);case _:
+return uploaded(_that.message,_that.data);case _LocalUpdatesFailure() when failure != null:
+return failure(_that.error,_that.data);case _:
   return orElse();
 
 }
@@ -153,14 +184,14 @@ return failure(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Map<String, dynamic>> data)  success,required TResult Function( String? message)  uploaded,required TResult Function( dynamic error)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<Map<String, dynamic>>? data)  initial,required TResult Function( List<Map<String, dynamic>>? data)  loading,required TResult Function( List<Map<String, dynamic>> data)  success,required TResult Function( String? message,  List<Map<String, dynamic>>? data)  uploaded,required TResult Function( dynamic error,  List<Map<String, dynamic>>? data)  failure,}) {final _that = this;
 switch (_that) {
 case _Initial():
-return initial();case _LoadInProgress():
-return loading();case _LocalUpdatesLoaded():
+return initial(_that.data);case _LoadInProgress():
+return loading(_that.data);case _LocalUpdatesLoaded():
 return success(_that.data);case _LocalChangesUploaded():
-return uploaded(_that.message);case _LocalUpdatesFailure():
-return failure(_that.error);}
+return uploaded(_that.message,_that.data);case _LocalUpdatesFailure():
+return failure(_that.error,_that.data);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -174,14 +205,14 @@ return failure(_that.error);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Map<String, dynamic>> data)?  success,TResult? Function( String? message)?  uploaded,TResult? Function( dynamic error)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<Map<String, dynamic>>? data)?  initial,TResult? Function( List<Map<String, dynamic>>? data)?  loading,TResult? Function( List<Map<String, dynamic>> data)?  success,TResult? Function( String? message,  List<Map<String, dynamic>>? data)?  uploaded,TResult? Function( dynamic error,  List<Map<String, dynamic>>? data)?  failure,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial();case _LoadInProgress() when loading != null:
-return loading();case _LocalUpdatesLoaded() when success != null:
+return initial(_that.data);case _LoadInProgress() when loading != null:
+return loading(_that.data);case _LocalUpdatesLoaded() when success != null:
 return success(_that.data);case _LocalChangesUploaded() when uploaded != null:
-return uploaded(_that.message);case _LocalUpdatesFailure() when failure != null:
-return failure(_that.error);case _:
+return uploaded(_that.message,_that.data);case _LocalUpdatesFailure() when failure != null:
+return failure(_that.error,_that.data);case _:
   return null;
 
 }
@@ -193,75 +224,159 @@ return failure(_that.error);case _:
 
 
 class _Initial implements LocalUpdatesState {
-  const _Initial();
+  const _Initial({final  List<Map<String, dynamic>>? data}): _data = data;
   
 
+ final  List<Map<String, dynamic>>? _data;
+@override List<Map<String, dynamic>>? get data {
+  final value = _data;
+  if (value == null) return null;
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$InitialCopyWith<_Initial> get copyWith => __$InitialCopyWithImpl<_Initial>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial&&const DeepCollectionEquality().equals(other._data, _data));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
 
 @override
 String toString() {
-  return 'LocalUpdatesState.initial()';
+  return 'LocalUpdatesState.initial(data: $data)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$InitialCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
+  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) _then) = __$InitialCopyWithImpl;
+@override @useResult
+$Res call({
+ List<Map<String, dynamic>>? data
+});
 
 
+
+
+}
+/// @nodoc
+class __$InitialCopyWithImpl<$Res>
+    implements _$InitialCopyWith<$Res> {
+  __$InitialCopyWithImpl(this._self, this._then);
+
+  final _Initial _self;
+  final $Res Function(_Initial) _then;
+
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = freezed,}) {
+  return _then(_Initial(
+data: freezed == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
 
 class _LoadInProgress implements LocalUpdatesState {
-  const _LoadInProgress();
+  const _LoadInProgress({final  List<Map<String, dynamic>>? data}): _data = data;
   
 
+ final  List<Map<String, dynamic>>? _data;
+@override List<Map<String, dynamic>>? get data {
+  final value = _data;
+  if (value == null) return null;
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadInProgressCopyWith<_LoadInProgress> get copyWith => __$LoadInProgressCopyWithImpl<_LoadInProgress>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadInProgress);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadInProgress&&const DeepCollectionEquality().equals(other._data, _data));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
 
 @override
 String toString() {
-  return 'LocalUpdatesState.loading()';
+  return 'LocalUpdatesState.loading(data: $data)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$LoadInProgressCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
+  factory _$LoadInProgressCopyWith(_LoadInProgress value, $Res Function(_LoadInProgress) _then) = __$LoadInProgressCopyWithImpl;
+@override @useResult
+$Res call({
+ List<Map<String, dynamic>>? data
+});
 
 
+
+
+}
+/// @nodoc
+class __$LoadInProgressCopyWithImpl<$Res>
+    implements _$LoadInProgressCopyWith<$Res> {
+  __$LoadInProgressCopyWithImpl(this._self, this._then);
+
+  final _LoadInProgress _self;
+  final $Res Function(_LoadInProgress) _then;
+
+/// Create a copy of LocalUpdatesState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? data = freezed,}) {
+  return _then(_LoadInProgress(
+data: freezed == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
 
 class _LocalUpdatesLoaded implements LocalUpdatesState {
-  const _LocalUpdatesLoaded(final  List<Map<String, dynamic>> data): _data = data;
+  const _LocalUpdatesLoaded({required final  List<Map<String, dynamic>> data}): _data = data;
   
 
  final  List<Map<String, dynamic>> _data;
- List<Map<String, dynamic>> get data {
+@override List<Map<String, dynamic>> get data {
   if (_data is EqualUnmodifiableListView) return _data;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_data);
@@ -270,7 +385,7 @@ class _LocalUpdatesLoaded implements LocalUpdatesState {
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$LocalUpdatesLoadedCopyWith<_LocalUpdatesLoaded> get copyWith => __$LocalUpdatesLoadedCopyWithImpl<_LocalUpdatesLoaded>(this, _$identity);
 
@@ -296,7 +411,7 @@ String toString() {
 /// @nodoc
 abstract mixin class _$LocalUpdatesLoadedCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
   factory _$LocalUpdatesLoadedCopyWith(_LocalUpdatesLoaded value, $Res Function(_LocalUpdatesLoaded) _then) = __$LocalUpdatesLoadedCopyWithImpl;
-@useResult
+@override @useResult
 $Res call({
  List<Map<String, dynamic>> data
 });
@@ -315,9 +430,9 @@ class __$LocalUpdatesLoadedCopyWithImpl<$Res>
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
   return _then(_LocalUpdatesLoaded(
-null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>,
   ));
 }
@@ -329,14 +444,23 @@ as List<Map<String, dynamic>>,
 
 
 class _LocalChangesUploaded implements LocalUpdatesState {
-  const _LocalChangesUploaded(this.message);
+  const _LocalChangesUploaded(this.message, {final  List<Map<String, dynamic>>? data}): _data = data;
   
 
  final  String? message;
+ final  List<Map<String, dynamic>>? _data;
+@override List<Map<String, dynamic>>? get data {
+  final value = _data;
+  if (value == null) return null;
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$LocalChangesUploadedCopyWith<_LocalChangesUploaded> get copyWith => __$LocalChangesUploadedCopyWithImpl<_LocalChangesUploaded>(this, _$identity);
 
@@ -344,16 +468,16 @@ _$LocalChangesUploadedCopyWith<_LocalChangesUploaded> get copyWith => __$LocalCh
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalChangesUploaded&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalChangesUploaded&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._data, _data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(_data));
 
 @override
 String toString() {
-  return 'LocalUpdatesState.uploaded(message: $message)';
+  return 'LocalUpdatesState.uploaded(message: $message, data: $data)';
 }
 
 
@@ -362,9 +486,9 @@ String toString() {
 /// @nodoc
 abstract mixin class _$LocalChangesUploadedCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
   factory _$LocalChangesUploadedCopyWith(_LocalChangesUploaded value, $Res Function(_LocalChangesUploaded) _then) = __$LocalChangesUploadedCopyWithImpl;
-@useResult
+@override @useResult
 $Res call({
- String? message
+ String? message, List<Map<String, dynamic>>? data
 });
 
 
@@ -381,10 +505,11 @@ class __$LocalChangesUploadedCopyWithImpl<$Res>
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? data = freezed,}) {
   return _then(_LocalChangesUploaded(
 freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,data: freezed == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
   ));
 }
 
@@ -395,14 +520,23 @@ as String?,
 
 
 class _LocalUpdatesFailure implements LocalUpdatesState {
-  const _LocalUpdatesFailure(this.error);
+  const _LocalUpdatesFailure(this.error, {final  List<Map<String, dynamic>>? data}): _data = data;
   
 
  final  dynamic error;
+ final  List<Map<String, dynamic>>? _data;
+@override List<Map<String, dynamic>>? get data {
+  final value = _data;
+  if (value == null) return null;
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$LocalUpdatesFailureCopyWith<_LocalUpdatesFailure> get copyWith => __$LocalUpdatesFailureCopyWithImpl<_LocalUpdatesFailure>(this, _$identity);
 
@@ -410,16 +544,16 @@ _$LocalUpdatesFailureCopyWith<_LocalUpdatesFailure> get copyWith => __$LocalUpda
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalUpdatesFailure&&const DeepCollectionEquality().equals(other.error, error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalUpdatesFailure&&const DeepCollectionEquality().equals(other.error, error)&&const DeepCollectionEquality().equals(other._data, _data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error),const DeepCollectionEquality().hash(_data));
 
 @override
 String toString() {
-  return 'LocalUpdatesState.failure(error: $error)';
+  return 'LocalUpdatesState.failure(error: $error, data: $data)';
 }
 
 
@@ -428,9 +562,9 @@ String toString() {
 /// @nodoc
 abstract mixin class _$LocalUpdatesFailureCopyWith<$Res> implements $LocalUpdatesStateCopyWith<$Res> {
   factory _$LocalUpdatesFailureCopyWith(_LocalUpdatesFailure value, $Res Function(_LocalUpdatesFailure) _then) = __$LocalUpdatesFailureCopyWithImpl;
-@useResult
+@override @useResult
 $Res call({
- dynamic error
+ dynamic error, List<Map<String, dynamic>>? data
 });
 
 
@@ -447,10 +581,11 @@ class __$LocalUpdatesFailureCopyWithImpl<$Res>
 
 /// Create a copy of LocalUpdatesState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? error = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? error = freezed,Object? data = freezed,}) {
   return _then(_LocalUpdatesFailure(
 freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as dynamic,
+as dynamic,data: freezed == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
   ));
 }
 

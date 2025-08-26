@@ -401,12 +401,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (DataEntity object, fb.Builder fbb) {
         final dataOffset = fbb.writeString(object.data);
         final tableNameOffset = fbb.writeString(object.tableName);
-        final entityIdOffset =
-            object.entityId == null ? null : fbb.writeString(object.entityId!);
+        final entityIdOffset = object.entityId == null
+            ? null
+            : fbb.writeString(object.entityId!);
         final operationOffset = fbb.writeString(object.operation);
         final entityOffset = fbb.writeString(object.entity);
-        final uuidOffset =
-            object.uuid == null ? null : fbb.writeString(object.uuid!);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
         fbb.startTable(12);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, dataOffset);
@@ -470,18 +472,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
           16,
           false,
         );
-        final updatedAtParam =
-            updatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
-        final createdAtParam =
-            createdAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
-        final deletedAtParam =
-            deletedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = DataEntity(
           id: idParam,
           uuid: uuidParam,
@@ -508,44 +507,43 @@ obx_int.ModelDefinition getObjectBoxModel() {
         object.id = id;
       },
       objectToFB: (ConfigurationEntity object, fb.Builder fbb) {
-        final currentDeviceIdOffset =
-            object.currentDeviceId == null
-                ? null
-                : fbb.writeString(object.currentDeviceId!);
-        final accountKeyOffset =
-            object.accountKey == null
-                ? null
-                : fbb.writeString(object.accountKey!);
-        final baseUrlOffset =
-            object.baseUrl == null ? null : fbb.writeString(object.baseUrl!);
-        final remoteEndpointOffset =
-            object.remoteEndpoint == null
-                ? null
-                : fbb.writeString(object.remoteEndpoint!);
-        final localEndpointOffset =
-            object.localEndpoint == null
-                ? null
-                : fbb.writeString(object.localEndpoint!);
-        final addSyncDeviceEndpointOffset =
-            object.addSyncDeviceEndpoint == null
-                ? null
-                : fbb.writeString(object.addSyncDeviceEndpoint!);
-        final authTokenOffset =
-            object.authToken == null
-                ? null
-                : fbb.writeString(object.authToken!);
-        final userIdOffset =
-            object.userId == null ? null : fbb.writeString(object.userId!);
-        final extrasOffset =
-            object.extras == null ? null : fbb.writeString(object.extras!);
+        final currentDeviceIdOffset = object.currentDeviceId == null
+            ? null
+            : fbb.writeString(object.currentDeviceId!);
+        final accountKeyOffset = object.accountKey == null
+            ? null
+            : fbb.writeString(object.accountKey!);
+        final baseUrlOffset = object.baseUrl == null
+            ? null
+            : fbb.writeString(object.baseUrl!);
+        final remoteEndpointOffset = object.remoteEndpoint == null
+            ? null
+            : fbb.writeString(object.remoteEndpoint!);
+        final localEndpointOffset = object.localEndpoint == null
+            ? null
+            : fbb.writeString(object.localEndpoint!);
+        final addSyncDeviceEndpointOffset = object.addSyncDeviceEndpoint == null
+            ? null
+            : fbb.writeString(object.addSyncDeviceEndpoint!);
+        final authTokenOffset = object.authToken == null
+            ? null
+            : fbb.writeString(object.authToken!);
+        final userIdOffset = object.userId == null
+            ? null
+            : fbb.writeString(object.userId!);
+        final extrasOffset = object.extras == null
+            ? null
+            : fbb.writeString(object.extras!);
         final connectAccountEndpointOffset =
             object.connectAccountEndpoint == null
-                ? null
-                : fbb.writeString(object.connectAccountEndpoint!);
-        final userNameOffset =
-            object.userName == null ? null : fbb.writeString(object.userName!);
-        final uuidOffset =
-            object.uuid == null ? null : fbb.writeString(object.uuid!);
+            ? null
+            : fbb.writeString(object.connectAccountEndpoint!);
+        final userNameOffset = object.userName == null
+            ? null
+            : fbb.writeString(object.userName!);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
         fbb.startTable(20);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentDeviceIdOffset);
@@ -639,26 +637,21 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final extrasParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 22);
-        final localLastUpdatedAtParam =
-            localLastUpdatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(localLastUpdatedAtValue);
-        final remoteLastUpdatedAtParam =
-            remoteLastUpdatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(remoteLastUpdatedAtValue);
-        final updatedAtParam =
-            updatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
-        final createdAtParam =
-            createdAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
-        final deletedAtParam =
-            deletedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final localLastUpdatedAtParam = localLastUpdatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(localLastUpdatedAtValue);
+        final remoteLastUpdatedAtParam = remoteLastUpdatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(remoteLastUpdatedAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = ConfigurationEntity(
           id: idParam,
           uuid: uuidParam,
@@ -695,8 +688,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (SyncDeviceEntity object, fb.Builder fbb) {
         final deviceIdOffset = fbb.writeString(object.deviceId);
         final userIdOffset = fbb.writeString(object.userId);
-        final uuidOffset =
-            object.uuid == null ? null : fbb.writeString(object.uuid!);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
         fbb.startTable(9);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, deviceIdOffset);
@@ -748,18 +742,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final userIdParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 8, '');
-        final updatedAtParam =
-            updatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
-        final createdAtParam =
-            createdAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
-        final deletedAtParam =
-            deletedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = SyncDeviceEntity(
           id: idParam,
           uuid: uuidParam,
@@ -783,8 +774,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         object.id = id;
       },
       objectToFB: (RemoteUpdateEntity object, fb.Builder fbb) {
-        final uuidOffset =
-            object.uuid == null ? null : fbb.writeString(object.uuid!);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
         final dataOffset = fbb.writeString(object.data);
         fbb.startTable(8);
         fbb.addInt64(0, object.id);
@@ -833,18 +825,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
           8,
           false,
         );
-        final createdAtParam =
-            createdAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
-        final updatedAtParam =
-            updatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
-        final deletedAtParam =
-            deletedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = RemoteUpdateEntity(
           id: idParam,
           uuid: uuidParam,

@@ -19,7 +19,7 @@ class LocalUpdatesBloc extends Bloc<LocalUpdatesEvent, LocalUpdatesState> {
         if (config != null && config.hasRemoteCredentials) {
           final data = await SyncRepositoryImp().getPendingLocalUpdates();
 
-          emit(LocalUpdatesState.success(data));
+          emit(LocalUpdatesState.success(data: data));
         } else {
           throw Exception(
             'Please setup the device/ account to enable uploading changes',
@@ -31,7 +31,7 @@ class LocalUpdatesBloc extends Bloc<LocalUpdatesEvent, LocalUpdatesState> {
     });
     on<UploadLocalChanges>((event, emit) async {
       try {
-        emit(LocalUpdatesState.loading());
+        emit(LocalUpdatesState.loading(data: state.data));
         final config = await ConfigService.getSettings();
 
         if (config != null && config.hasRemoteCredentials) {
@@ -41,10 +41,15 @@ class LocalUpdatesBloc extends Bloc<LocalUpdatesEvent, LocalUpdatesState> {
             AppConfig.instance.syncronizer,
           ).syncLocalChanges(syncId);
 
-          emit(LocalUpdatesState.uploaded('Changes Uploaded Successfully'));
+          emit(
+            LocalUpdatesState.uploaded(
+              'Changes Uploaded Successfully',
+              data: state.data,
+            ),
+          );
         }
       } catch (error) {
-        emit(LocalUpdatesState.failure(error));
+        emit(LocalUpdatesState.failure(error, data: state.data));
       }
     });
   }
