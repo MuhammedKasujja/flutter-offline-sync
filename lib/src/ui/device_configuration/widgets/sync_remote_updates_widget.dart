@@ -54,9 +54,12 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                     icon: state.whenOrNull(
                       loading:
                           (_) => SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: CircularProgressIndicator(),
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
                           ),
                     ),
                   ),

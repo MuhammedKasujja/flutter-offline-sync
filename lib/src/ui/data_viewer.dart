@@ -66,6 +66,24 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
                     (data) =>
                         data.isEmpty
                             ? Center(child: Text('No local updates available'))
+                            : data.length > 100
+                            ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              spacing: 20,
+                              children: [
+                                Text('Pending Local updates'),
+                                Text(
+                                  '${data.length}',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                OutlinedButton.icon(
+                                  onPressed: syncUpdates,
+                                  label: Text('Sync updates'),
+                                  icon: Icon(Icons.sync),
+                                ),
+                              ],
+                            )
                             : _jsonViewer(data),
                 failure: (error) => Center(child: Text('$error')),
                 orElse: () => Center(child: CircularProgressIndicator()),
