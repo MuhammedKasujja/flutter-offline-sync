@@ -6,6 +6,7 @@ import 'package:flutter_offline_sync/src/data/services/configuration_service.dar
 import 'package:flutter_offline_sync/src/data/services/remote_config_service.dart';
 import 'package:flutter_offline_sync/src/ui/app_form.dart';
 import 'package:flutter_offline_sync/src/utils/formatting.dart';
+import 'package:flutter_offline_sync/src/utils/platforms.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 import 'package:flutter_offline_sync/src/utils/validations.dart';
 
@@ -32,7 +33,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   final accountKeyController = TextEditingController();
   final connectAccountEndpointController = TextEditingController();
   final userNameController = TextEditingController();
-  static final _formKey = GlobalKey<FormState>(debugLabel: '_device_config');
+  final _formKey = GlobalKey<FormState>(debugLabel: '_device_config');
   final FocusScopeNode _focusNode = FocusScopeNode();
 
   @override
@@ -104,6 +105,8 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:
+          isMobile(context) ? AppBar(title: Text('Setup Device')) : null,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

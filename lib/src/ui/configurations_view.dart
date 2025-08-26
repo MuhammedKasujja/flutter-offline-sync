@@ -51,7 +51,21 @@ class SyncConfigurationsView extends StatelessWidget {
                 return IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: () {
-                    Scaffold.of(context).openEndDrawer();
+                    if (isMobile(context)) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ConfigurationsEdit(
+                                canConfigApi: canConfigApi,
+                                syncUserId: syncUserId,
+                                isAdmin: isAdmin,
+                              ),
+                        ),
+                      );
+                    } else {
+                      Scaffold.of(context).openEndDrawer();
+                    }
                   },
                 );
               },
