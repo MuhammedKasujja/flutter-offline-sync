@@ -30,7 +30,7 @@ class SyncConfigurationsView extends StatelessWidget {
       length: isAdmin ? 3 : 2,
       child: Scaffold(
         endDrawer: Drawer(
-          width: isDesktop(context) ? 400 : null,
+          width: isDesktop(context) ? 500 : null,
           child: ConfigurationsEdit(
             canConfigApi: canConfigApi,
             syncUserId: syncUserId,
