@@ -40,15 +40,21 @@ abstract class EntityRegistry {
       get(entityName)?.deleteFunction(store, id) ??
       (throw Exception("Handler not found for $entityName"));
 
-  List<Map<String, dynamic>> fetchEntityUpdates(String entityName, DateTime lastSyncDate) =>
+  List<Map<String, dynamic>> fetchEntityUpdates(
+    String entityName,
+    DateTime lastSyncDate,
+  ) =>
       get(entityName)?.fetchFunction(store, lastSyncDate) ??
       (throw Exception("Handler not found for $entityName"));
 }
 
-
 String generateUUID([int length = 32]) {
   const chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  return String.fromCharCodes(Iterable.generate(
-      length, (_) => chars.codeUnitAt(Random().nextInt(chars.length))));
+  return String.fromCharCodes(
+    Iterable.generate(
+      length,
+      (_) => chars.codeUnitAt(Random().nextInt(chars.length)),
+    ),
+  );
 }

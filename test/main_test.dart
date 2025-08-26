@@ -12,7 +12,10 @@ void main() {
   test('Data updates sorting order using updatedAt', () async {
     final uploads = DataLoads.listUploads();
 
-    final sortedList = await sortInBackground(updates: uploads, sortByCreatedAt: false);
+    final sortedList = await sortInBackground(
+      updates: uploads,
+      sortByCreatedAt: false,
+    );
 
     expect(sortedList.first.uuid, DataLoads.uploadUuid2);
 

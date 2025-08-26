@@ -5,8 +5,6 @@ class SyncDevicesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('Sync Devices View')),
-    );
+    return Scaffold(body: Center(child: Text('Sync Devices View')));
   }
 }

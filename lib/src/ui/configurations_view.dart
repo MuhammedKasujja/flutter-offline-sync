@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_offline_sync/src/blocs/local_updates/local_updates_bloc.dart';
-import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/ui/sync_devices_view.dart';
 
 import 'configurations_edit.dart';
 import 'data_viewer.dart';
 
-class SyncConfigurationsView extends StatefulWidget {
+class SyncConfigurationsView extends StatelessWidget {
   const SyncConfigurationsView({
     super.key,
     required this.isAdmin,
@@ -26,48 +23,48 @@ class SyncConfigurationsView extends StatefulWidget {
   final String? syncUserId;
 
   @override
-  State<SyncConfigurationsView> createState() => _SyncConfigurationsViewState();
-}
-
-class _SyncConfigurationsViewState extends State<SyncConfigurationsView> {
-  Future<void> handleDataReset() async {
-    await ConfigService.resetSyncDates();
-    if (mounted) {
-      context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: widget.isAdmin ? 3 : 2,
+      length: isAdmin ? 3 : 2,
       child: Scaffold(
+        endDrawer: Drawer(
+          child: ConfigurationsEdit(
+            canConfigApi: canConfigApi,
+            syncUserId: syncUserId,
+            isAdmin: isAdmin,
+          ),
+        ),
         appBar: AppBar(
           title: Text('Sync Configurations'),
           bottom: TabBar(
             tabs: [
               Tab(text: 'Local updates'),
               Tab(text: 'Config'),
-              if (widget.isAdmin) Tab(text: 'Devices'),
+              if (isAdmin) Tab(text: 'Devices'),
             ],
           ),
           actions: [
-            if (widget.isAdmin)
-              IconButton(
-                onPressed: handleDataReset,
-                icon: Icon(Icons.restore_outlined),
-                tooltip: 'Reset Sync Dates',
-              ),
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                );
+              },
+            ),
           ],
         ),
         body: TabBarView(
           children: [
             SyncDataViewer(),
             ConfigurationsEdit(
-              canConfigApi: widget.canConfigApi,
-              syncUserId: widget.syncUserId,
+              canConfigApi: canConfigApi,
+              syncUserId: syncUserId,
+              isAdmin: isAdmin,
             ),
-            if (widget.isAdmin) SyncDevicesView(),
+            if (isAdmin) SyncDevicesView(),
           ],
         ),
       ),

@@ -28,7 +28,10 @@ class LocalDataUpdates {
       final entities = entityRegistry.getAllEntities();
       final localUpdates = <Map<String, dynamic>>[];
       for (final entityName in entities) {
-        final entityUpdates = entityRegistry.fetchEntityUpdates(entityName, lastSyncDate);
+        final entityUpdates = entityRegistry.fetchEntityUpdates(
+          entityName,
+          lastSyncDate,
+        );
         if (entityUpdates.isNotEmpty) {
           localUpdates.addAll(entityUpdates);
         }

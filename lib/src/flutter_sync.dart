@@ -43,8 +43,8 @@ class FlutterSync {
   }
 
   ///  Use sync `createdAt` for sorting updates if this is the first time syncing data
-  /// 
-  ///  OR when [_initEntityChecker] is null or empty 
+  ///
+  ///  OR when [_initEntityChecker] is null or empty
   static Future<bool> canSyncUsingCreatedAt() async {
     final syncChecker = _singleton._initEntityChecker;
     if ((syncChecker ?? '').isEmpty) return true;

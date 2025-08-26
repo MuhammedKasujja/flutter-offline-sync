@@ -1,4 +1,3 @@
-
 import 'package:example/data/objectbox.dart';
 import 'package:example/objectbox.g.dart';
 

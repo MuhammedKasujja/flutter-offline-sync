@@ -36,7 +36,6 @@ enum SyncRequestMode {
   autoNoPushes,
 }
 
-
 enum DeviceConfigStep {
   form,
   fetchingRemoteChanges,

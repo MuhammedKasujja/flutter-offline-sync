@@ -4,7 +4,6 @@ import 'package:example/data/models/user_model.dart';
 import 'package:example/objectbox.g.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-
 void main() {
   late Store store;
   late Box<UserModel> userBox;
@@ -21,7 +20,7 @@ void main() {
     tempDir.deleteSync(recursive: true);
   });
 
-  test('Create User', (){
+  test('Create User', () {
     final user = UserModel(age: 30, email: 'kato@gmail.com', name: 'Musa');
 
     final id = userBox.put(user);

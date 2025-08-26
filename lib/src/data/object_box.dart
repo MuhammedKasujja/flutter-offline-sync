@@ -41,7 +41,7 @@ class ObjectBox {
 
   static Future<String> _getDBPath() async {
     // final docsDir = await getApplicationDocumentsDirectory();
-    
+
     // Recommended to use application support directory for databases
     // to avoid deletion by user since documents directory can be cleared by the user.
     final docsDir = await getApplicationSupportDirectory();

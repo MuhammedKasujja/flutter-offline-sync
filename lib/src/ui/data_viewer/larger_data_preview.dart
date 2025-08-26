@@ -18,7 +18,10 @@ class LargerDataPreviewWidget extends StatelessWidget {
         spacing: 20,
         children: [
           Text('Pending Local updates'),
-          Text('${data.length}', style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            '${data.length}',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
           OutlinedButton.icon(
             onPressed: onSyncUpdates,
             label: Text('Sync updates'),

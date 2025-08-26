@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/local_updates/local_updates_bloc.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
+import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/data/services/remote_config_service.dart';
 import 'package:flutter_offline_sync/src/ui/app_form.dart';
 import 'package:flutter_offline_sync/src/utils/formatting.dart';
@@ -11,9 +14,11 @@ class ConfigurationsEdit extends StatefulWidget {
     super.key,
     required this.canConfigApi,
     required this.syncUserId,
+    required this.isAdmin,
   });
   final bool canConfigApi;
   final String? syncUserId;
+  final bool isAdmin;
 
   @override
   State<ConfigurationsEdit> createState() => _ConfigurationsEditState();
@@ -54,10 +59,10 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
       if (response.isSuccess) {
         await saveConfig();
       } else {
-        context.toast.error('${response.error}');
+        if (mounted) context.toast.error('${response.error}');
       }
     } catch (error) {
-      context.toast.error('Error saving device: $error');
+      if (mounted) context.toast.error('Error saving device: $error');
     }
   }
 
@@ -89,52 +94,71 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     userNameController.text = settings.userName ?? '';
   }
 
+  Future<void> handleDataReset() async {
+    await ConfigService.resetSyncDates();
+    if (mounted) {
+      context.read<LocalUpdatesBloc>().add(FetchLocalChanges());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: AppForm(
-            formKey: _formKey,
-            focusNode: _focusNode,
-            child: Column(
-              spacing: 10,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Account Key'),
-                TextFormField(
-                  controller: accountKeyController,
-                  validator: Validations.requiredField,
-                ),
-                Text('Remote Base Url'),
-                TextFormField(
-                  controller: baseUrlController,
-                  validator: Validations.requiredField,
-                ),
-                if (widget.canConfigApi) ...[
-                  Text('Uploads Url'),
-                  TextFormField(controller: uploadUrlController),
-                  Text('Downloads Url'),
-                  TextFormField(controller: downloadUrlController),
-                  Text('Add device Url'),
-                  TextFormField(controller: addDeviceUrlController),
-                  Text('Connect Account Endpoint'),
-                  TextFormField(controller: connectAccountEndpointController),
-                ],
-                Text('User Name'),
-                TextFormField(
-                  controller: userNameController,
-                  validator: Validations.requiredField,
-                ),
-                SizedBox(height: 10),
-                Center(
-                  child: FilledButton(
-                    onPressed: handleSaveDevice,
-                    child: Text('Sync Device'),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: AppForm(
+              formKey: _formKey,
+              focusNode: _focusNode,
+              child: Column(
+                spacing: 10,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Account Key'),
+                  TextFormField(
+                    controller: accountKeyController,
+                    validator: Validations.requiredField,
                   ),
-                ),
-              ],
+                  Text('Remote Base Url'),
+                  TextFormField(
+                    controller: baseUrlController,
+                    validator: Validations.requiredField,
+                  ),
+                  if (widget.canConfigApi) ...[
+                    Text('Uploads Url'),
+                    TextFormField(controller: uploadUrlController),
+                    Text('Downloads Url'),
+                    TextFormField(controller: downloadUrlController),
+                    Text('Add device Url'),
+                    TextFormField(controller: addDeviceUrlController),
+                    Text('Connect Account Endpoint'),
+                    TextFormField(controller: connectAccountEndpointController),
+                  ],
+                  Text('User Name'),
+                  TextFormField(
+                    controller: userNameController,
+                    validator: Validations.requiredField,
+                  ),
+                  SizedBox(height: 10),
+                  Center(
+                    child: FilledButton(
+                      onPressed: handleSaveDevice,
+                      child: Text('Sync Device'),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  if (widget.isAdmin)
+                    Center(
+                      child: OutlinedButton.icon(
+                        onPressed: handleDataReset,
+                        icon: Icon(Icons.restore_outlined),
+                        label: Text('Reset Sync Dates'),
+                      ),
+                    ),
+                  SizedBox(height: 10),
+                ],
+              ),
             ),
           ),
         ),

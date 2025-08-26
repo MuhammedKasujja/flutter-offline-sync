@@ -21,14 +21,15 @@ final Map<String, EntityHandler> _generatedRegistry = {
     boxFactory: (store) => store.box<RemoteUpdateEntity>(),
     fetchFunction: (store, lastSync) {
       final box = store.box<RemoteUpdateEntity>();
-      final query = box
-          .query(
-            RemoteUpdateEntity_.updatedAt
-                .greaterThan(lastSync.millisecondsSinceEpoch)
-                .and(RemoteUpdateEntity_.isSynced.equals(false)),
-          )
-          .order(RemoteUpdateEntity_.updatedAt, flags: Order.descending)
-          .build();
+      final query =
+          box
+              .query(
+                RemoteUpdateEntity_.updatedAt
+                    .greaterThan(lastSync.millisecondsSinceEpoch)
+                    .and(RemoteUpdateEntity_.isSynced.equals(false)),
+              )
+              .order(RemoteUpdateEntity_.updatedAt, flags: Order.descending)
+              .build();
       final updates = query.find();
       query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -44,9 +45,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       final box = store.box<RemoteUpdateEntity>();
 
-      final query = box
-          .query(RemoteUpdateEntity_.uuid.equals(entity.uuid!))
-          .build();
+      final query =
+          box.query(RemoteUpdateEntity_.uuid.equals(entity.uuid!)).build();
 
       final model = query.findFirst();
 
@@ -64,14 +64,15 @@ final Map<String, EntityHandler> _generatedRegistry = {
     boxFactory: (store) => store.box<DataEntity>(),
     fetchFunction: (store, lastSync) {
       final box = store.box<DataEntity>();
-      final query = box
-          .query(
-            DataEntity_.updatedAt
-                .greaterThan(lastSync.millisecondsSinceEpoch)
-                .and(DataEntity_.isSynced.equals(false)),
-          )
-          .order(DataEntity_.updatedAt, flags: Order.descending)
-          .build();
+      final query =
+          box
+              .query(
+                DataEntity_.updatedAt
+                    .greaterThan(lastSync.millisecondsSinceEpoch)
+                    .and(DataEntity_.isSynced.equals(false)),
+              )
+              .order(DataEntity_.updatedAt, flags: Order.descending)
+              .build();
       final updates = query.find();
       query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -105,14 +106,15 @@ final Map<String, EntityHandler> _generatedRegistry = {
     boxFactory: (store) => store.box<ConfigurationEntity>(),
     fetchFunction: (store, lastSync) {
       final box = store.box<ConfigurationEntity>();
-      final query = box
-          .query(
-            ConfigurationEntity_.updatedAt
-                .greaterThan(lastSync.millisecondsSinceEpoch)
-                .and(ConfigurationEntity_.isSynced.equals(false)),
-          )
-          .order(ConfigurationEntity_.updatedAt, flags: Order.descending)
-          .build();
+      final query =
+          box
+              .query(
+                ConfigurationEntity_.updatedAt
+                    .greaterThan(lastSync.millisecondsSinceEpoch)
+                    .and(ConfigurationEntity_.isSynced.equals(false)),
+              )
+              .order(ConfigurationEntity_.updatedAt, flags: Order.descending)
+              .build();
       final updates = query.find();
       query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -128,9 +130,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       final box = store.box<ConfigurationEntity>();
 
-      final query = box
-          .query(ConfigurationEntity_.uuid.equals(entity.uuid!))
-          .build();
+      final query =
+          box.query(ConfigurationEntity_.uuid.equals(entity.uuid!)).build();
 
       final model = query.findFirst();
 
@@ -148,14 +149,15 @@ final Map<String, EntityHandler> _generatedRegistry = {
     boxFactory: (store) => store.box<SyncDeviceEntity>(),
     fetchFunction: (store, lastSync) {
       final box = store.box<SyncDeviceEntity>();
-      final query = box
-          .query(
-            SyncDeviceEntity_.updatedAt
-                .greaterThan(lastSync.millisecondsSinceEpoch)
-                .and(SyncDeviceEntity_.isSynced.equals(false)),
-          )
-          .order(SyncDeviceEntity_.updatedAt, flags: Order.descending)
-          .build();
+      final query =
+          box
+              .query(
+                SyncDeviceEntity_.updatedAt
+                    .greaterThan(lastSync.millisecondsSinceEpoch)
+                    .and(SyncDeviceEntity_.isSynced.equals(false)),
+              )
+              .order(SyncDeviceEntity_.updatedAt, flags: Order.descending)
+              .build();
       final updates = query.find();
       query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -171,9 +173,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       final box = store.box<SyncDeviceEntity>();
 
-      final query = box
-          .query(SyncDeviceEntity_.uuid.equals(entity.uuid!))
-          .build();
+      final query =
+          box.query(SyncDeviceEntity_.uuid.equals(entity.uuid!)).build();
 
       final model = query.findFirst();
 
@@ -212,9 +213,10 @@ extension RemoteUpdateEntityRelationJson on RemoteUpdateEntity {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = deletedAt != null
-        ? EntityState.deleted
-        : createdAt.syncState(updatedAt);
+    final operation =
+        deletedAt != null
+            ? EntityState.deleted
+            : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "RemoteUpdateEntity"});
     map.addAll({"entityId": this.uuid});
@@ -235,9 +237,10 @@ extension DataEntityRelationJson on DataEntity {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = deletedAt != null
-        ? EntityState.deleted
-        : createdAt.syncState(updatedAt);
+    final operation =
+        deletedAt != null
+            ? EntityState.deleted
+            : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "DataEntity"});
     map.addAll({"entityId": this.uuid});
@@ -261,9 +264,10 @@ extension ConfigurationEntityRelationJson on ConfigurationEntity {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = deletedAt != null
-        ? EntityState.deleted
-        : createdAt.syncState(updatedAt);
+    final operation =
+        deletedAt != null
+            ? EntityState.deleted
+            : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "ConfigurationEntity"});
     map.addAll({"entityId": this.uuid});
@@ -287,9 +291,10 @@ extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation = deletedAt != null
-        ? EntityState.deleted
-        : createdAt.syncState(updatedAt);
+    final operation =
+        deletedAt != null
+            ? EntityState.deleted
+            : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "SyncDeviceEntity"});
     map.addAll({"entityId": this.uuid});

@@ -67,7 +67,7 @@ void main() {
       createdAt: DateTime(2025, 8, 20, 12, 10),
       updatedAt: DateTime(2025, 8, 20, 16, 00),
     );
-    
+
     final user4 = UserModel(
       age: 55,
       email: 'namuyomba@mail.com',

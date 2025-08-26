@@ -151,4 +151,3 @@ class DataSyncroniser extends IDataSyncroniser {
 //   list.entities.sort((a, b) => a.updatedAt.compareTo(a.updatedAt));
 //   return list;
 // }
-

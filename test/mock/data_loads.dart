@@ -123,7 +123,7 @@ final class DataLoads {
     operation: 'created',
     entity: 'UserModel',
   );
-  
+
   static final upload5 = DataEntity(
     uuid: uploadUuid4,
     data: jsonEncode({
@@ -153,5 +153,11 @@ final class DataLoads {
     entity: 'UserModel',
   );
 
-  static List<DataEntity> listUploads() => [upload1, upload2, upload3, upload5, upload4];
+  static List<DataEntity> listUploads() => [
+    upload1,
+    upload2,
+    upload3,
+    upload5,
+    upload4,
+  ];
 }

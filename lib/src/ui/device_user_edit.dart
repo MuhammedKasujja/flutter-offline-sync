@@ -47,7 +47,7 @@ class _DeviceUserEditState extends State<DeviceUserEdit> {
               Text('User Name'),
               TextFormField(controller: userNameController),
               Text('Device ID'),
-              TextFormField(controller: deviceIdController,enabled: false),
+              TextFormField(controller: deviceIdController, enabled: false),
               SizedBox(height: 10),
               Center(
                 child: FilledButton(
