@@ -32,4 +32,7 @@ const kDemoAccountKey = 'YCU7IK1KTBWJ5ZOPAXBL2VUAJ61HGQH4';
 
 const kDefaultConnectDeviceUserID = 'user_id_unknown';
 
+/// Total data preview limit to avoid lagging while displaying large data changes
+const kDataPreviewThreshold = 100;
+
 /// API errors end ///

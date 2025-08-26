@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/blocs.dart';
+import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
+
+import 'data_viewer/larger_data_preview.dart';
 
 class SyncDataViewer extends StatefulWidget {
   const SyncDataViewer({super.key});
@@ -66,23 +69,10 @@ class _SyncDataViewerState extends State<SyncDataViewer> {
                     (data) =>
                         data.isEmpty
                             ? Center(child: Text('No local updates available'))
-                            : data.length > 100
-                            ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              spacing: 20,
-                              children: [
-                                Text('Pending Local updates'),
-                                Text(
-                                  '${data.length}',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                                OutlinedButton.icon(
-                                  onPressed: syncUpdates,
-                                  label: Text('Sync updates'),
-                                  icon: Icon(Icons.sync),
-                                ),
-                              ],
+                            : data.length > kDataPreviewThreshold
+                            ? LargerDataPreviewWidget(
+                              data: data,
+                              onSyncUpdates: syncUpdates,
                             )
                             : _jsonViewer(data),
                 failure: (error) => Center(child: Text('$error')),
