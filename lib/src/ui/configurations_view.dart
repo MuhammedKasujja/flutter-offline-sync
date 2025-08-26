@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/sync_update/sync_update_bloc.dart';
 
 import 'package:flutter_offline_sync/src/ui/sync_devices_view.dart';
 import 'package:flutter_offline_sync/src/utils/platforms.dart';
@@ -7,7 +9,7 @@ import 'configurations_edit.dart';
 import 'data_viewer.dart';
 import 'remote_data_preview.dart';
 
-class SyncConfigurationsView extends StatelessWidget {
+class SyncConfigurationsView extends StatefulWidget {
   const SyncConfigurationsView({
     super.key,
     required this.isAdmin,
@@ -25,25 +27,43 @@ class SyncConfigurationsView extends StatelessWidget {
   final String? syncUserId;
 
   @override
+  State<SyncConfigurationsView> createState() => _SyncConfigurationsViewState();
+}
+
+class _SyncConfigurationsViewState extends State<SyncConfigurationsView> {
+  @override
+  void initState() {
+    checkUnSavedChanges();
+    super.initState();
+  }
+
+  void checkUnSavedChanges() {
+    context.read<SyncUpdateBloc>().add(StageRemoteChanges());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: isAdmin ? 3 : 2,
+      length: widget.isAdmin ? 3 : 2,
       child: Scaffold(
-        endDrawer: Drawer(
-          width: isDesktop(context) ? 500 : null,
-          child: ConfigurationsEdit(
-            canConfigApi: canConfigApi,
-            syncUserId: syncUserId,
-            isAdmin: isAdmin,
-          ),
-        ),
+        endDrawer:
+            isDesktop(context)
+                ? Drawer(
+                  width: 500,
+                  child: ConfigurationsEdit(
+                    canConfigApi: widget.canConfigApi,
+                    syncUserId: widget.syncUserId,
+                    isAdmin: widget.isAdmin,
+                  ),
+                )
+                : null,
         appBar: AppBar(
           title: Text('Sync Configurations'),
           bottom: TabBar(
             tabs: [
               Tab(text: 'Local updates'),
               Tab(text: 'Remote Changes'),
-              if (isAdmin) Tab(text: 'Devices'),
+              if (widget.isAdmin) Tab(text: 'Devices'),
             ],
           ),
           actions: [
@@ -58,9 +78,9 @@ class SyncConfigurationsView extends StatelessWidget {
                         MaterialPageRoute(
                           builder:
                               (context) => ConfigurationsEdit(
-                                canConfigApi: canConfigApi,
-                                syncUserId: syncUserId,
-                                isAdmin: isAdmin,
+                                canConfigApi: widget.canConfigApi,
+                                syncUserId: widget.syncUserId,
+                                isAdmin: widget.isAdmin,
                               ),
                         ),
                       );
@@ -77,7 +97,7 @@ class SyncConfigurationsView extends StatelessWidget {
           children: [
             SyncDataViewer(),
             RemoteDataPreviewWidget(),
-            if (isAdmin) SyncDevicesView(),
+            if (widget.isAdmin) SyncDevicesView(),
           ],
         ),
       ),

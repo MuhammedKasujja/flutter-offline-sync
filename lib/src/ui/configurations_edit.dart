@@ -159,20 +159,23 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
                   ),
                 ),
                 SizedBox(height: 10),
-                if (widget.isAdmin)
-                  Center(
-                    child: OutlinedButton.icon(
-                      onPressed: handleDataReset,
-                      icon: Icon(Icons.restore_outlined),
-                      label: Text('Reset Sync Dates'),
-                    ),
-                  ),
-                SizedBox(height: 10),
               ],
             ),
           ),
         ),
       ),
+      persistentFooterButtons:
+          widget.isAdmin
+              ? [
+                Center(
+                  child: OutlinedButton.icon(
+                    onPressed: handleDataReset,
+                    icon: Icon(Icons.restore_outlined),
+                    label: Text('Reset Sync Dates'),
+                  ),
+                ),
+              ]
+              : null,
     );
   }
 

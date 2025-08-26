@@ -51,7 +51,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                       );
                     },
                     label: Text('Save Changes'),
-                    icon: state.whenOrNull(
+                    icon: state.maybeMap(
                       loading:
                           (_) => SizedBox(
                             width: 20,
@@ -61,6 +61,7 @@ class SyncRemoteChangesWidget extends StatelessWidget {
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
+                      orElse: () => Icon(Icons.sync),
                     ),
                   ),
               ],

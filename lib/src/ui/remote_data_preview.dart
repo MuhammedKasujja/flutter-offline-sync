@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/remote_updates/remote_updates_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/sync_update/sync_update_bloc.dart';
 import 'package:flutter_offline_sync/src/ui/data_viewer/remote_data_preview_table.dart';
-import 'package:flutter_offline_sync/src/utils/logger.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 
 class RemoteDataPreviewWidget extends StatelessWidget {
@@ -13,7 +12,6 @@ class RemoteDataPreviewWidget extends StatelessWidget {
     state.whenOrNull(
       success: (remoteUpdates) {
         context.read<SyncUpdateBloc>().add(StageRemoteChanges());
-        logger.info(remoteUpdates.length);
       },
       failure: (error) => context.toast.error(error),
     );
@@ -45,7 +43,7 @@ class RemoteDataPreviewWidget extends StatelessWidget {
                         );
                       },
                       label: Text('Save Changes'),
-                      icon: state.whenOrNull(
+                      icon: state.maybeMap(
                         loading:
                             (_) => SizedBox(
                               width: 20,
@@ -55,6 +53,7 @@ class RemoteDataPreviewWidget extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.onPrimary,
                               ),
                             ),
+                        orElse: () => Icon(Icons.sync),
                       ),
                     ),
                   ]
@@ -73,7 +72,7 @@ class RemoteDataPreviewWidget extends StatelessWidget {
                           tooltip: 'Download changes',
                           child: Icon(Icons.sync),
                         )
-                        : null,
+                        : SizedBox.shrink(),
               ),
         );
       },
