@@ -8,9 +8,9 @@ Uint8List compressJsonToGzip(Map<String, dynamic> jsonData) {
   final jsonString = jsonEncode(jsonData);
   final jsonBytes = utf8.encode(jsonString);
 
-  return GZipEncoder().encodeBytes(jsonBytes);
-  // final compressed = GZipEncoder().encode(jsonBytes);
-  // return Uint8List.fromList(compressed);
+  // return GZipEncoder().encodeBytes(jsonBytes);
+  final compressed = GZipEncoder().encode(jsonBytes);
+  return Uint8List.fromList(compressed ?? []);
 }
 
 Future<void> uploadGzipChunks(
