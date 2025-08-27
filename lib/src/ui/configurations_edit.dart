@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/local_updates/local_updates_bloc.dart';
+import 'package:flutter_offline_sync/src/data/models/requests/register_device.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/data/services/remote_config_service.dart';
 import 'package:flutter_offline_sync/src/ui/app_form.dart';
-import 'package:flutter_offline_sync/src/utils/formatting.dart';
 import 'package:flutter_offline_sync/src/utils/platforms.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
 import 'package:flutter_offline_sync/src/utils/validations.dart';
@@ -52,34 +52,26 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     final repo = RemoteConfigService(apiClient: AppConfig.instance.getClient());
     try {
       final response = await repo.syncCurrentDevice(
-        userId: widget.syncUserId,
-        userName: userNameController.text.trim(),
-        syncUrl: baseUrlController.text.trim(),
-        accountKey: accountKeyController.text.trim(),
+        request: RegisterDeviceDTO(
+          userId: widget.syncUserId,
+          userName: userNameController.text.trim(),
+          syncUrl: baseUrlController.text.trim(),
+          accountKey: accountKeyController.text.trim(),
+          localEndpoint: uploadUrlController.text.trim(),
+          remoteEndpoint: downloadUrlController.text.trim(),
+          addSyncDeviceEndpoint: addDeviceUrlController.text.trim(),
+          connectAccountEndpoint: connectAccountEndpointController.text.trim(),
+        ),
       );
       if (response.isSuccess) {
-        await saveConfig();
+        if (mounted) {
+          context.toast.success('Device synced successfully');
+        }
       } else {
         if (mounted) context.toast.error('${response.error}');
       }
     } catch (error) {
       if (mounted) context.toast.error('Error saving device: $error');
-    }
-  }
-
-  Future saveConfig() async {
-    final config = AppConfig.instance.getSettings();
-    config.baseUrl = formatApiBaseUrl(baseUrlController.text);
-    config.localEndpoint = uploadUrlController.text.trim();
-    config.remoteEndpoint = downloadUrlController.text.trim();
-    config.addSyncDeviceEndpoint = addDeviceUrlController.text.trim();
-    config.accountKey = accountKeyController.text.trim();
-    config.connectAccountEndpoint = connectAccountEndpointController.text;
-    config.userId = widget.syncUserId;
-    config.userName = userNameController.text.trim();
-    await AppConfig.instance.saveSettings(config);
-    if (mounted) {
-      context.toast.success('Device synced successfully');
     }
   }
 

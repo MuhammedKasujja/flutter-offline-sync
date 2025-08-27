@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_offline_sync/src/data/models/requests/register_device.dart';
 import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/remote_config_service.dart';
 import 'package:flutter_offline_sync/src/utils/toast.dart';
@@ -18,11 +19,13 @@ class _DeviceUserEditState extends State<DeviceUserEdit> {
     final repo = RemoteConfigService(apiClient: AppConfig.instance.getClient());
     try {
       final response = await repo.syncCurrentDevice(
-        userId: 'userId', // Replace with actual user ID
-        // deviceId: deviceIdController.text,
-        userName: userNameController.text.trim(),
-        syncUrl: '',
-        accountKey: '',
+        request: RegisterDeviceDTO(
+          userId: 'userId', // Replace with actual user ID
+          // deviceId: deviceIdController.text,
+          userName: userNameController.text.trim(),
+          syncUrl: '',
+          accountKey: '',
+        ),
       );
       if (response.isSuccess) {
         context.toast.success('Device saved successfully');
