@@ -1,6 +1,7 @@
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/models/requests/register_device.dart';
+import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 import 'package:flutter_offline_sync/src/data/services/configuration_service.dart';
 import 'package:flutter_offline_sync/src/utils/formatting.dart';
 
@@ -59,6 +60,10 @@ class RemoteConfigService extends IRemoteConfigService {
                 : null,
       );
       await ConfigService.saveSettings(settings);
+
+      /// refresh global settings after saving device
+      /// TODO: use dependence injection to avoid refreshing the global settings
+      await AppConfig.instance.restart();
     }
 
     return response;
