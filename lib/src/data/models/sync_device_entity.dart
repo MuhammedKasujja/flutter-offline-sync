@@ -42,7 +42,6 @@ class SyncDeviceEntity {
 
   factory SyncDeviceEntity.fromJson(Map<String, dynamic> json) {
     return SyncDeviceEntity(
-      id: json['id'],
       uuid: json['uuid'],
       deviceId: json['deviceId'],
       userId: json['userId'],
