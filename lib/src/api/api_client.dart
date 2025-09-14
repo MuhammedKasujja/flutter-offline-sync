@@ -54,4 +54,19 @@ class ApiClient {
       );
     }
   }
+  /// Handle all `Get List` requests using this method
+  Future<ApiResponse<List<T>>> getList<T>({
+    required String url,
+    required T Function(dynamic json) converter,
+    Map<String, dynamic> queryParams = const {},
+  }) async {
+    try {
+      final res = await _dio.get(url, queryParameters: queryParams);
+      return ApiResponse.fromJsonList(res.data, converter);
+    } catch (ex) {
+      return ApiResponse.error(
+        NetworkException.getErrorMessage(NetworkException.getDioException(ex)),
+      );
+    }
+  }
 }

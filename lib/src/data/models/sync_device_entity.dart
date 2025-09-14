@@ -1,3 +1,5 @@
+import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
+import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -17,9 +19,9 @@ class SyncDeviceEntity {
   // final timestamps = Timestamps();
 
   @Property(type: PropertyType.date)
-  final DateTime? updatedAt;
+  DateTime? updatedAt;
   @Property(type: PropertyType.date)
-  final DateTime? createdAt;
+  DateTime? createdAt;
   @Property(type: PropertyType.date)
   DateTime? deletedAt;
   bool isSynced;
@@ -63,5 +65,16 @@ class SyncDeviceEntity {
       'isActive': isActive,
       'lastSyncDate': lastSyncDate?.toIso8601String(),
     };
+  }
+
+  SyncDeviceEntity? save() {
+    uuid ??= generateUUID(24);
+    createdAt ??= DateTime.now();
+    updatedAt = DateTime.now();
+    return saveEntity(this);
+  }
+
+  bool forceDelete() {
+    return deleteEntity<SyncDeviceEntity>(id);
   }
 }

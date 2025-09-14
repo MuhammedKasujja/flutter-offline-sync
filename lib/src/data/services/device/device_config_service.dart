@@ -1,5 +1,6 @@
 import 'package:flutter_offline_sync/src/api/api_client.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
+import 'package:flutter_offline_sync/src/data/models/sync_device_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
 
 abstract class DeviceConfigService {
@@ -7,4 +8,7 @@ abstract class DeviceConfigService {
 
   DeviceConfigService({required this.apiClient});
   Future<ApiResponse> registerDevice(SyncDeviceRequest request);
+  Future<ApiResponse<List<SyncDeviceEntity>>> fetchAccountDevices();
+  Future<List<SyncDeviceEntity>> fetchLocalSaveDevices();
+  Future<int> removeAllDevices();
 }

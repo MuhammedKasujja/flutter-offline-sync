@@ -11,3 +11,9 @@ T? saveEntity<T>(T entity) {
 Box<T> getBox<T>() {
   return ObjectBox.instance.store.box<T>();
 }
+
+bool deleteEntity<T>(int id) {
+  final box = getBox<T>();
+  if (id == 0) return false;
+  return box.remove(id);
+}

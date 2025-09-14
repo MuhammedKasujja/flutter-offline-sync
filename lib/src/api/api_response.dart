@@ -62,6 +62,20 @@ class ApiResponse<T> {
     return ApiResponse(success: false, error: json['error']);
   }
 
+  static ApiResponse<List<T>> fromJsonList<T>(
+    Map<String, dynamic> json,
+    T Function(dynamic json) fromJsonT,
+  ) {
+    final list = (json['data'] as List).map<T>((e) => fromJsonT(e)).toList();
+
+    return ApiResponse<List<T>>(
+      code: json['code'],
+      data: list,
+      success: json['success'] ?? true,
+      message: json['message'],
+    );
+  }
+
   bool get isSuccess => success == true;
 
   bool get isError => success == false || error != null;

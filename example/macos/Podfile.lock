@@ -32,7 +32,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   connectivity_plus: 4adf20a405e25b42b9c9f87feff8f4b6fde18a4e
-  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   ObjectBox: 7760fa9072adcffe102a6adf4646ca84ba70ab6b
   objectbox_flutter_libs: b5902372b56d11b523de3c6c508f3d9244b8943f
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
