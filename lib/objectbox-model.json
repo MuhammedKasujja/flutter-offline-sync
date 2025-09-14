@@ -71,7 +71,7 @@
     },
     {
       "id": "2:2751842997314007542",
-      "lastPropertyId": "19:351267330874263691",
+      "lastPropertyId": "20:8742580750362384969",
       "name": "ConfigurationEntity",
       "properties": [
         {
@@ -171,13 +171,18 @@
           "type": 9,
           "flags": 2080,
           "indexId": "1:3802401927681834326"
+        },
+        {
+          "id": "20:8742580750362384969",
+          "name": "syncDeviceListEndpoint",
+          "type": 9
         }
       ],
       "relations": []
     },
     {
       "id": "3:1757007729880252278",
-      "lastPropertyId": "8:6658050835918813677",
+      "lastPropertyId": "11:277437874811961798",
       "name": "SyncDeviceEntity",
       "properties": [
         {
@@ -222,6 +227,21 @@
           "type": 9,
           "flags": 2080,
           "indexId": "3:336069653081213381"
+        },
+        {
+          "id": "9:5520822973890918983",
+          "name": "userName",
+          "type": 9
+        },
+        {
+          "id": "10:5475176701100714258",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "11:277437874811961798",
+          "name": "lastSyncDate",
+          "type": 10
         }
       ],
       "relations": []

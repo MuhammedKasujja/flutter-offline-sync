@@ -8,6 +8,7 @@ class RegisterDeviceDTO {
   final String? localEndpoint;
   final String? remoteEndpoint;
   final String? addSyncDeviceEndpoint;
+  final String? syncDeviceListEndpoint;
   final String? connectAccountEndpoint;
   final String syncUrl;
 
@@ -23,6 +24,7 @@ class RegisterDeviceDTO {
     this.remoteEndpoint,
     this.addSyncDeviceEndpoint,
     this.connectAccountEndpoint,
+    this.syncDeviceListEndpoint,
   });
 
   Map<String, dynamic> toJson() {
@@ -37,6 +39,7 @@ class RegisterDeviceDTO {
       'remoteEndpoint': remoteEndpoint,
       'addSyncDeviceEndpoint': addSyncDeviceEndpoint,
       'connectAccountEndpoint': connectAccountEndpoint,
+      'syncDeviceListEndpoint': syncDeviceListEndpoint,
     };
   }
 
@@ -61,6 +64,7 @@ class RegisterDeviceDTO {
       remoteEndpoint: remoteEndpoint,
       addSyncDeviceEndpoint: addSyncDeviceEndpoint,
       connectAccountEndpoint: connectAccountEndpoint,
+      syncDeviceListEndpoint: syncDeviceListEndpoint,
     );
   }
 }

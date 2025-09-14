@@ -8,6 +8,10 @@ class SyncDeviceEntity {
   String? uuid;
   String deviceId;
   String userId;
+  String userName;
+  bool isActive;
+  @Property(type: PropertyType.date)
+  DateTime? lastSyncDate;
 
   // @Transient()
   // final timestamps = Timestamps();
@@ -29,6 +33,9 @@ class SyncDeviceEntity {
     this.updatedAt,
     this.createdAt,
     this.deletedAt,
+    this.isActive = true,
+    required this.userName,
+    this.lastSyncDate,
   });
 
   factory SyncDeviceEntity.fromJson(Map<String, dynamic> json) {
@@ -37,10 +44,24 @@ class SyncDeviceEntity {
       uuid: json['uuid'],
       deviceId: json['deviceId'],
       userId: json['userId'],
+      userName: json['userName'],
+      isActive: json['isActive'] ?? true,
+      lastSyncDate:
+          json['lastSyncDate'] != null
+              ? DateTime.parse(json['lastSyncDate'])
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'uuid': uuid, 'deviceId': deviceId, 'userId': userId};
+    return {
+      'id': id,
+      'uuid': uuid,
+      'deviceId': deviceId,
+      'userId': userId,
+      'userName': userName,
+      'isActive': isActive,
+      'lastSyncDate': lastSyncDate?.toIso8601String(),
+    };
   }
 }

@@ -30,6 +30,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
   final uploadUrlController = TextEditingController();
   final downloadUrlController = TextEditingController();
   final addDeviceUrlController = TextEditingController();
+  final syncDeviceListUrlController = TextEditingController();
   final accountKeyController = TextEditingController();
   final connectAccountEndpointController = TextEditingController();
   final userNameController = TextEditingController();
@@ -60,6 +61,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
           localEndpoint: uploadUrlController.text.trim(),
           remoteEndpoint: downloadUrlController.text.trim(),
           addSyncDeviceEndpoint: addDeviceUrlController.text.trim(),
+          syncDeviceListEndpoint: syncDeviceListUrlController.text.trim(),
           connectAccountEndpoint: connectAccountEndpointController.text.trim(),
         ),
       );
@@ -82,6 +84,7 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
     uploadUrlController.text = settings.localEndpoint ?? '';
     downloadUrlController.text = settings.remoteEndpoint ?? '';
     addDeviceUrlController.text = settings.addSyncDeviceEndpoint ?? '';
+    syncDeviceListUrlController.text = settings.syncDeviceListEndpoint ?? '';
     connectAccountEndpointController.text =
         settings.connectAccountEndpoint ?? '';
     userNameController.text = settings.userName ?? '';
@@ -135,6 +138,8 @@ class _ConfigurationsEditState extends State<ConfigurationsEdit> {
                   TextFormField(controller: downloadUrlController),
                   Text('Add device Url'),
                   TextFormField(controller: addDeviceUrlController),
+                  Text('Device List Url'),
+                  TextFormField(controller: syncDeviceListUrlController),
                   Text('Connect Account Endpoint'),
                   TextFormField(controller: connectAccountEndpointController),
                 ],

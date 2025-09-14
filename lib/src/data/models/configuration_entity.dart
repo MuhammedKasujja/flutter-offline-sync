@@ -16,6 +16,7 @@ class ConfigurationEntity {
   String? addSyncDeviceEndpoint;
   String? authToken;
   String? connectAccountEndpoint;
+  String? syncDeviceListEndpoint;
   String? userName;
   String? userId;
   String? extras;
@@ -51,6 +52,7 @@ class ConfigurationEntity {
     this.updatedAt,
     this.createdAt,
     this.deletedAt,
+    this.syncDeviceListEndpoint,
   });
 
   factory ConfigurationEntity.fromJson(
@@ -88,6 +90,7 @@ class ConfigurationEntity {
       "localLastUpdatedAt": localLastUpdatedAt?.millisecondsSinceEpoch,
       "remoteLastUpdatedAt": remoteLastUpdatedAt?.millisecondsSinceEpoch,
       "connectAccountEndpoint": connectAccountEndpoint,
+      "devicesEndpoint": syncDeviceListEndpoint,
     };
   }
 
@@ -118,6 +121,9 @@ class ConfigurationEntity {
 
   bool get hasSyncDeviceEndpoint => (addSyncDeviceEndpoint ?? '').isNotEmpty;
 
+  bool get hasSyncDeviceListEndpoint =>
+      (syncDeviceListEndpoint ?? '').isNotEmpty;
+
   bool get hasConnectAccountEndpoint =>
       (connectAccountEndpoint ?? '').isNotEmpty;
 
@@ -132,6 +138,7 @@ class ConfigurationEntity {
     String? localEndpoint,
     String? addSyncDeviceEndpoint,
     String? connectAccountEndpoint,
+    String? syncDeviceListEndpoint,
     String? authToken,
     String? userName,
     String? userId,
@@ -163,7 +170,8 @@ class ConfigurationEntity {
       createdAt: createdAt ?? this.createdAt,
       deletedAt: deletedAt ?? this.deletedAt,
       isSynced: isSynced ?? this.isSynced,
-      userName: userName ?? this.userName,
+      syncDeviceListEndpoint:
+          syncDeviceListEndpoint ?? this.syncDeviceListEndpoint,
     );
   }
 
@@ -174,6 +182,7 @@ class ConfigurationEntity {
     String? localEndpoint,
     String? addSyncDeviceEndpoint,
     String? connectAccountEndpoint,
+    String? syncDeviceListEndpoint,
     String? baseUrl,
     String? accountKey,
   }) {
@@ -183,6 +192,10 @@ class ConfigurationEntity {
           hasConfiguredRemoteEndpoint ? this.remoteEndpoint : remoteEndpoint,
       localEndpoint:
           hasConfiguredLocalEndpoint ? this.localEndpoint : localEndpoint,
+      syncDeviceListEndpoint:
+          hasSyncDeviceListEndpoint
+              ? this.syncDeviceListEndpoint
+              : syncDeviceListEndpoint,
       addSyncDeviceEndpoint:
           hasSyncDeviceEndpoint
               ? this.addSyncDeviceEndpoint

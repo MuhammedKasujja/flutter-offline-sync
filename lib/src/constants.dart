@@ -27,6 +27,7 @@ const kDemoBaseUrl = 'http://192.168.1.4:3000/api/';
 const kDemoRemoteDownloadUrl = 'accounts/data-uploads';
 const kDemoRemoteUploadUrl = 'accounts/data-uploads';
 const kDemoRemoteAddSyncDeviceUrl = 'sync-devices';
+const kDemoRemoteAccountSyncDevicesUrl = 'accounts/sync-device';
 const kDemoConnectAccountEndpoint = 'accounts/connect-device';
 const kDemoAccountKey = 'YCU7IK1KTBWJ5ZOPAXBL2VUAJ61HGQH4';
 

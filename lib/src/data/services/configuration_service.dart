@@ -32,6 +32,7 @@ class ConfigService {
       localEndpoint: kDemoRemoteUploadUrl,
       addSyncDeviceEndpoint: kDemoRemoteAddSyncDeviceUrl,
       connectAccountEndpoint: kDemoConnectAccountEndpoint,
+      syncDeviceListEndpoint: kDemoRemoteAccountSyncDevicesUrl,
     );
 
     return saveSettings(config);
