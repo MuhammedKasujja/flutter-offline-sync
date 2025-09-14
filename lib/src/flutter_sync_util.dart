@@ -67,6 +67,7 @@ class _FlutterSyncProviderState extends State<FlutterSyncProvider> {
           create: (context) => RemoteUpdatesBloc(),
         ),
         BlocProvider<SyncUpdateBloc>(create: (context) => SyncUpdateBloc()),
+        BlocProvider<SyncDeviceBloc>(create: (context) => SyncDeviceBloc()),
       ],
       child: widget.child,
     );

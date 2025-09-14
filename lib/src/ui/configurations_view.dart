@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_offline_sync/src/blocs/sync_update/sync_update_bloc.dart';
+import 'package:flutter_offline_sync/src/blocs/blocs.dart';
 
 import 'package:flutter_offline_sync/src/ui/sync_devices_view.dart';
 import 'package:flutter_offline_sync/src/utils/platforms.dart';
@@ -38,11 +38,16 @@ class _SyncConfigurationsViewState extends State<SyncConfigurationsView> {
   @override
   void initState() {
     checkUnSavedChanges();
+    fetchLocalDevices();
     super.initState();
   }
 
   void checkUnSavedChanges() {
     context.read<SyncUpdateBloc>().add(StageRemoteChanges());
+  }
+
+  void fetchLocalDevices() {
+    context.read<SyncDeviceBloc>().add(SyncDeviceEvent.fetchLocalDevices());
   }
 
   @override
