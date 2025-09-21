@@ -53,7 +53,7 @@ class ConfigService {
     var config = await getSettings();
 
     config ??= await saveCurrentDeviceId();
-    config?.localLastUpdatedAt = lastSyncDate.toLocal();
+    config?.localLastUpdatedAt = lastSyncDate;
 
     return saveSettings(config);
   }
