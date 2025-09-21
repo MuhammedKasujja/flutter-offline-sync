@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline_sync/src/blocs/blocs.dart';
 
-import 'package:flutter_offline_sync/src/ui/sync_devices_view.dart';
+import 'package:flutter_offline_sync/src/ui/devices/sync_devices_view.dart';
 import 'package:flutter_offline_sync/src/utils/platforms.dart';
 
 import 'configurations_edit.dart';

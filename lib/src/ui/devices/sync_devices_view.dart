@@ -64,7 +64,7 @@ class SyncDeviceList extends StatelessWidget {
         return ListTile(
           title: Text(device.userName),
           subtitle: Text(
-            'Last Synced: ${device.lastSyncDate != null ? formatDate(device.lastSyncDate!) : 'Never'}',
+            'Last Synced: ${device.lastSyncDate != null ? formatDate(device.lastSyncDate!.toLocal()) : 'Never'}',
           ),
           trailing: Icon(
             device.isActive ? Icons.check_circle : Icons.cancel,
