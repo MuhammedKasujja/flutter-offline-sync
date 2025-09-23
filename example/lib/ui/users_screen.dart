@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:example/data/models/comment_model.dart';
 import 'package:example/data/models/post_model.dart';
 import 'package:example/data/models/user_model.dart';
 import 'package:example/data/utils.dart';
@@ -148,13 +149,21 @@ class _UsersScreenState extends State<UsersScreen> {
     int postCount = random.nextInt(5) + 1; // Generates 1 to 5
     final List<PostModel> posts = [];
     for (var i = 0; i < postCount; i++) {
-      final post = PostModel(
+      PostModel? post = PostModel(
         title: faker.sport.name(),
         content: faker.lorem.sentence(),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         uuid: getRandomString(24),
       );
+      var comment =CommentModel(
+        content: faker.lorem.random.string(200),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+      
+      post.comment.target = comment;
+      // post = post.save()!;
       posts.add(post);
     }
 

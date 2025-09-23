@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:example/data/models/comment_model.dart';
 import 'package:example/data/models/post_model.dart';
 import 'package:example/data/models/user_model.dart';
 import 'package:example/data/utils.dart';
@@ -74,6 +75,13 @@ class _UserEditScreenState extends State<UserEditScreen> {
         updatedAt: DateTime.now(),
         uuid: getRandomString(24),
       );
+      var comment = CommentModel(
+        content: faker.lorem.random.string(200),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      post.comment.target = comment;
       posts.add(post);
     }
 

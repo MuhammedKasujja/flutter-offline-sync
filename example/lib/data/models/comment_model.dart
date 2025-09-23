@@ -4,19 +4,16 @@ import 'package:example/database.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
-import 'comment_model.dart';
-
-part 'post_model.g.dart';
+part 'comment_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 @Entity()
-class PostModel {
+class CommentModel {
   @JsonKey(includeFromJson: false)
   @Id()
   int id;
   @Unique()
   String? uuid;
-  final String title;
   final String content;
   @Property(type: PropertyType.date)
   DateTime? updatedAt;
@@ -26,25 +23,23 @@ class PostModel {
   DateTime? deletedAt;
   bool isSynced;
   final user = ToOne<UserModel>();
-  final comment = ToOne<CommentModel>();
 
-  PostModel({
+  CommentModel({
     this.id = 0,
     this.uuid,
     this.isSynced = false,
-    required this.title,
     required this.content,
     required this.createdAt,
     this.updatedAt,
     this.deletedAt,
   });
 
-  factory PostModel.fromJson(Map<String, dynamic> json) =>
-      _$PostModelFromJson(json);
+  factory CommentModel.fromJson(Map<String, dynamic> json) =>
+      _$CommentModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PostModelToJson(this);
+  Map<String, dynamic> toJson() => _$CommentModelToJson(this);
 
-  PostModel? save() {
+  CommentModel? save() {
     isSynced = false; // Mark as not synced
     updatedAt = DateTime.now();
     uuid ??= getRandomString(24);

@@ -186,7 +186,6 @@ class EntityRegistryBuilder implements Builder {
            }:
            {
              "entity": "$relatedType",
-            // "entityId": ele.uuid,
              "state": operation.name,
              ...ele.toJson()
           };

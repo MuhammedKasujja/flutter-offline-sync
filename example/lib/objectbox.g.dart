@@ -14,6 +14,7 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'data/models/comment_model.dart';
 import 'data/models/post_model.dart';
 import 'data/models/role_model.dart';
 import 'data/models/user_model.dart';
@@ -101,7 +102,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 6560703760643550489),
     name: 'PostModel',
-    lastPropertyId: const obx_int.IdUid(12, 1816031178091439609),
+    lastPropertyId: const obx_int.IdUid(13, 2770949835096826142),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -160,6 +161,14 @@ final _entities = <obx_int.ModelEntity>[
         type: 9,
         flags: 2080,
         indexId: const obx_int.IdUid(5, 6975609425689745759),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(13, 2770949835096826142),
+        name: 'commentId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(10, 8762151310965483440),
+        relationTarget: 'CommentModel',
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -224,6 +233,67 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(4, 4958481771758894018),
+    name: 'CommentModel',
+    lastPropertyId: const obx_int.IdUid(8, 8645970232891268826),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 3335060423824629159),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5157983386274865473),
+        name: 'uuid',
+        type: 9,
+        flags: 2080,
+        indexId: const obx_int.IdUid(8, 3765395308869082835),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 528829259662755835),
+        name: 'content',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 143508049382784714),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 1632153687953904820),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 7793920441212559733),
+        name: 'deletedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 6345448970547920738),
+        name: 'isSynced',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 8645970232891268826),
+        name: 'userId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(9, 2075517170931753243),
+        relationTarget: 'UserModel',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -264,8 +334,8 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(3, 3470457110388395783),
-    lastIndexId: const obx_int.IdUid(7, 2936813254470002459),
+    lastEntityId: const obx_int.IdUid(4, 4958481771758894018),
+    lastIndexId: const obx_int.IdUid(10, 8762151310965483440),
     lastRelationId: const obx_int.IdUid(1, 4549468362391393749),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -402,7 +472,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
     ),
     PostModel: obx_int.EntityDefinition<PostModel>(
       model: _entities[1],
-      toOneRelations: (PostModel object) => [object.user],
+      toOneRelations: (PostModel object) => [object.user, object.comment],
       toManyRelations: (PostModel object) => {},
       getId: (PostModel object) => object.id,
       setId: (PostModel object, int id) {
@@ -414,7 +484,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final uuidOffset = object.uuid == null
             ? null
             : fbb.writeString(object.uuid!);
-        fbb.startTable(13);
+        fbb.startTable(14);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, titleOffset);
         fbb.addOffset(2, contentOffset);
@@ -424,6 +494,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(8, object.deletedAt?.millisecondsSinceEpoch);
         fbb.addBool(9, object.isSynced);
         fbb.addOffset(11, uuidOffset);
+        fbb.addInt64(12, object.comment.targetId);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -487,6 +558,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
           0,
         );
         object.user.attach(store);
+        object.comment.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          28,
+          0,
+        );
+        object.comment.attach(store);
         return object;
       },
     ),
@@ -572,6 +650,90 @@ obx_int.ModelDefinition getObjectBoxModel() {
           createdAt: createdAtParam,
         );
 
+        return object;
+      },
+    ),
+    CommentModel: obx_int.EntityDefinition<CommentModel>(
+      model: _entities[3],
+      toOneRelations: (CommentModel object) => [object.user],
+      toManyRelations: (CommentModel object) => {},
+      getId: (CommentModel object) => object.id,
+      setId: (CommentModel object, int id) {
+        object.id = id;
+      },
+      objectToFB: (CommentModel object, fb.Builder fbb) {
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
+        final contentOffset = fbb.writeString(object.content);
+        fbb.startTable(9);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, uuidOffset);
+        fbb.addOffset(2, contentOffset);
+        fbb.addInt64(3, object.updatedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(4, object.createdAt.millisecondsSinceEpoch);
+        fbb.addInt64(5, object.deletedAt?.millisecondsSinceEpoch);
+        fbb.addBool(6, object.isSynced);
+        fbb.addInt64(7, object.user.targetId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final updatedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          10,
+        );
+        final deletedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          14,
+        );
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final uuidParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 6);
+        final isSyncedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
+        );
+        final contentParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+        );
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final object = CommentModel(
+          id: idParam,
+          uuid: uuidParam,
+          isSynced: isSyncedParam,
+          content: contentParam,
+          createdAt: createdAtParam,
+          updatedAt: updatedAtParam,
+          deletedAt: deletedAtParam,
+        );
+        object.user.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          18,
+          0,
+        );
+        object.user.attach(store);
         return object;
       },
     ),
@@ -684,6 +846,11 @@ class PostModel_ {
   static final uuid = obx.QueryStringProperty<PostModel>(
     _entities[1].properties[8],
   );
+
+  /// See [PostModel.comment].
+  static final comment = obx.QueryRelationToOne<PostModel, CommentModel>(
+    _entities[1].properties[9],
+  );
 }
 
 /// [RoleModel] entity fields to define ObjectBox queries.
@@ -726,5 +893,48 @@ class RoleModel_ {
   /// See [RoleModel.uuid].
   static final uuid = obx.QueryStringProperty<RoleModel>(
     _entities[2].properties[7],
+  );
+}
+
+/// [CommentModel] entity fields to define ObjectBox queries.
+class CommentModel_ {
+  /// See [CommentModel.id].
+  static final id = obx.QueryIntegerProperty<CommentModel>(
+    _entities[3].properties[0],
+  );
+
+  /// See [CommentModel.uuid].
+  static final uuid = obx.QueryStringProperty<CommentModel>(
+    _entities[3].properties[1],
+  );
+
+  /// See [CommentModel.content].
+  static final content = obx.QueryStringProperty<CommentModel>(
+    _entities[3].properties[2],
+  );
+
+  /// See [CommentModel.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<CommentModel>(
+    _entities[3].properties[3],
+  );
+
+  /// See [CommentModel.createdAt].
+  static final createdAt = obx.QueryDateProperty<CommentModel>(
+    _entities[3].properties[4],
+  );
+
+  /// See [CommentModel.deletedAt].
+  static final deletedAt = obx.QueryDateProperty<CommentModel>(
+    _entities[3].properties[5],
+  );
+
+  /// See [CommentModel.isSynced].
+  static final isSynced = obx.QueryBooleanProperty<CommentModel>(
+    _entities[3].properties[6],
+  );
+
+  /// See [CommentModel.user].
+  static final user = obx.QueryRelationToOne<CommentModel, UserModel>(
+    _entities[3].properties[7],
   );
 }

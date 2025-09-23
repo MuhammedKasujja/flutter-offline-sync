@@ -14,6 +14,7 @@ import 'package:example/objectbox.g.dart';
 import 'package:example/data/models/role_model.dart';
 import 'package:example/data/models/user_model.dart';
 import 'package:example/data/models/post_model.dart';
+import 'package:example/data/models/comment_model.dart';
 
 final Map<String, EntityHandler> _generatedRegistry = {
   'RoleModel': EntityHandler(
@@ -166,6 +167,56 @@ final Map<String, EntityHandler> _generatedRegistry = {
       return box.put(entity);
     },
   ),
+  'CommentModel': EntityHandler(
+    boxFactory: (store) => store.box<CommentModel>(),
+    fetchFunction: (store, lastSync) {
+      final box = store.box<CommentModel>();
+      final query = box
+          .query(
+            CommentModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(CommentModel_.isSynced.equals(false)),
+          )
+          .order(CommentModel_.updatedAt, flags: Order.descending)
+          .build();
+      final updates = query.find();
+      query.close();
+      return updates
+          .map(
+            (ele) => {
+              ...ele.toSyncJson(),
+              ...toRelationMap(ele.toRelationJson()),
+            },
+          )
+          .toList();
+    },
+    deleteFunction: (store, id) => store.box<CommentModel>().remove(id),
+    updateFunction: (store, json) {
+      CommentModel entity = CommentModel.fromJson(json);
+      if ((entity.uuid ?? '').isEmpty)
+        throw Exception('Cannot update CommentModel without ID');
+
+      /// explictly set [id] to zero to avoid local db primary key out of sequence error
+      entity.id = 0;
+
+      final box = store.box<CommentModel>();
+
+      final query = box.query(CommentModel_.uuid.equals(entity.uuid!)).build();
+
+      final model = query.findFirst();
+
+      if (model != null) {
+        entity.id = model.id;
+      }
+
+      query.close();
+      entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
+      entity.isSynced = true;
+      return box.put(entity);
+    },
+  ),
 };
 
 final class ObjectboxSyncRegistry extends EntityRegistry {
@@ -210,12 +261,7 @@ extension UserModelRelationJson on UserModel {
           : ele.createdAt.syncState(ele.updatedAt);
       return ele.isSynced
           ? {"entity": "PostModel", "uuid": ele.uuid, "is_synced": ele.isSynced}
-          : {
-              "entity": "PostModel",
-              // "entityId": ele.uuid,
-              "state": operation.name,
-              ...ele.toJson(),
-            };
+          : {"entity": "PostModel", "state": operation.name, ...ele.toJson()};
     }).toList(),
   };
 
@@ -289,9 +335,124 @@ extension PostModelRelationJson on PostModel {
                   ...user.target!.toJson(),
                 }
         : null,
+
+    'comment': comment.target != null
+        ? comment.target!.isSynced
+              ? {
+                  "entity": "CommentModel",
+                  "uuid": comment.target?.uuid,
+                  "is_synced": comment.target!.isSynced,
+                }
+              : {
+                  "entity": "CommentModel",
+                  "state":
+                      (comment.target!.deletedAt != null
+                              ? EntityState.deleted
+                              : comment.target!.createdAt.syncState(
+                                  comment.target!.updatedAt,
+                                ))
+                          .name,
+                  ...comment.target!.toJson(),
+                }
+        : null,
   };
 
   PostModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
+    // Apply relations from JSON
+    if (json.containsKey('user') && json['user'] != null) {
+      final userBox = store.box<UserModel>();
+
+      final query = userBox
+          .query(UserModel_.uuid.equals(json['user']['uuid']))
+          .build();
+
+      final data = query.findFirst();
+
+      if (json['user']['is_synced']) {
+        if (data != null) {
+          user.targetId = data.id;
+        }
+      } else {
+        final userEntity = UserModel.fromJson(json['user']);
+
+        if (data != null) {
+          userEntity.id = data.id;
+        } else {
+          userBox.put(userEntity);
+        }
+        query.close();
+        user.target = userEntity;
+      }
+    }
+
+    if (json.containsKey('comment') && json['comment'] != null) {
+      final commentBox = store.box<CommentModel>();
+
+      final query = commentBox
+          .query(CommentModel_.uuid.equals(json['comment']['uuid']))
+          .build();
+
+      final data = query.findFirst();
+
+      if (json['comment']['is_synced']) {
+        if (data != null) {
+          comment.targetId = data.id;
+        }
+      } else {
+        final commentEntity = CommentModel.fromJson(json['comment']);
+
+        if (data != null) {
+          commentEntity.id = data.id;
+        } else {
+          commentBox.put(commentEntity);
+        }
+        query.close();
+        comment.target = commentEntity;
+      }
+    }
+
+    return this;
+  }
+
+  Map<String, dynamic> toSyncJson() {
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
+    final Map<String, dynamic> map = {};
+    map.addAll({"entity": "PostModel"});
+    map.addAll({"entityId": this.uuid});
+    map.addAll({"state": "${operation.name}"});
+    map.addAll({
+      "data": {...toJson(), ...toRelationJson()},
+    });
+    return map;
+  }
+}
+
+extension CommentModelRelationJson on CommentModel {
+  Map<String, dynamic> toRelationJson() => {
+    'user': user.target != null
+        ? user.target!.isSynced
+              ? {
+                  "entity": "UserModel",
+                  "uuid": user.target?.uuid,
+                  "is_synced": user.target!.isSynced,
+                }
+              : {
+                  "entity": "UserModel",
+                  "state":
+                      (user.target!.deletedAt != null
+                              ? EntityState.deleted
+                              : user.target!.createdAt.syncState(
+                                  user.target!.updatedAt,
+                                ))
+                          .name,
+                  ...user.target!.toJson(),
+                }
+        : null,
+  };
+
+  CommentModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
     if (json.containsKey('user') && json['user'] != null) {
       final userBox = store.box<UserModel>();
@@ -327,7 +488,7 @@ extension PostModelRelationJson on PostModel {
         ? EntityState.deleted
         : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
-    map.addAll({"entity": "PostModel"});
+    map.addAll({"entity": "CommentModel"});
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
