@@ -211,21 +211,23 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln(
             "    if (json.containsKey('$name') && json['$name'] != null) {",
           );
+          buffer.writeln("  final ${name}Box = store.box<$relatedType>();\n");
           buffer.writeln(
-            "  var ${name}Entity = $relatedType.fromJson(json['$name']);\n",
+            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(json['$name']['uuid'])).build();\n",
           );
-          buffer.writeln("  final ${name}Box = store.box<$relatedType>();");
-          buffer.writeln(
-            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(${name}Entity.uuid!)).build();\n",
-          );
-
           buffer.writeln("  final data = query.findFirst();\n");
-
+          buffer.writeln("  if(json['$name']['is_synced']){");
+          buffer.writeln("  if(data != null) { $name.targetId = data.id;}");
+          buffer.writeln("  }");
+          buffer.writeln("  else{");
+          buffer.writeln(
+            "  final ${name}Entity = $relatedType.fromJson(json['$name']);\n",
+          );
           buffer.writeln("  if(data != null) { ${name}Entity.id = data.id;}");
           buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
           buffer.writeln("  query.close();");
-          buffer.writeln("  $name.target = ${name}Entity;}\n");
-          // buffer.writeln("   logger.info(json['$name']);");
+          buffer.writeln("  $name.target = ${name}Entity;}");
+          buffer.writeln(" }\n");
         } else if (typeStr.startsWith('ToMany<')) {
           buffer.writeln("    if (json.containsKey('$name')) {");
           buffer.writeln("      $name.clear();");
@@ -233,18 +235,24 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln("      final ${name}Box = store.box<$relatedType>();");
           buffer.writeln("      for (final data in json['$name']) {");
           buffer.writeln(
-            "  var ${name}Entity = $relatedType.fromJson(data);\n",
+            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(data['uuid'])).build();\n",
           );
+          buffer.writeln("  final ${name}Model = query.findFirst();\n");
+          buffer.writeln("  if(data['is_synced']){");
+          buffer.writeln("  if(${name}Model != null) { ");
+          buffer.writeln("  ${name}Box.put(${name}Model);  ");
+          buffer.writeln("  $name.add(${name}Model);  }");
+          buffer.writeln("  }");
+          buffer.writeln("  else{");
           buffer.writeln(
-            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(${name}Entity.uuid!)).build();\n",
+            "  final ${name}Entity = $relatedType.fromJson(data);\n",
           );
-          buffer.writeln("  final model = query.findFirst();\n");
-          buffer.writeln("  if(model != null) { ${name}Entity.id = model.id;}");
+          buffer.writeln("  if(${name}Model != null) { ${name}Entity.id = ${name}Model.id;}");
           buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
+          buffer.writeln("  $name.add(${name}Entity);  \n}");
           buffer.writeln("  query.close();");
-          buffer.writeln("  $name.add(${name}Entity);  }");
-          buffer.writeln("  }\n");
-          // buffer.writeln("   logger.info(json['$name']);");
+          buffer.writeln("  }");
+          buffer.writeln(" }\n");
         }
       }
       buffer.writeln('  return this;');
@@ -262,7 +270,34 @@ class EntityRegistryBuilder implements Builder {
         '    map.addAll({"data": {...toJson(),...toRelationJson()}});',
       );
       buffer.writeln('    return map;');
-      buffer.writeln('  }');
+      buffer.writeln('  }\n');
+      // buffer.writeln('List<Map<String, dynamic>> toFilterMap() {');
+      // buffer.writeln(' List<Map<String, dynamic>> relations = [];');
+      // buffer.writeln('''   for (var data in toRelationJson().values) {
+      //     if (data == null) continue;
+
+      //     if (data is List) {
+      //       relations.addAll(
+      //         data.map(
+      //           (ele) => {
+      //             "entity": ele['entity'],
+      //             "uuid": ele['uuid'],
+      //             "is_synced": ele['is_synced'],
+      //           },
+      //         ),
+      //       );
+      //     } else {
+      //       relations.add({
+      //         "entity": data['entity'],
+      //         "uuid": data['uuid'],
+      //         "is_synced": data['is_synced'],
+      //       });
+      //     }
+      //   }
+      //   return relations;
+      // }
+      // ''');
+
       buffer.writeln('  }');
       buffer.writeln('\n');
     }
