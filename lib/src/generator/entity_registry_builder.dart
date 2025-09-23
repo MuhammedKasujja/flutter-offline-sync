@@ -163,7 +163,8 @@ class EntityRegistryBuilder implements Builder {
             $name.target!.isSynced ? 
            {
             "entity": "$relatedType", 
-            "uuid": $name.target?.uuid 
+            "uuid": $name.target?.uuid,
+            "is_synced": $name.target!.isSynced, 
            }:
              {"entity": "$relatedType",
             "state": ($name.target!.deletedAt != null ? EntityState.deleted : $name.target!.createdAt.syncState($name.target!.updatedAt)).name,
@@ -180,7 +181,8 @@ class EntityRegistryBuilder implements Builder {
           return ele.isSynced ? 
            {
             "entity": "$relatedType", 
-            "uuid": ele.uuid 
+            "uuid": ele.uuid,
+            "is_synced": ele.isSynced, 
            }:
            {
              "entity": "$relatedType",

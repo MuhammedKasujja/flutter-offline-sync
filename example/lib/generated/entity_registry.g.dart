@@ -188,7 +188,7 @@ extension UserModelRelationJson on UserModel {
           ? EntityState.deleted
           : ele.createdAt.syncState(ele.updatedAt);
       return ele.isSynced
-          ? {"entity": "PostModel", "uuid": ele.uuid}
+          ? {"entity": "PostModel", "uuid": ele.uuid, "is_synced": true}
           : {
               "entity": "PostModel",
               // "entityId": ele.uuid,
@@ -244,7 +244,11 @@ extension PostModelRelationJson on PostModel {
   Map<String, dynamic> toRelationJson() => {
     'user': user.target != null
         ? user.target!.isSynced
-              ? {"entity": "UserModel", "uuid": user.target?.uuid}
+              ? {
+                  "entity": "UserModel",
+                  "uuid": user.target?.uuid,
+                  "is_synced": true,
+                }
               : {
                   "entity": "UserModel",
                   "state":
