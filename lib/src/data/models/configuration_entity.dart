@@ -163,6 +163,7 @@ class ConfigurationEntity {
           addSyncDeviceEndpoint ?? this.addSyncDeviceEndpoint,
       authToken: authToken ?? this.authToken,
       userId: userId ?? this.userId,
+      userName: userName ?? this.userName,
       extras: extras ?? this.extras,
       localLastUpdatedAt: localLastUpdatedAt ?? this.localLastUpdatedAt,
       remoteLastUpdatedAt: remoteLastUpdatedAt ?? this.remoteLastUpdatedAt,

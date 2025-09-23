@@ -159,6 +159,7 @@ class _UsersScreenState extends State<UsersScreen> {
         content: faker.lorem.random.string(200),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        uuid: getRandomString(24),
       );
       
       post.comment.target = comment;
