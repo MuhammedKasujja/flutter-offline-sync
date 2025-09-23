@@ -31,14 +31,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates
-          .map(
-            (ele) => {
-              ...ele.toSyncJson(),
-              ...toRelationMap(ele.toRelationJson()),
-            },
-          )
-          .toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
     },
     fetchUpdatedIdsFunction: (store, lastSync) {
       final box = store.box<RoleModel>();
@@ -92,7 +85,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -113,14 +106,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates
-          .map(
-            (ele) => {
-              ...ele.toSyncJson(),
-              ...toRelationMap(ele.toRelationJson()),
-            },
-          )
-          .toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
     },
     fetchUpdatedIdsFunction: (store, lastSync) {
       final box = store.box<UserModel>();
@@ -174,7 +160,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -195,14 +181,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates
-          .map(
-            (ele) => {
-              ...ele.toSyncJson(),
-              ...toRelationMap(ele.toRelationJson()),
-            },
-          )
-          .toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
     },
     fetchUpdatedIdsFunction: (store, lastSync) {
       final box = store.box<PostModel>();
@@ -256,7 +235,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -277,14 +256,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates
-          .map(
-            (ele) => {
-              ...ele.toSyncJson(),
-              ...toRelationMap(ele.toRelationJson()),
-            },
-          )
-          .toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
     },
     fetchUpdatedIdsFunction: (store, lastSync) {
       final box = store.box<CommentModel>();
@@ -338,7 +310,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -375,7 +347,10 @@ extension RoleModelRelationJson on RoleModel {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }
@@ -436,7 +411,10 @@ extension UserModelRelationJson on UserModel {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }
@@ -551,7 +529,10 @@ extension PostModelRelationJson on PostModel {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }
@@ -620,7 +601,10 @@ extension CommentModelRelationJson on CommentModel {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }

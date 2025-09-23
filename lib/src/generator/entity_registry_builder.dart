@@ -84,7 +84,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("      final updates = query.find();");
       buffer.writeln("      query.close();");
       buffer.writeln(
-        "      return updates.map((ele)=>{...ele.toSyncJson(), ...toRelationMap(ele.toRelationJson())}).toList();",
+        "      return updates.map((ele)=>{...ele.toSyncJson()}).toList();",
       );
       buffer.writeln("    },");
       buffer.writeln("    fetchUpdatedIdsFunction: (store, lastSync) {");
@@ -143,7 +143,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("      query.close();");
 
       buffer.writeln(
-        "      entity = entity.applyJsonRelationships(store, json);",
+        "      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});",
       );
       buffer.writeln(
         " // Ensure isSynced is set to true to avoid sync issues\n",
@@ -296,37 +296,10 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln('    map.addAll({"entityId": this.uuid});');
       buffer.writeln('    map.addAll({"state": "\${operation.name}"});');
       buffer.writeln(
-        '    map.addAll({"data": {...toJson(),...toRelationJson()}});',
+        '    map.addAll({"data": {...toJson(),...{"relations": toRelationJson()}}});',
       );
       buffer.writeln('    return map;');
       buffer.writeln('  }\n');
-      // buffer.writeln('List<Map<String, dynamic>> toFilterMap() {');
-      // buffer.writeln(' List<Map<String, dynamic>> relations = [];');
-      // buffer.writeln('''   for (var data in toRelationJson().values) {
-      //     if (data == null) continue;
-
-      //     if (data is List) {
-      //       relations.addAll(
-      //         data.map(
-      //           (ele) => {
-      //             "entity": ele['entity'],
-      //             "uuid": ele['uuid'],
-      //             "is_synced": ele['is_synced'],
-      //           },
-      //         ),
-      //       );
-      //     } else {
-      //       relations.add({
-      //         "entity": data['entity'],
-      //         "uuid": data['uuid'],
-      //         "is_synced": data['is_synced'],
-      //       });
-      //     }
-      //   }
-      //   return relations;
-      // }
-      // ''');
-
       buffer.writeln('  }');
       buffer.writeln('\n');
     }
