@@ -56,6 +56,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       query.close();
       entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
       entity.isSynced = true;
       return box.put(entity);
     },
@@ -97,6 +99,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       query.close();
       entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
       entity.isSynced = true;
       return box.put(entity);
     },
@@ -140,6 +144,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       query.close();
       entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
       entity.isSynced = true;
       return box.put(entity);
     },
@@ -183,6 +189,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       query.close();
       entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
       entity.isSynced = true;
       return box.put(entity);
     },

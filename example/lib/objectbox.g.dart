@@ -293,10 +293,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
     UserModel: obx_int.EntityDefinition<UserModel>(
       model: _entities[0],
       toOneRelations: (UserModel object) => [],
-      toManyRelations:
-          (UserModel object) => {
-            obx_int.RelInfo<UserModel>.toMany(1, object.id): object.posts,
-          },
+      toManyRelations: (UserModel object) => {
+        obx_int.RelInfo<UserModel>.toMany(1, object.id): object.posts,
+      },
       getId: (UserModel object) => object.id,
       setId: (UserModel object, int id) {
         object.id = id;
@@ -304,10 +303,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (UserModel object, fb.Builder fbb) {
         final nameOffset = fbb.writeString(object.name);
         final emailOffset = fbb.writeString(object.email);
-        final phoneOffset =
-            object.phone == null ? null : fbb.writeString(object.phone!);
-        final uuidOffset =
-            object.uuid == null ? null : fbb.writeString(object.uuid!);
+        final phoneOffset = object.phone == null
+            ? null
+            : fbb.writeString(object.phone!);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
         fbb.startTable(14);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
@@ -370,18 +371,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final phoneParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 12);
-        final createdAtParam =
-            createdAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
-        final updatedAtParam =
-            updatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
-        final deletedAtParam =
-            deletedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final createdAtParam = createdAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = UserModel(
           id: idParam,
           uuid: uuidParam,
@@ -413,8 +411,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (PostModel object, fb.Builder fbb) {
         final titleOffset = fbb.writeString(object.title);
         final contentOffset = fbb.writeString(object.content);
-        final uuidOffset =
-            object.uuid == null ? null : fbb.writeString(object.uuid!);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
         fbb.startTable(13);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, titleOffset);
@@ -465,14 +464,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0),
         );
-        final updatedAtParam =
-            updatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
-        final deletedAtParam =
-            deletedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final object = PostModel(
           id: idParam,
           uuid: uuidParam,
@@ -503,12 +500,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
       objectToFB: (RoleModel object, fb.Builder fbb) {
         final nameOffset = fbb.writeString(object.name);
-        final descriptionOffset =
-            object.description == null
-                ? null
-                : fbb.writeString(object.description!);
-        final uuidOffset =
-            object.uuid == null ? null : fbb.writeString(object.uuid!);
+        final descriptionOffset = object.description == null
+            ? null
+            : fbb.writeString(object.description!);
+        final uuidOffset = object.uuid == null
+            ? null
+            : fbb.writeString(object.uuid!);
         fbb.startTable(10);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
@@ -555,14 +552,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final descriptionParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 8);
-        final updatedAtParam =
-            updatedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
-        final deletedAtParam =
-            deletedAtValue == null
-                ? null
-                : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
+        final updatedAtParam = updatedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
+        final deletedAtParam = deletedAtValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(deletedAtValue);
         final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
         );

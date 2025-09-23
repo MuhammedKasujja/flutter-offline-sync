@@ -20,15 +20,14 @@ final Map<String, EntityHandler> _generatedRegistry = {
     boxFactory: (store) => store.box<RoleModel>(),
     fetchFunction: (store, lastSync) {
       final box = store.box<RoleModel>();
-      final query =
-          box
-              .query(
-                RoleModel_.updatedAt
-                    .greaterThan(lastSync.millisecondsSinceEpoch)
-                    .and(RoleModel_.isSynced.equals(false)),
-              )
-              .order(RoleModel_.updatedAt, flags: Order.descending)
-              .build();
+      final query = box
+          .query(
+            RoleModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(RoleModel_.isSynced.equals(false)),
+          )
+          .order(RoleModel_.updatedAt, flags: Order.descending)
+          .build();
       final updates = query.find();
       query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -54,6 +53,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       query.close();
       entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
       entity.isSynced = true;
       return box.put(entity);
     },
@@ -62,15 +63,14 @@ final Map<String, EntityHandler> _generatedRegistry = {
     boxFactory: (store) => store.box<UserModel>(),
     fetchFunction: (store, lastSync) {
       final box = store.box<UserModel>();
-      final query =
-          box
-              .query(
-                UserModel_.updatedAt
-                    .greaterThan(lastSync.millisecondsSinceEpoch)
-                    .and(UserModel_.isSynced.equals(false)),
-              )
-              .order(UserModel_.updatedAt, flags: Order.descending)
-              .build();
+      final query = box
+          .query(
+            UserModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(UserModel_.isSynced.equals(false)),
+          )
+          .order(UserModel_.updatedAt, flags: Order.descending)
+          .build();
       final updates = query.find();
       query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -96,6 +96,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       query.close();
       entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
       entity.isSynced = true;
       return box.put(entity);
     },
@@ -104,15 +106,14 @@ final Map<String, EntityHandler> _generatedRegistry = {
     boxFactory: (store) => store.box<PostModel>(),
     fetchFunction: (store, lastSync) {
       final box = store.box<PostModel>();
-      final query =
-          box
-              .query(
-                PostModel_.updatedAt
-                    .greaterThan(lastSync.millisecondsSinceEpoch)
-                    .and(PostModel_.isSynced.equals(false)),
-              )
-              .order(PostModel_.updatedAt, flags: Order.descending)
-              .build();
+      final query = box
+          .query(
+            PostModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(PostModel_.isSynced.equals(false)),
+          )
+          .order(PostModel_.updatedAt, flags: Order.descending)
+          .build();
       final updates = query.find();
       query.close();
       return updates.map((ele) => ele.toSyncJson()).toList();
@@ -138,6 +139,8 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       query.close();
       entity = entity.applyJsonRelationships(store, json);
+      // Ensure isSynced is set to true to avoid sync issues
+
       entity.isSynced = true;
       return box.put(entity);
     },
@@ -164,10 +167,9 @@ extension RoleModelRelationJson on RoleModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation =
-        deletedAt != null
-            ? EntityState.deleted
-            : createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "RoleModel"});
     map.addAll({"entityId": this.uuid});
@@ -181,7 +183,19 @@ extension RoleModelRelationJson on RoleModel {
 
 extension UserModelRelationJson on UserModel {
   Map<String, dynamic> toRelationJson() => {
-    'posts': posts.map((e) => e.toJson()).toList(),
+    'posts': posts.map((ele) {
+      final operation = ele.deletedAt != null
+          ? EntityState.deleted
+          : ele.createdAt.syncState(ele.updatedAt);
+      return ele.isSynced
+          ? {"entity": "PostModel", "uuid": ele.uuid}
+          : {
+              "entity": "PostModel",
+              // "entityId": ele.uuid,
+              "state": operation.name,
+              ...ele.toJson(),
+            };
+    }).toList(),
   };
 
   UserModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
@@ -192,8 +206,9 @@ extension UserModelRelationJson on UserModel {
       for (final data in json['posts']) {
         var postsEntity = PostModel.fromJson(data);
 
-        final query =
-            postsBox.query(PostModel_.uuid.equals(postsEntity.uuid!)).build();
+        final query = postsBox
+            .query(PostModel_.uuid.equals(postsEntity.uuid!))
+            .build();
 
         final model = query.findFirst();
 
@@ -211,10 +226,9 @@ extension UserModelRelationJson on UserModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation =
-        deletedAt != null
-            ? EntityState.deleted
-            : createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "UserModel"});
     map.addAll({"entityId": this.uuid});
@@ -227,7 +241,23 @@ extension UserModelRelationJson on UserModel {
 }
 
 extension PostModelRelationJson on PostModel {
-  Map<String, dynamic> toRelationJson() => {'user': user.target?.toJson()};
+  Map<String, dynamic> toRelationJson() => {
+    'user': user.target != null
+        ? user.target!.isSynced
+              ? {"entity": "UserModel", "uuid": user.target?.uuid}
+              : {
+                  "entity": "UserModel",
+                  "state":
+                      (user.target!.deletedAt != null
+                              ? EntityState.deleted
+                              : user.target!.createdAt.syncState(
+                                  user.target!.updatedAt,
+                                ))
+                          .name,
+                  ...user.target!.toJson(),
+                }
+        : null,
+  };
 
   PostModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
@@ -235,8 +265,9 @@ extension PostModelRelationJson on PostModel {
       var userEntity = UserModel.fromJson(json['user']);
 
       final userBox = store.box<UserModel>();
-      final query =
-          userBox.query(UserModel_.uuid.equals(userEntity.uuid!)).build();
+      final query = userBox
+          .query(UserModel_.uuid.equals(userEntity.uuid!))
+          .build();
 
       final data = query.findFirst();
 
@@ -253,10 +284,9 @@ extension PostModelRelationJson on PostModel {
   }
 
   Map<String, dynamic> toSyncJson() {
-    final operation =
-        deletedAt != null
-            ? EntityState.deleted
-            : createdAt.syncState(updatedAt);
+    final operation = deletedAt != null
+        ? EntityState.deleted
+        : createdAt.syncState(updatedAt);
     final Map<String, dynamic> map = {};
     map.addAll({"entity": "PostModel"});
     map.addAll({"entityId": this.uuid});

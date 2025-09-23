@@ -115,7 +115,9 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln(
         "      entity = entity.applyJsonRelationships(store, json);",
       );
-      // Ensure isSynced is set to true to avoid sync issues
+      buffer.writeln(
+        " // Ensure isSynced is set to true to avoid sync issues\n",
+      );
       buffer.writeln("   entity.isSynced = true;");
       buffer.writeln("      return box.put(entity);");
       buffer.writeln("    },");
@@ -151,13 +153,43 @@ class EntityRegistryBuilder implements Builder {
       for (final field in clazz.fields) {
         final name = field.name;
         final typeStr = getStrFieldType(field);
-
+        // skip id field to avoid db storage mismatch
         if (field.isStatic || name == 'id') continue;
 
         if (typeStr.startsWith('ToOne<')) {
-          buffer.writeln("  '$name':$name.target?.toJson(),");
+          final relatedType = getFieldType(field);
+          buffer.writeln('''
+            '$name':$name.target != null ?
+            $name.target!.isSynced ? 
+           {
+            "entity": "$relatedType", 
+            "uuid": $name.target?.uuid 
+           }:
+             {"entity": "$relatedType",
+            "state": ($name.target!.deletedAt != null ? EntityState.deleted : $name.target!.createdAt.syncState($name.target!.updatedAt)).name,
+             ...$name.target!.toJson()
+             }
+             : null,
+            ''');
         } else if (typeStr.startsWith('ToMany<')) {
-          buffer.writeln(" '$name': $name.map((e) => e.toJson()).toList(),");
+          final relatedType = getFieldType(field);
+
+          buffer.writeln(''' 
+          '$name': $name.map((ele) {
+          final operation = ele.deletedAt != null ? EntityState.deleted : ele.createdAt.syncState(ele.updatedAt);
+          return ele.isSynced ? 
+           {
+            "entity": "$relatedType", 
+            "uuid": ele.uuid 
+           }:
+           {
+             "entity": "$relatedType",
+            // "entityId": ele.uuid,
+             "state": operation.name,
+             ...ele.toJson()
+          };
+          }).toList(),
+          ''');
         }
       }
 
