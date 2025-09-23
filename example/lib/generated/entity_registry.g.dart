@@ -188,7 +188,7 @@ extension UserModelRelationJson on UserModel {
           ? EntityState.deleted
           : ele.createdAt.syncState(ele.updatedAt);
       return ele.isSynced
-          ? {"entity": "PostModel", "uuid": ele.uuid, "is_synced": true}
+          ? {"entity": "PostModel", "uuid": ele.uuid, "is_synced": ele.isSynced}
           : {
               "entity": "PostModel",
               // "entityId": ele.uuid,
@@ -203,22 +203,38 @@ extension UserModelRelationJson on UserModel {
     if (json.containsKey('posts')) {
       posts.clear();
       final postsBox = store.box<PostModel>();
-      for (final data in json['posts']) {
-        var postsEntity = PostModel.fromJson(data);
+      if (json['posts']['is_synced']) {
+        for (final data in json['posts']) {
+          final query = postsBox
+              .query(PostModel_.uuid.equals(data['uuid']))
+              .build();
 
-        final query = postsBox
-            .query(PostModel_.uuid.equals(postsEntity.uuid!))
-            .build();
+          final postsEntity = query.findFirst();
 
-        final model = query.findFirst();
-
-        if (model != null) {
-          postsEntity.id = model.id;
-        } else {
-          postsBox.put(postsEntity);
+          if (postsEntity != null) {
+            postsBox.put(postsEntity);
+            posts.add(postsEntity);
+          }
+          query.close();
         }
-        query.close();
-        posts.add(postsEntity);
+      } else {
+        for (final data in json['posts']) {
+          var postsEntity = PostModel.fromJson(data);
+
+          final query = postsBox
+              .query(PostModel_.uuid.equals(postsEntity.uuid!))
+              .build();
+
+          final model = query.findFirst();
+
+          if (model != null) {
+            postsEntity.id = model.id;
+          } else {
+            postsBox.put(postsEntity);
+          }
+          query.close();
+          posts.add(postsEntity);
+        }
       }
     }
 
@@ -247,7 +263,7 @@ extension PostModelRelationJson on PostModel {
               ? {
                   "entity": "UserModel",
                   "uuid": user.target?.uuid,
-                  "is_synced": true,
+                  "is_synced": user.target!.isSynced,
                 }
               : {
                   "entity": "UserModel",
@@ -266,22 +282,34 @@ extension PostModelRelationJson on PostModel {
   PostModel applyJsonRelationships(Store store, Map<String, dynamic> json) {
     // Apply relations from JSON
     if (json.containsKey('user') && json['user'] != null) {
-      var userEntity = UserModel.fromJson(json['user']);
-
       final userBox = store.box<UserModel>();
-      final query = userBox
-          .query(UserModel_.uuid.equals(userEntity.uuid!))
-          .build();
+      if (json['user']['is_synced']) {
+        final query = userBox
+            .query(UserModel_.uuid.equals(json['user']['uuid']))
+            .build();
 
-      final data = query.findFirst();
+        final data = query.findFirst();
 
-      if (data != null) {
-        userEntity.id = data.id;
+        if (data != null) {
+          user.targetId = data.id;
+        }
       } else {
-        userBox.put(userEntity);
+        var userEntity = UserModel.fromJson(json['user']);
+
+        final query = userBox
+            .query(UserModel_.uuid.equals(userEntity.uuid!))
+            .build();
+
+        final data = query.findFirst();
+
+        if (data != null) {
+          userEntity.id = data.id;
+        } else {
+          userBox.put(userEntity);
+        }
+        query.close();
+        user.target = userEntity;
       }
-      query.close();
-      user.target = userEntity;
     }
 
     return this;
