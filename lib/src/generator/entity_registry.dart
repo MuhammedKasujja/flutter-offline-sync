@@ -10,12 +10,16 @@ typedef FetchFunction =
 typedef FetchEntityIdsFunction =
     List<int> Function(Store store, DateTime lastSyncDate);
 
+typedef MarkEntitySyncedFunction =
+    int Function(Store store, DateTime lastSyncDate);
+
 class EntityHandler {
   final BoxFactory boxFactory;
   final DeleteFunction deleteFunction;
   final UpdateFunction updateFunction;
   final FetchFunction fetchFunction;
   final FetchEntityIdsFunction fetchUpdatedIdsFunction;
+  final MarkEntitySyncedFunction makeEntitiesAsSyncronizedFunction;
 
   const EntityHandler({
     required this.boxFactory,
@@ -23,6 +27,7 @@ class EntityHandler {
     required this.updateFunction,
     required this.fetchFunction,
     required this.fetchUpdatedIdsFunction,
+    required this.makeEntitiesAsSyncronizedFunction,
   });
 }
 
@@ -50,8 +55,13 @@ abstract class EntityRegistry {
   ) =>
       get(entityName)?.fetchFunction(store, lastSyncDate) ??
       (throw Exception("Handler not found for $entityName"));
+      
   List<int> fetchUpdatedIds(String entityName, DateTime lastSyncDate) =>
       get(entityName)?.fetchUpdatedIdsFunction(store, lastSyncDate) ??
+      (throw Exception("Handler not found for $entityName"));
+  
+  int markAsSynced(String entityName, DateTime lastSyncDate) =>
+      get(entityName)?.makeEntitiesAsSyncronizedFunction(store, lastSyncDate) ??
       (throw Exception("Handler not found for $entityName"));
 }
 

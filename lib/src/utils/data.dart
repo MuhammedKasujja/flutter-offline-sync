@@ -1,4 +1,5 @@
 import 'package:flutter_offline_sync/objectbox.g.dart';
+import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/data/object_box.dart';
 
 T? saveEntity<T>(T entity) {
@@ -18,3 +19,6 @@ bool deleteEntity<T>(int id) {
   return box.remove(id);
 }
 
+ConfigurationEntity? getConfig(){
+  return getBox<ConfigurationEntity>().get(1);
+}

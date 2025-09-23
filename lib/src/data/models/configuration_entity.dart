@@ -220,4 +220,9 @@ class ConfigurationEntity {
       userName: userName,
     );
   }
+
+  DateTime getLastSyncDate() {
+    return localLastUpdatedAt ??
+        DateTime.fromMillisecondsSinceEpoch(1641031200000);
+  }
 }

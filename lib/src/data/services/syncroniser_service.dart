@@ -5,9 +5,11 @@ import 'package:flutter_offline_sync/src/data/models/remote_update_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
 import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
 import 'package:flutter_offline_sync/src/flutter_sync.dart';
+import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 import 'configuration_service.dart';
+import 'data/local_data_updates.dart';
 
 // This class is responsible for synchronizing data between local storage and remote servers.
 class SyncroniserService {
@@ -64,6 +66,11 @@ class SyncroniserService {
     logger.info({'Sync Ended Local Updates': response.toJson()});
 
     if (response.success) {
+      final lastSyncDate = getConfig()!.getLastSyncDate();
+      await LocalDataUpdates(
+        FlutterSync.instance.entityRegistry,
+      ).markEntitiesAsSynced(lastSyncDate);
+
       ConfigService.updateLastSyncDate(response.data!.lastSyncDate);
       _repo.clearUpdatesTable();
     } else {

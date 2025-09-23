@@ -97,9 +97,25 @@ class EntityRegistryBuilder implements Builder {
       );
       buffer.writeln("      final ids = query.findIds();");
       buffer.writeln("      query.close();");
+      buffer.writeln("      return ids;",);
+      buffer.writeln("    },");
+      buffer.writeln("    makeEntitiesAsSyncronizedFunction: (store, lastSync) {");
+      buffer.writeln("      final box = store.box<$entity>();");
       buffer.writeln(
-        "      return ids;",
+        "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch).and(${entity}_.isSynced.equals(false)))",
       );
+      buffer.writeln(
+        "      .order(${entity}_.updatedAt, flags: Order.descending).build();",
+      );
+      buffer.writeln("      final entities = query.find();");
+      buffer.writeln('''     
+           for(var entity in entities){
+             entity.isSynced = true;
+             box.put(entity);
+           }
+           query.close();
+      return entities.length;
+      ''');
       buffer.writeln("    },");
       buffer.writeln(
         "    deleteFunction: (store, id) => store.box<$entity>().remove(id),",

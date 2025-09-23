@@ -51,4 +51,40 @@ class LocalDataUpdates {
       return [];
     }
   }
+
+  Future<List<int>> getUpdatedEntityIds(DateTime lastSyncDate) async {
+    try {
+      final entities = entityRegistry.getAllEntities();
+      final List<int> localUpdates = [];
+      for (final entityName in entities) {
+        final entityUpdates = entityRegistry.fetchUpdatedIds(
+          entityName,
+          lastSyncDate,
+        );
+        if (entityUpdates.isNotEmpty) {
+          localUpdates.addAll(entityUpdates);
+        }
+      }
+      return localUpdates;
+    } catch (e) {
+      logger.error('Error fetching local updates', e);
+      return [];
+    }
+  }
+
+  /// Mark all local updates as synced after uploading to remote server
+  Future<int> markEntitiesAsSynced(DateTime lastSyncDate) async {
+    try {
+      final entities = entityRegistry.getAllEntities();
+      int localUpdates = 0;
+      for (final entityName in entities) {
+        final count = entityRegistry.markAsSynced(entityName, lastSyncDate);
+        localUpdates += count;
+      }
+      return localUpdates;
+    } catch (e) {
+      logger.error('Error updating sync status for local updates', e);
+      return 0;
+    }
+  }
 }
