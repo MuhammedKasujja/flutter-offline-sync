@@ -30,7 +30,14 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates.map((ele) => ele.toSyncJson()).toList();
+      return updates
+          .map(
+            (ele) => {
+              ...ele.toSyncJson(),
+              ...toRelationMap(ele.toRelationJson()),
+            },
+          )
+          .toList();
     },
     deleteFunction: (store, id) => store.box<RoleModel>().remove(id),
     updateFunction: (store, json) {
@@ -73,7 +80,14 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates.map((ele) => ele.toSyncJson()).toList();
+      return updates
+          .map(
+            (ele) => {
+              ...ele.toSyncJson(),
+              ...toRelationMap(ele.toRelationJson()),
+            },
+          )
+          .toList();
     },
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
     updateFunction: (store, json) {
@@ -116,7 +130,14 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates.map((ele) => ele.toSyncJson()).toList();
+      return updates
+          .map(
+            (ele) => {
+              ...ele.toSyncJson(),
+              ...toRelationMap(ele.toRelationJson()),
+            },
+          )
+          .toList();
     },
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
     updateFunction: (store, json) {

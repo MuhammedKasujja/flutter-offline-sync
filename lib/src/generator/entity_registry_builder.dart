@@ -84,7 +84,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("      final updates = query.find();");
       buffer.writeln("      query.close();");
       buffer.writeln(
-        "      return updates.map((ele)=>ele.toSyncJson()).toList();",
+        "      return updates.map((ele)=>{...ele.toSyncJson(), ...toRelationMap(ele.toRelationJson())}).toList();",
       );
       buffer.writeln("    },");
       buffer.writeln(

@@ -58,3 +58,29 @@ String generateUUID([int length = 32]) {
     ),
   );
 }
+
+Map<String, dynamic> toRelationMap(Map<String, dynamic> map) {
+  List<Map<String, dynamic>> relations = [];
+  for (var data in map.values) {
+    if (data == null) continue;
+
+    if (data is List) {
+      relations.addAll(
+        data.map(
+          (ele) => {
+            "entity": ele['entity'],
+            "uuid": ele['uuid'],
+            "is_synced": ele['is_synced'],
+          },
+        ),
+      );
+    } else {
+      relations.add({
+        "entity": data['entity'],
+        "uuid": data['uuid'],
+        "is_synced": data['is_synced'],
+      });
+    }
+  }
+  return {"relations": relations};
+}
