@@ -7,18 +7,22 @@ typedef DeleteFunction = bool Function(Store store, int id);
 typedef UpdateFunction = int Function(Store store, Map<String, dynamic> json);
 typedef FetchFunction =
     List<Map<String, dynamic>> Function(Store store, DateTime lastSyncDate);
+typedef FetchEntityIdsFunction =
+    List<int> Function(Store store, DateTime lastSyncDate);
 
 class EntityHandler {
   final BoxFactory boxFactory;
   final DeleteFunction deleteFunction;
   final UpdateFunction updateFunction;
   final FetchFunction fetchFunction;
+  final FetchEntityIdsFunction fetchUpdatedIdsFunction;
 
   const EntityHandler({
     required this.boxFactory,
     required this.deleteFunction,
     required this.updateFunction,
     required this.fetchFunction,
+    required this.fetchUpdatedIdsFunction,
   });
 }
 
@@ -45,6 +49,9 @@ abstract class EntityRegistry {
     DateTime lastSyncDate,
   ) =>
       get(entityName)?.fetchFunction(store, lastSyncDate) ??
+      (throw Exception("Handler not found for $entityName"));
+  List<int> fetchUpdatedIds(String entityName, DateTime lastSyncDate) =>
+      get(entityName)?.fetchUpdatedIdsFunction(store, lastSyncDate) ??
       (throw Exception("Handler not found for $entityName"));
 }
 

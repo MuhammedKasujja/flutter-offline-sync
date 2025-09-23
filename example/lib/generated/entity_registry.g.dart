@@ -40,6 +40,20 @@ final Map<String, EntityHandler> _generatedRegistry = {
           )
           .toList();
     },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<RoleModel>();
+      final query = box
+          .query(
+            RoleModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(RoleModel_.isSynced.equals(false)),
+          )
+          .order(RoleModel_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
+    },
     deleteFunction: (store, id) => store.box<RoleModel>().remove(id),
     updateFunction: (store, json) {
       RoleModel entity = RoleModel.fromJson(json);
@@ -89,6 +103,20 @@ final Map<String, EntityHandler> _generatedRegistry = {
             },
           )
           .toList();
+    },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<UserModel>();
+      final query = box
+          .query(
+            UserModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(UserModel_.isSynced.equals(false)),
+          )
+          .order(UserModel_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
     },
     deleteFunction: (store, id) => store.box<UserModel>().remove(id),
     updateFunction: (store, json) {
@@ -140,6 +168,20 @@ final Map<String, EntityHandler> _generatedRegistry = {
           )
           .toList();
     },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<PostModel>();
+      final query = box
+          .query(
+            PostModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(PostModel_.isSynced.equals(false)),
+          )
+          .order(PostModel_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
+    },
     deleteFunction: (store, id) => store.box<PostModel>().remove(id),
     updateFunction: (store, json) {
       PostModel entity = PostModel.fromJson(json);
@@ -189,6 +231,20 @@ final Map<String, EntityHandler> _generatedRegistry = {
             },
           )
           .toList();
+    },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<CommentModel>();
+      final query = box
+          .query(
+            CommentModel_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(CommentModel_.isSynced.equals(false)),
+          )
+          .order(CommentModel_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
     },
     deleteFunction: (store, id) => store.box<CommentModel>().remove(id),
     updateFunction: (store, json) {

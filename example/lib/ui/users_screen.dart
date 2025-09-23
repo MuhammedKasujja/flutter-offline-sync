@@ -19,7 +19,6 @@ class UsersScreen extends StatefulWidget {
 
 class _UsersScreenState extends State<UsersScreen> {
   List<UserModel> users = [];
-  final faker = Faker();
 
   @override
   void initState() {

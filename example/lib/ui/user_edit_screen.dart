@@ -19,7 +19,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
   final phoneController = TextEditingController();
   final nameController = TextEditingController();
   final ageController = TextEditingController();
-  final faker = Faker();
 
   @override
   Widget build(BuildContext context) {

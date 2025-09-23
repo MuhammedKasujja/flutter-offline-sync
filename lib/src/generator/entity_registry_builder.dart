@@ -87,6 +87,20 @@ class EntityRegistryBuilder implements Builder {
         "      return updates.map((ele)=>{...ele.toSyncJson(), ...toRelationMap(ele.toRelationJson())}).toList();",
       );
       buffer.writeln("    },");
+      buffer.writeln("    fetchUpdatedIdsFunction: (store, lastSync) {");
+      buffer.writeln("      final box = store.box<$entity>();");
+      buffer.writeln(
+        "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch).and(${entity}_.isSynced.equals(false)))",
+      );
+      buffer.writeln(
+        "      .order(${entity}_.updatedAt, flags: Order.descending).build();",
+      );
+      buffer.writeln("      final ids = query.findIds();");
+      buffer.writeln("      query.close();");
+      buffer.writeln(
+        "      return ids;",
+      );
+      buffer.writeln("    },");
       buffer.writeln(
         "    deleteFunction: (store, id) => store.box<$entity>().remove(id),",
       );
