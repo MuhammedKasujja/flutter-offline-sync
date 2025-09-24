@@ -19,6 +19,48 @@ bool deleteEntity<T>(int id) {
   return box.remove(id);
 }
 
-ConfigurationEntity? getConfig(){
+ConfigurationEntity? getConfig() {
   return getBox<ConfigurationEntity>().get(1);
+}
+
+List<Map<String, dynamic>> toRelationMap(Map<String, dynamic> map) {
+  List<Map<String, dynamic>> relations = [];
+  for (var data in map.values) {
+    if (data == null) continue;
+
+    if (data is List) {
+      relations.addAll(
+        data.map(
+          (ele) => {
+            "entity": ele['entity'],
+            "uuid": ele['uuid'],
+            "is_synced": ele['is_synced'],
+            "parent_uuid": ele['parent_uuid'],
+          },
+        ),
+      );
+    } else {
+      relations.add({
+        "entity": data['entity'],
+        "uuid": data['uuid'],
+        "is_synced": data['is_synced'],
+        "parent_uuid": data['parent_uuid'],
+      });
+    }
+  }
+  return relations;
+}
+
+List<EntityRelation> toEntityRelations(Map<String, dynamic> map) {
+  List<EntityRelation> relations = [];
+  for (var data in map.values) {
+    if (data == null) continue;
+
+    if (data is List<Map<String, dynamic>>) { 
+      relations.addAll(data.map((EntityRelation.fromJson)));
+    } else {
+      relations.add(EntityRelation.fromJson(data));
+    }
+  }
+  return relations;
 }

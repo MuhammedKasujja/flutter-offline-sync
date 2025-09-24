@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
+import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 class LocalDataUpdates {
@@ -44,6 +46,11 @@ class LocalDataUpdates {
       //         DateTime.parse(a['data']['updated_at']),
       //       ),
       //     );
+      final changes = await compute(_dataLookupTupple, localUpdates);
+      logger.error({changes.data.length, changes.relations.length});
+
+      // final changes = await compute(_generatedData, localUpdates);
+      // logger.error({changes.length, changes[0]});
 
       return localUpdates;
     } catch (e) {
@@ -87,4 +94,36 @@ class LocalDataUpdates {
       return 0;
     }
   }
+}
+
+/// filter entity relations
+/// map entityId to data to avoid n2 data lookup i.e for in for loop
+({Map<String, dynamic> data, List<Map<String, dynamic>> relations})
+_dataLookupTupple(List<Map<String, dynamic>> updates) {
+  Map<String, dynamic> entityMap = {};
+  List<Map<String, dynamic>> relations = [];
+  for (var data in updates) {
+    final map = data['data']['relations'] as Map<String, dynamic>?;
+    if (map != null && map.values.isNotEmpty) {
+      relations.addAll(toRelationMap(map));
+    }
+    entityMap.addAll({data['entityId']: data});
+  }
+  return (data: entityMap, relations: relations);
+}
+
+/// map relations to their respective entities
+List<Map<String, dynamic>> _generatedData(List<Map<String, dynamic>> updates) {
+  final changes = _dataLookupTupple(updates);
+
+  final List<Map<String, dynamic>> data = [];
+
+  for (var relation in changes.relations) {
+    if (changes.data.containsKey(relation['uuid'])) {
+      final change = changes.data[relation['uuid']] as Map<String, dynamic>;
+      // (change['data'] as Map).remove('relations');
+      data.add(change);
+    }
+  }
+  return data;
 }

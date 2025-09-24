@@ -363,8 +363,18 @@ extension UserModelRelationJson on UserModel {
           ? EntityState.deleted
           : ele.createdAt.syncState(ele.updatedAt);
       return ele.isSynced
-          ? {"entity": "PostModel", "uuid": ele.uuid, "is_synced": ele.isSynced}
-          : {"entity": "PostModel", "state": operation.name, ...ele.toJson()};
+          ? {
+              "entity": "PostModel",
+              "uuid": ele.uuid,
+              "is_synced": ele.isSynced,
+              "parent_uuid": this.uuid,
+            }
+          : {
+              "entity": "PostModel",
+              "state": operation.name,
+              ...ele.toJson(),
+              "parent_uuid": this.uuid,
+            };
     }).toList(),
   };
 
@@ -428,6 +438,7 @@ extension PostModelRelationJson on PostModel {
                   "entity": "UserModel",
                   "uuid": user.target?.uuid,
                   "is_synced": user.target!.isSynced,
+                  "parent_uuid": this.uuid,
                 }
               : {
                   "entity": "UserModel",
@@ -439,6 +450,7 @@ extension PostModelRelationJson on PostModel {
                                 ))
                           .name,
                   ...user.target!.toJson(),
+                  "parent_uuid": this.uuid,
                 }
         : null,
 
@@ -448,6 +460,7 @@ extension PostModelRelationJson on PostModel {
                   "entity": "CommentModel",
                   "uuid": comment.target?.uuid,
                   "is_synced": comment.target!.isSynced,
+                  "parent_uuid": this.uuid,
                 }
               : {
                   "entity": "CommentModel",
@@ -459,6 +472,7 @@ extension PostModelRelationJson on PostModel {
                                 ))
                           .name,
                   ...comment.target!.toJson(),
+                  "parent_uuid": this.uuid,
                 }
         : null,
   };
@@ -546,6 +560,7 @@ extension CommentModelRelationJson on CommentModel {
                   "entity": "UserModel",
                   "uuid": user.target?.uuid,
                   "is_synced": user.target!.isSynced,
+                  "parent_uuid": this.uuid,
                 }
               : {
                   "entity": "UserModel",
@@ -557,6 +572,7 @@ extension CommentModelRelationJson on CommentModel {
                                 ))
                           .name,
                   ...user.target!.toJson(),
+                  "parent_uuid": this.uuid,
                 }
         : null,
   };

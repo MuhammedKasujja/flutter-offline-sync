@@ -195,10 +195,13 @@ class EntityRegistryBuilder implements Builder {
             "entity": "$relatedType", 
             "uuid": $name.target?.uuid,
             "is_synced": $name.target!.isSynced, 
+            "parent_uuid": this.uuid,
            }:
-             {"entity": "$relatedType",
-            "state": ($name.target!.deletedAt != null ? EntityState.deleted : $name.target!.createdAt.syncState($name.target!.updatedAt)).name,
-             ...$name.target!.toJson()
+             {
+             "entity": "$relatedType",
+             "state": ($name.target!.deletedAt != null ? EntityState.deleted : $name.target!.createdAt.syncState($name.target!.updatedAt)).name,
+             ...$name.target!.toJson(),
+             "parent_uuid": this.uuid,
              }
              : null,
             ''');
@@ -212,12 +215,14 @@ class EntityRegistryBuilder implements Builder {
            {
             "entity": "$relatedType", 
             "uuid": ele.uuid,
-            "is_synced": ele.isSynced, 
+            "is_synced": ele.isSynced,
+            "parent_uuid": this.uuid, 
            }:
            {
              "entity": "$relatedType",
              "state": operation.name,
-             ...ele.toJson()
+             ...ele.toJson(),
+             "parent_uuid": this.uuid,
           };
           }).toList(),
           ''');
