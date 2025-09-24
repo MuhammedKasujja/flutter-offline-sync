@@ -107,7 +107,8 @@ _dataLookupTupple(List<Map<String, dynamic>> updates) {
     if (map != null && map.values.isNotEmpty) {
       relations.addAll(toRelationMap(map));
     }
-    entityMap.addAll({data['entityId']: data});
+    // entityMap.addAll({data['entityId']: data});
+    entityMap.putIfAbsent(data['entityId'], () => data);
   }
   return (data: entityMap, relations: relations);
 }
