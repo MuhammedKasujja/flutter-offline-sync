@@ -25,30 +25,32 @@ ConfigurationEntity? getConfig() {
 
 List<Map<String, dynamic>> toRelationMap(Map<String, dynamic> map) {
   List<Map<String, dynamic>> relations = [];
-  for (var data in map.values) {
-    if (data == null) continue;
 
+  final Set<String> entityIds = {};
+
+  for (var data in map.values.where((ele) => ele != null)) {
     if (data is List) {
-      relations.addAll(
-        data.map(
-          (ele) => {
-            "entity": ele['entity'],
-            "uuid": ele['uuid'],
-            "is_synced": ele['is_synced'],
-            "parent_uuid": ele['parent_uuid'],
-          },
-        ),
-      );
+      for (var ele in data) {
+        if (entityIds.add(ele['uuid'])) {
+          relations.add(_relationMap(ele));
+        }
+      }
     } else {
-      relations.add({
-        "entity": data['entity'],
-        "uuid": data['uuid'],
-        "is_synced": data['is_synced'],
-        "parent_uuid": data['parent_uuid'],
-      });
+      if (entityIds.add(data['uuid'])) {
+        relations.add(_relationMap(data));
+      }
     }
   }
   return relations;
+}
+
+Map<String, dynamic> _relationMap(Map<String, dynamic> data) {
+  return {
+    "entity": data['entity'],
+    "uuid": data['uuid'],
+    "is_synced": data['is_synced'],
+    "parent_uuid": data['parent_uuid'],
+  };
 }
 
 List<EntityRelation> toEntityRelations(Map<String, dynamic> map) {
@@ -56,7 +58,7 @@ List<EntityRelation> toEntityRelations(Map<String, dynamic> map) {
   for (var data in map.values) {
     if (data == null) continue;
 
-    if (data is List<Map<String, dynamic>>) { 
+    if (data is List<Map<String, dynamic>>) {
       relations.addAll(data.map((EntityRelation.fromJson)));
     } else {
       relations.add(EntityRelation.fromJson(data));
