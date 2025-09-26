@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_offline_sync/src/generator/entity_registry.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
@@ -46,11 +45,6 @@ class LocalDataUpdates {
       //         DateTime.parse(a['data']['updated_at']),
       //       ),
       //     );
-      final changes = await compute(_dataLookupTupple, localUpdates);
-      logger.error({changes.data.length, changes.relations.length});
-
-      // final changes = await compute(_generatedData, localUpdates);
-      // logger.error({changes.length, changes[0]});
 
       return localUpdates;
     } catch (e) {
