@@ -3,7 +3,12 @@ import 'dart:math';
 import 'package:example/data/models/comment_model.dart';
 import 'package:example/data/models/post_model.dart';
 import 'package:example/data/models/user_model.dart';
+import 'package:example/data/objectbox.dart';
 import 'package:example/data/utils.dart';
+import 'package:example/utils/data.dart';
+import 'package:example/utils/heavy_isolate.dart';
+import 'package:example/utils/isolate_data.dart';
+import 'package:example/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 
@@ -50,6 +55,37 @@ class _UserEditScreenState extends State<UserEditScreen> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.text_snippet),
+        onPressed: () async {
+          final comments = List.generate(
+            5,
+            (_) =>
+                CommentModel(
+                  content: faker.lorem.random.string(200),
+                  createdAt: DateTime.now(),
+                  updatedAt: DateTime.now(),
+                  uuid: getRandomString(24),
+                  isSynced: false,
+                ).toJson(),
+          );
+          // insertLargeDataInIsolateSpawn(
+          //   ObjectBox.instance.store.directoryPath,
+          //   comments,
+          // );
+          try {
+            await insertLargeDataInIsolateSpawnRefactor(comments);
+            print('Data inserted successfully');
+          } catch (e) {
+            print('Failed to insert data: $e');
+          }
+          // saveDataIsolate();
+          // insertLargeDataInIsolate(
+          //   ObjectBox.instance.store.directoryPath,
+          //   comments,
+          // );
+        },
       ),
     );
   }
