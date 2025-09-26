@@ -274,7 +274,7 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln("  final ${name}Model = query.findFirst();\n");
           buffer.writeln("  if(data['is_synced']){");
           buffer.writeln("  if(${name}Model != null) { ");
-          buffer.writeln("  ${name}Box.put(${name}Model);  ");
+          // buffer.writeln("  ${name}Box.put(${name}Model);  ");
           buffer.writeln("  $name.add(${name}Model);  }");
           buffer.writeln("  }");
           buffer.writeln("  else{");

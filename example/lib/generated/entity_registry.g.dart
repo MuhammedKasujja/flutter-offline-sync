@@ -392,7 +392,6 @@ extension UserModelRelationJson on UserModel {
 
         if (data['is_synced']) {
           if (postsModel != null) {
-            postsBox.put(postsModel);
             posts.add(postsModel);
           }
         } else {
