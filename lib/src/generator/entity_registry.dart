@@ -65,7 +65,7 @@ abstract class EntityRegistry {
       (throw Exception("Handler not found for $entityName"));
 }
 
-String generateUUID([int length = 32]) {
+String generateUUID([int length = 24]) {
   const chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   return String.fromCharCodes(
