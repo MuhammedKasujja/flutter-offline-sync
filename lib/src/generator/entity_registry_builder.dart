@@ -194,7 +194,7 @@ class EntityRegistryBuilder implements Builder {
             '$name':$name.target != null ?
            {
             "entity": "$relatedType", 
-            "uuid": $name.target?.uuid ?? generateUUID(),
+            "uuid": $name.target?.uuid,
             "is_synced": $name.target!.isSynced, 
             "parent_uuid": this.uuid,
             "state": ($name.target!.deletedAt != null ? EntityState.deleted : $name.target!.createdAt.syncState($name.target!.updatedAt)).name,
@@ -208,7 +208,7 @@ class EntityRegistryBuilder implements Builder {
           final operation = ele.deletedAt != null ? EntityState.deleted : ele.createdAt.syncState(ele.updatedAt);
           return {
             "entity": "$relatedType", 
-            "uuid": ele.uuid ?? generateUUID(),
+            "uuid": ele.uuid,
             "is_synced": ele.isSynced,
             "parent_uuid": this.uuid, 
             "state": operation.name,
