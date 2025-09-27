@@ -97,9 +97,11 @@ class EntityRegistryBuilder implements Builder {
       );
       buffer.writeln("      final ids = query.findIds();");
       buffer.writeln("      query.close();");
-      buffer.writeln("      return ids;",);
+      buffer.writeln("      return ids;");
       buffer.writeln("    },");
-      buffer.writeln("    makeEntitiesAsSyncronizedFunction: (store, lastSync) {");
+      buffer.writeln(
+        "    makeEntitiesAsSyncronizedFunction: (store, lastSync) {",
+      );
       buffer.writeln("      final box = store.box<$entity>();");
       buffer.writeln(
         "      final query = box.query(${entity}_.updatedAt.greaterThan(lastSync.millisecondsSinceEpoch).and(${entity}_.isSynced.equals(false)))",
@@ -190,20 +192,13 @@ class EntityRegistryBuilder implements Builder {
           final relatedType = getFieldType(field);
           buffer.writeln('''
             '$name':$name.target != null ?
-            $name.target!.isSynced ? 
            {
             "entity": "$relatedType", 
             "uuid": $name.target?.uuid,
             "is_synced": $name.target!.isSynced, 
             "parent_uuid": this.uuid,
-           }:
-             {
-             "entity": "$relatedType",
-             "state": ($name.target!.deletedAt != null ? EntityState.deleted : $name.target!.createdAt.syncState($name.target!.updatedAt)).name,
-             ...$name.target!.toJson(),
-             "parent_uuid": this.uuid,
-             }
-             : null,
+            "state": ($name.target!.deletedAt != null ? EntityState.deleted : $name.target!.createdAt.syncState($name.target!.updatedAt)).name,
+           } : null,
             ''');
         } else if (typeStr.startsWith('ToMany<')) {
           final relatedType = getFieldType(field);
@@ -211,19 +206,13 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln(''' 
           '$name': $name.map((ele) {
           final operation = ele.deletedAt != null ? EntityState.deleted : ele.createdAt.syncState(ele.updatedAt);
-          return ele.isSynced ? 
-           {
+          return {
             "entity": "$relatedType", 
             "uuid": ele.uuid,
             "is_synced": ele.isSynced,
             "parent_uuid": this.uuid, 
-           }:
-           {
-             "entity": "$relatedType",
-             "state": operation.name,
-             ...ele.toJson(),
-             "parent_uuid": this.uuid,
-          };
+            "state": operation.name,
+           };
           }).toList(),
           ''');
         }
@@ -281,7 +270,9 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln(
             "  final ${name}Entity = $relatedType.fromJson(data);\n",
           );
-          buffer.writeln("  if(${name}Model != null) { ${name}Entity.id = ${name}Model.id;}");
+          buffer.writeln(
+            "  if(${name}Model != null) { ${name}Entity.id = ${name}Model.id;}",
+          );
           buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
           buffer.writeln("  $name.add(${name}Entity);  \n}");
           buffer.writeln("  query.close();");

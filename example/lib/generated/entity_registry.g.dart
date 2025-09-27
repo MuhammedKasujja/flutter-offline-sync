@@ -370,19 +370,13 @@ extension UserModelRelationJson on UserModel {
       final operation = ele.deletedAt != null
           ? EntityState.deleted
           : ele.createdAt.syncState(ele.updatedAt);
-      return ele.isSynced
-          ? {
-              "entity": "PostModel",
-              "uuid": ele.uuid,
-              "is_synced": ele.isSynced,
-              "parent_uuid": this.uuid,
-            }
-          : {
-              "entity": "PostModel",
-              "state": operation.name,
-              ...ele.toJson(),
-              "parent_uuid": this.uuid,
-            };
+      return {
+        "entity": "PostModel",
+        "uuid": ele.uuid,
+        "is_synced": ele.isSynced,
+        "parent_uuid": this.uuid,
+        "state": operation.name,
+      };
     }).toList(),
   };
 
@@ -440,47 +434,35 @@ extension UserModelRelationJson on UserModel {
 extension PostModelRelationJson on PostModel {
   Map<String, dynamic> toRelationJson() => {
     'user': user.target != null
-        ? user.target!.isSynced
-              ? {
-                  "entity": "UserModel",
-                  "uuid": user.target?.uuid,
-                  "is_synced": user.target!.isSynced,
-                  "parent_uuid": this.uuid,
-                }
-              : {
-                  "entity": "UserModel",
-                  "state":
-                      (user.target!.deletedAt != null
-                              ? EntityState.deleted
-                              : user.target!.createdAt.syncState(
-                                  user.target!.updatedAt,
-                                ))
-                          .name,
-                  ...user.target!.toJson(),
-                  "parent_uuid": this.uuid,
-                }
+        ? {
+            "entity": "UserModel",
+            "uuid": user.target?.uuid,
+            "is_synced": user.target!.isSynced,
+            "parent_uuid": this.uuid,
+            "state":
+                (user.target!.deletedAt != null
+                        ? EntityState.deleted
+                        : user.target!.createdAt.syncState(
+                            user.target!.updatedAt,
+                          ))
+                    .name,
+          }
         : null,
 
     'comment': comment.target != null
-        ? comment.target!.isSynced
-              ? {
-                  "entity": "CommentModel",
-                  "uuid": comment.target?.uuid,
-                  "is_synced": comment.target!.isSynced,
-                  "parent_uuid": this.uuid,
-                }
-              : {
-                  "entity": "CommentModel",
-                  "state":
-                      (comment.target!.deletedAt != null
-                              ? EntityState.deleted
-                              : comment.target!.createdAt.syncState(
-                                  comment.target!.updatedAt,
-                                ))
-                          .name,
-                  ...comment.target!.toJson(),
-                  "parent_uuid": this.uuid,
-                }
+        ? {
+            "entity": "CommentModel",
+            "uuid": comment.target?.uuid,
+            "is_synced": comment.target!.isSynced,
+            "parent_uuid": this.uuid,
+            "state":
+                (comment.target!.deletedAt != null
+                        ? EntityState.deleted
+                        : comment.target!.createdAt.syncState(
+                            comment.target!.updatedAt,
+                          ))
+                    .name,
+          }
         : null,
   };
 
@@ -562,25 +544,19 @@ extension PostModelRelationJson on PostModel {
 extension CommentModelRelationJson on CommentModel {
   Map<String, dynamic> toRelationJson() => {
     'user': user.target != null
-        ? user.target!.isSynced
-              ? {
-                  "entity": "UserModel",
-                  "uuid": user.target?.uuid,
-                  "is_synced": user.target!.isSynced,
-                  "parent_uuid": this.uuid,
-                }
-              : {
-                  "entity": "UserModel",
-                  "state":
-                      (user.target!.deletedAt != null
-                              ? EntityState.deleted
-                              : user.target!.createdAt.syncState(
-                                  user.target!.updatedAt,
-                                ))
-                          .name,
-                  ...user.target!.toJson(),
-                  "parent_uuid": this.uuid,
-                }
+        ? {
+            "entity": "UserModel",
+            "uuid": user.target?.uuid,
+            "is_synced": user.target!.isSynced,
+            "parent_uuid": this.uuid,
+            "state":
+                (user.target!.deletedAt != null
+                        ? EntityState.deleted
+                        : user.target!.createdAt.syncState(
+                            user.target!.updatedAt,
+                          ))
+                    .name,
+          }
         : null,
   };
 
