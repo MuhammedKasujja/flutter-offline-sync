@@ -19,13 +19,13 @@ class DataUploadMap {
       relations:
           map['relations'] != null
               ? List<DataEntity>.from(
-                (map['relations'] as List<int>).map<DataEntity>(
+                (map['relations'] as List<dynamic>).map<DataEntity>(
                   (x) => DataEntity.fromJson(x as Map<String, dynamic>),
                 ),
               )
               : [],
       models: List<DataEntity>.from(
-        (map['entities'] as List<int>).map<DataEntity>(
+        (map['entities'] as List<dynamic>).map<DataEntity>(
           (x) => DataEntity.fromJson(x as Map<String, dynamic>),
         ),
       ),

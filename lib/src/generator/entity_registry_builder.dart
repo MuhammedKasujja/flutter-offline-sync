@@ -256,27 +256,17 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln("      $name.clear();");
           final relatedType = getFieldType(field);
           buffer.writeln("      final ${name}Box = store.box<$relatedType>();");
-          buffer.writeln("      for (final data in json['$name']) {");
           buffer.writeln(
-            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(data['uuid'])).build();\n",
+            '''  final query = ${name}Box.query(${relatedType}_.uuid.
+                   oneOf([
+                    ...(json['$name'] as List).map((data) => data['uuid'] as String),
+                  ]),)
+            .build();
+            \n''',
           );
-          buffer.writeln("  final ${name}Model = query.findFirst();\n");
-          buffer.writeln("  if(data['is_synced']){");
-          buffer.writeln("  if(${name}Model != null) { ");
-          // buffer.writeln("  ${name}Box.put(${name}Model);  ");
-          buffer.writeln("  $name.add(${name}Model);  }");
-          buffer.writeln("  }");
-          buffer.writeln("  else{");
-          buffer.writeln(
-            "  final ${name}Entity = $relatedType.fromJson(data);\n",
-          );
-          buffer.writeln(
-            "  if(${name}Model != null) { ${name}Entity.id = ${name}Model.id;}",
-          );
-          buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
-          buffer.writeln("  $name.add(${name}Entity);  \n}");
+          buffer.writeln("  final ${name}Models = query.find();");
+          buffer.writeln("  $name.addAll(${name}Models);  \n");
           buffer.writeln("  query.close();");
-          buffer.writeln("  }");
           buffer.writeln(" }\n");
         }
       }

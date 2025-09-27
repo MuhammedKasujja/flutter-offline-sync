@@ -31,7 +31,39 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates.map((ele) => ele.toSyncJson()).toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
+    },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<RemoteUpdateEntity>();
+      final query = box
+          .query(
+            RemoteUpdateEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(RemoteUpdateEntity_.isSynced.equals(false)),
+          )
+          .order(RemoteUpdateEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
+    },
+    makeEntitiesAsSyncronizedFunction: (store, lastSync) {
+      final box = store.box<RemoteUpdateEntity>();
+      final query = box
+          .query(
+            RemoteUpdateEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(RemoteUpdateEntity_.isSynced.equals(false)),
+          )
+          .order(RemoteUpdateEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final entities = query.find();
+      for (var entity in entities) {
+        entity.isSynced = true;
+        box.put(entity);
+      }
+      query.close();
+      return entities.length;
     },
     deleteFunction: (store, id) => store.box<RemoteUpdateEntity>().remove(id),
     updateFunction: (store, json) {
@@ -55,7 +87,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -76,7 +110,39 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates.map((ele) => ele.toSyncJson()).toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
+    },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<DataEntity>();
+      final query = box
+          .query(
+            DataEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(DataEntity_.isSynced.equals(false)),
+          )
+          .order(DataEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
+    },
+    makeEntitiesAsSyncronizedFunction: (store, lastSync) {
+      final box = store.box<DataEntity>();
+      final query = box
+          .query(
+            DataEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(DataEntity_.isSynced.equals(false)),
+          )
+          .order(DataEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final entities = query.find();
+      for (var entity in entities) {
+        entity.isSynced = true;
+        box.put(entity);
+      }
+      query.close();
+      return entities.length;
     },
     deleteFunction: (store, id) => store.box<DataEntity>().remove(id),
     updateFunction: (store, json) {
@@ -98,7 +164,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -119,7 +187,39 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates.map((ele) => ele.toSyncJson()).toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
+    },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<ConfigurationEntity>();
+      final query = box
+          .query(
+            ConfigurationEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(ConfigurationEntity_.isSynced.equals(false)),
+          )
+          .order(ConfigurationEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
+    },
+    makeEntitiesAsSyncronizedFunction: (store, lastSync) {
+      final box = store.box<ConfigurationEntity>();
+      final query = box
+          .query(
+            ConfigurationEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(ConfigurationEntity_.isSynced.equals(false)),
+          )
+          .order(ConfigurationEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final entities = query.find();
+      for (var entity in entities) {
+        entity.isSynced = true;
+        box.put(entity);
+      }
+      query.close();
+      return entities.length;
     },
     deleteFunction: (store, id) => store.box<ConfigurationEntity>().remove(id),
     updateFunction: (store, json) {
@@ -143,7 +243,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -164,7 +266,39 @@ final Map<String, EntityHandler> _generatedRegistry = {
           .build();
       final updates = query.find();
       query.close();
-      return updates.map((ele) => ele.toSyncJson()).toList();
+      return updates.map((ele) => {...ele.toSyncJson()}).toList();
+    },
+    fetchUpdatedIdsFunction: (store, lastSync) {
+      final box = store.box<SyncDeviceEntity>();
+      final query = box
+          .query(
+            SyncDeviceEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(SyncDeviceEntity_.isSynced.equals(false)),
+          )
+          .order(SyncDeviceEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final ids = query.findIds();
+      query.close();
+      return ids;
+    },
+    makeEntitiesAsSyncronizedFunction: (store, lastSync) {
+      final box = store.box<SyncDeviceEntity>();
+      final query = box
+          .query(
+            SyncDeviceEntity_.updatedAt
+                .greaterThan(lastSync.millisecondsSinceEpoch)
+                .and(SyncDeviceEntity_.isSynced.equals(false)),
+          )
+          .order(SyncDeviceEntity_.updatedAt, flags: Order.descending)
+          .build();
+      final entities = query.find();
+      for (var entity in entities) {
+        entity.isSynced = true;
+        box.put(entity);
+      }
+      query.close();
+      return entities.length;
     },
     deleteFunction: (store, id) => store.box<SyncDeviceEntity>().remove(id),
     updateFunction: (store, json) {
@@ -188,7 +322,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json);
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -228,7 +364,10 @@ extension RemoteUpdateEntityRelationJson on RemoteUpdateEntity {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }
@@ -251,7 +390,10 @@ extension DataEntityRelationJson on DataEntity {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }
@@ -277,7 +419,10 @@ extension ConfigurationEntityRelationJson on ConfigurationEntity {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }
@@ -303,7 +448,10 @@ extension SyncDeviceEntityRelationJson on SyncDeviceEntity {
     map.addAll({"entityId": this.uuid});
     map.addAll({"state": "${operation.name}"});
     map.addAll({
-      "data": {...toJson(), ...toRelationJson()},
+      "data": {
+        ...toJson(),
+        ...{"relations": toRelationJson()},
+      },
     });
     return map;
   }

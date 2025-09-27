@@ -385,29 +385,18 @@ extension UserModelRelationJson on UserModel {
     if (json.containsKey('posts')) {
       posts.clear();
       final postsBox = store.box<PostModel>();
-      for (final data in json['posts']) {
-        final query = postsBox
-            .query(PostModel_.uuid.equals(data['uuid']))
-            .build();
+      final query = postsBox
+          .query(
+            PostModel_.uuid.oneOf([
+              ...(json['posts'] as List).map((data) => data['uuid'] as String),
+            ]),
+          )
+          .build();
 
-        final postsModel = query.findFirst();
+      final postsModels = query.find();
+      posts.addAll(postsModels);
 
-        if (data['is_synced']) {
-          if (postsModel != null) {
-            posts.add(postsModel);
-          }
-        } else {
-          final postsEntity = PostModel.fromJson(data);
-
-          if (postsModel != null) {
-            postsEntity.id = postsModel.id;
-          } else {
-            postsBox.put(postsEntity);
-          }
-          posts.add(postsEntity);
-        }
-        query.close();
-      }
+      query.close();
     }
 
     return this;
