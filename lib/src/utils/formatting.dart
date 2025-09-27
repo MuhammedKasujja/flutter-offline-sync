@@ -27,10 +27,11 @@ String formattedBaseUrl({required String baseUrl, required String? endpoint}) {
 // }
 
 String formatDate(DateTime date) {
-  String monthName = _monthNames[date.month - 1];
-  String amPm = date.hour >= 12 ? "PM" : "AM";
-  int hour12 = date.hour % 12 == 0 ? 12 : date.hour % 12;
-  return "${date.day} $monthName ${date.year}, $hour12:${date.minute.toString().padLeft(2, '0')} $amPm";
+  DateTime localDate = date.toLocal();
+  String monthName = _monthNames[localDate.month - 1];
+  String amPm = localDate.hour >= 12 ? "PM" : "AM";
+  int hour12 = localDate.hour % 12 == 0 ? 12 : localDate.hour % 12;
+  return "${localDate.day} $monthName ${localDate.year}, $hour12:${localDate.minute.toString().padLeft(2, '0')} $amPm";
 }
 
 const List<String> _monthNames = [
