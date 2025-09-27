@@ -85,7 +85,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -160,7 +162,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -235,7 +239,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;
@@ -310,7 +316,9 @@ final Map<String, EntityHandler> _generatedRegistry = {
       }
 
       query.close();
-      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      if (json['relations'] != null) {
+        entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+      }
       // Ensure isSynced is set to true to avoid sync issues
 
       entity.isSynced = true;

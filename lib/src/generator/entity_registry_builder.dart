@@ -143,7 +143,7 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("      query.close();");
 
       buffer.writeln(
-        "      entity = entity.applyJsonRelationships(store, json['relations'] ?? {});",
+        "  if(json['relations'] != null) { entity = entity.applyJsonRelationships(store, json['relations'] ?? {});}",
       );
       buffer.writeln(
         " // Ensure isSynced is set to true to avoid sync issues\n",
