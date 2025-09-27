@@ -88,7 +88,7 @@ class ApiResponse<T> {
     int? code,
   }) {
     return ApiResponse(
-      success: status ?? this.success,
+      success: status ?? success,
       data: data ?? this.data,
       message: message ?? this.message,
       error: error ?? this.error,

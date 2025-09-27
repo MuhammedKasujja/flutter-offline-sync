@@ -27,7 +27,7 @@ class RemoteDataPreviewTable extends StatelessWidget {
                         DataCell(Text(formatDate(data.createdAt))),
                         DataCell(Text(data.deviceId)),
                         DataCell(Text(data.userId)),
-                        DataCell(Text(data.data.length.toString())),
+                        DataCell(Text(data.data.models.length.toString())),
                       ],
                     ),
                   )

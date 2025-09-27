@@ -6,7 +6,6 @@ import 'package:flutter_offline_sync/src/data/interfaces/sync_repository.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_request.dart';
-import 'package:flutter_offline_sync/src/flutter_sync.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 import 'data_syncroniser_interface.dart';
@@ -71,31 +70,6 @@ class DataSyncroniser extends IDataSyncroniser {
       );
     }
     return ApiResponse.error(response.error);
-  }
-
-  @override
-  Future<void> syncRemoteUpdates(List<DataEntity> remoteUpdates) async {
-    if (remoteUpdates.isEmpty) {
-      logger.info('No Remote updates found');
-      return;
-    }
-    try {
-      // lift json decode to a separate Isolate to avoid blocking the UI
-      final decodedList = await compute(
-        Parser.decodeRemoteEntitiesInIsolate,
-        remoteUpdates,
-      );
-
-      for (var entry in decodedList) {
-        FlutterSync.instance.entityRegistry.save(
-          entry.key, // EntityName
-          entry.value, // Entity JSON
-        );
-      }
-    } catch (error, stackTrace) {
-      logger.error(error);
-      logger.debug(stackTrace);
-    }
   }
 
   @override

@@ -2,12 +2,43 @@ import 'dart:convert';
 
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 
+class DataUploadMap {
+  List<DataEntity> relations;
+  List<DataEntity> models;
+  DataUploadMap({required this.relations, required this.models});
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'relations': relations.map((x) => x.toJson()).toList(),
+      'entities': models.map((x) => x.toJson()).toList(),
+    };
+  }
+
+  factory DataUploadMap.fromJson(Map<String, dynamic> map) {
+    return DataUploadMap(
+      relations:
+          map['relations'] != null
+              ? List<DataEntity>.from(
+                (map['relations'] as List<int>).map<DataEntity>(
+                  (x) => DataEntity.fromJson(x as Map<String, dynamic>),
+                ),
+              )
+              : [],
+      models: List<DataEntity>.from(
+        (map['entities'] as List<int>).map<DataEntity>(
+          (x) => DataEntity.fromJson(x as Map<String, dynamic>),
+        ),
+      ),
+    );
+  }
+}
+
 class SyncDataEntity {
   int id;
   String deviceId;
   String userId;
   String accountKey;
-  List<DataEntity> data;
+  DataUploadMap data;
   String updateId;
   DateTime createdAt;
   DateTime updatedAt;
@@ -28,9 +59,7 @@ class SyncDataEntity {
     deviceId: json["deviceId"],
     userId: json["userId"],
     accountKey: json["accountKey"],
-    data: List<DataEntity>.from(
-      json["data"].map((x) => DataEntity.fromJson(x)),
-    ),
+    data: DataUploadMap.fromJson(json["data"]),
     updateId: json["updateId"].toString(),
     createdAt: DateTime.parse(json["createdAt"]),
     updatedAt: DateTime.parse(json["updatedAt"]),
@@ -41,7 +70,7 @@ class SyncDataEntity {
     "deviceId": deviceId,
     "userId": userId,
     "accountKey": accountKey,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    "data": data.toJson(),
     "updateId": updateId,
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),

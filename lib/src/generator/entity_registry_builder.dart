@@ -321,11 +321,13 @@ String generateExportObjectboxG(BuildStep buildStep) {
 // ignore: deprecated_member_use
 String getFieldType(FieldElement field) {
   return (field.type as ParameterizedType).typeArguments.first.getDisplayString(
+    // ignore: deprecated_member_use
     withNullability: false,
   );
 }
 
 // ignore: deprecated_member_use
 String getStrFieldType(FieldElement field) {
+  // ignore: deprecated_member_use
   return field.type.getDisplayString(withNullability: false);
 }

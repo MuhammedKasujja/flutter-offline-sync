@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/remote_update_entity.dart';
 import 'package:flutter_offline_sync/src/data/models/sync_data_entity.dart';
 import 'package:flutter_offline_sync/src/data/services/syncroniser/data_syncroniser_interface.dart';
@@ -19,7 +18,6 @@ class SyncroniserService {
   Future startSync(String syncId) async {
     // startLocalSync(syncId);
     syncLocalChanges(syncId);
-    startSyncRemoteChanges();
   }
 
   void startLocalSync(String syncId) {
@@ -36,25 +34,6 @@ class SyncroniserService {
           } else {
             throw response.error ?? 'Error syncing data';
           }
-        });
-  }
-
-  void startSyncRemoteChanges() {
-    _repo
-        .fetchRemoteUpdates()
-        .then((response) {
-          if (response.isSuccess) {
-            final List<DataEntity> dataUpdates =
-                response.data!.expand((item) => item.data).toList();
-
-            _repo.syncRemoteUpdates(dataUpdates);
-            logger.info({
-              'Sync Remote updates': '${response.data?.length} total updates',
-            });
-          }
-        })
-        .catchError((error) {
-          logger.error('Error starting sync remote changes', error);
         });
   }
 
@@ -88,30 +67,6 @@ class SyncroniserService {
     //     // log and retry later
     //   }
     // }
-  }
-
-  Future<void> fetchRemoteData() async {
-    try {
-      final response = await _repo.fetchRemoteUpdates();
-      if (response.isSuccess) {
-        /// TODO: schedule/ run on a background thread
-        /// to avoid blocking the main thread
-        /// This can be done using Isolates
-        /// or using a background service
-        /// This is a simple example of how to use Isolates
-
-        final List<DataEntity> dataUpdates =
-            response.data!.expand((item) => item.data).toList();
-
-        await _repo.syncRemoteUpdates(dataUpdates);
-        logger.info({
-          'Sync Remote updates': '${response.data?.length} total updates',
-        });
-      }
-    } catch (error) {
-      logger.error('Error starting sync remote changes', error);
-      return;
-    }
   }
 
   Future<List<SyncDataEntity>> fetchRemotePendingData() async {

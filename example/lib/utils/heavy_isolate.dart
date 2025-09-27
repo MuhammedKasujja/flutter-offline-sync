@@ -42,7 +42,7 @@ void objectBoxWorker(List initial) async {
         mainSendPort.send({
           'type': 'chunkInserted',
           'inserted': items.length,
-          'meta': msg['meta'] ?? null,
+          'meta': msg['meta'],
         });
       } else if (msg is Map && msg['type'] == 'close') {
         // Close store and break loop

@@ -29,36 +29,59 @@ class RemoteChangesService extends RemoteSyncronizer {
   }
 
   @override
-  Future<List<DataEntity>> fetchRemoteNonSyncedData() async {
+  Future<DataUploadMap> fetchRemoteNonSyncedData() async {
     final remotes = await getRemoteLocalUnSavedData();
 
-    final List<DataEntity> dataUpdates =
-        remotes.expand((item) => item.data).toList();
+    final List<DataEntity> modelUpdates =
+        remotes.expand((item) => item.data.models).toList();
 
     final sortByCreatedAt = await FlutterSync.canSyncUsingCreatedAt();
 
-    return sortInBackground(
-      updates: dataUpdates,
+    final sortedRelations = await sortInBackground(
+      updates: remotes.expand((item) => item.data.relations).toList(),
       sortByCreatedAt: sortByCreatedAt,
     );
+
+    final sortedModels = await sortInBackground(
+      updates: modelUpdates,
+      sortByCreatedAt: sortByCreatedAt,
+    );
+
+    return DataUploadMap(models: sortedModels, relations: sortedRelations);
   }
 
   @override
   Future<void> syncRemoteUpdates() async {
     final remoteUpdates = await fetchRemoteNonSyncedData();
 
-    if (remoteUpdates.isEmpty) {
+    if (remoteUpdates.models.isEmpty) {
       logger.info('No Remote updates found');
       return;
     }
     try {
-      // lift json decode to a separate Isolate to avoid blocking the UI
-      final decodedList = await compute(
+      /// Save relations first to avoid double saving the same entity
+      /// lift json decode to a separate Isolate to avoid blocking the UI
+      final decodedRelationsList = await compute(
         Parser.decodeRemoteEntitiesInIsolate,
-        remoteUpdates,
+        remoteUpdates.relations,
       );
 
-      for (var entry in decodedList) {
+      for (var entry in decodedRelationsList) {
+        FlutterSync.instance.entityRegistry.save(
+          entry.key, // EntityName
+          entry.value, // Entity JSON
+        );
+      }
+
+      /// Save Entities/ Models last
+      /// lift json decode to a separate Isolate to avoid blocking the UI
+      ///
+      final decodedModelList = await compute(
+        Parser.decodeRemoteEntitiesInIsolate,
+        remoteUpdates.models,
+      );
+
+      for (var entry in decodedModelList) {
         FlutterSync.instance.entityRegistry.save(
           entry.key, // EntityName
           entry.value, // Entity JSON
