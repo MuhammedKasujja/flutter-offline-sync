@@ -44,14 +44,14 @@ class ApiClient {
         endpoint,
         queryParameters: queryParameters,
       );
-      if (response.statusCode == 200) {
-        return ApiResponse<T>.success(response.data);
-      }
       logger.error({
         'Response size': formatSize(
           utf8.encode(jsonEncode(response.data)).length,
         ),
       });
+      if (response.statusCode == 200) {
+        return ApiResponse<T>.success(response.data);
+      }
       return ApiResponse.fromError(response.data);
     } catch (error, stackTrace) {
       logger.error({'Error': error, 'StackTrace': stackTrace});
