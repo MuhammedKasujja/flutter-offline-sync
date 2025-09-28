@@ -1,3 +1,5 @@
+import 'dart:math';
+
 String formatApiBaseUrl(String url) {
   String baseUrl = url.trim();
   if (baseUrl.endsWith('/') == false) {
@@ -48,3 +50,27 @@ const List<String> _monthNames = [
   "Nov",
   "Dec",
 ];
+
+double round(double? value, int precision) {
+  if (value == null || value.isNaN) {
+    return 0;
+  }
+
+  final int fac = pow(10, precision) as int;
+  double result = value * fac;
+
+  // Workaround for floating point issues:
+  // ie. 35 * 1.107 => 38.745
+  // ie. .75 * 55.3 => 41.4749999999
+  if ('$result'.contains('999999')) {
+    result += 0.000001;
+  }
+
+  return result.round() / fac;
+}
+
+String formatSize(int size) {
+  return size > 1000000
+      ? '${round(size / 1000000, 1).toInt()} MB'
+      : '${round(size / 1000, 0).toInt()} KB';
+}

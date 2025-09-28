@@ -14,6 +14,9 @@ class DataEntity {
   String entity;
   bool isSynced;
 
+  /// used to determine if this `Entity` was already saved in the relations array
+  bool isSaved;
+
   /// Entity ID this change relates to.
   String? entityId;
   String operation;
@@ -33,27 +36,35 @@ class DataEntity {
     required this.operation,
     required this.entity,
     this.isSynced = false,
+    this.isSaved = false,
     this.updatedAt,
     this.createdAt,
     this.deletedAt,
   });
 
   Map<String, dynamic> toJson() {
-    final update = jsonDecode(data);
+    Map<String, dynamic> update = jsonDecode(data);
+    update.addAll({"isSaved": isSaved});
     return {
       'uuid': uuid,
       'tableName': tableName,
       'entityId': entityId,
       'entity': entity,
-      'data': jsonDecode(data),
+      'data': update,
       'state': operation,
       'updateId': id,
       'isSynced': isSynced,
+      'isSaved': isSaved,
       'created_at': update['created_at'],
       'deleted_at': update['deleted_at'],
       'updated_at': update['updated_at'],
     };
   }
+
+  Map<String, dynamic> toDataJson() => {
+    ...jsonDecode(data),
+    "isSaved": isSaved,
+  };
 
   factory DataEntity.fromJson(Map<String, dynamic> json) {
     return DataEntity(
@@ -62,6 +73,7 @@ class DataEntity {
       tableName: json['entity'],
       operation: json['state'] ?? 'create',
       entity: json['entity'],
+      isSaved: json['isSaved'] ?? false,
       entityId: json['entityId']?.toString(),
 
       /// TODO: handle naming cases i.e [createdAt, deletedAt, updatedAt]

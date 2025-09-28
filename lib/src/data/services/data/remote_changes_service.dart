@@ -82,10 +82,17 @@ class RemoteChangesService extends RemoteSyncronizer {
       );
 
       for (var entry in decodedModelList) {
-        FlutterSync.instance.entityRegistry.save(
-          entry.key, // EntityName
-          entry.value, // Entity JSON
-        );
+        if (entry.value['isSaved']) {
+          FlutterSync.instance.entityRegistry.saveRelations(
+            entry.key, // EntityName
+            entry.value, // Entity JSON
+          );
+        } else {
+          FlutterSync.instance.entityRegistry.save(
+            entry.key, // EntityName
+            entry.value, // Entity JSON
+          );
+        }
       }
       clearUpdatesTable();
     } catch (error, stackTrace) {

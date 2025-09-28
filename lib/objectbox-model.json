@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8095617417935777367",
-      "lastPropertyId": "11:8996818882446366634",
+      "lastPropertyId": "12:1771476964443055907",
       "name": "DataEntity",
       "properties": [
         {
@@ -65,6 +65,11 @@
           "type": 9,
           "flags": 2080,
           "indexId": "2:3979365755674980984"
+        },
+        {
+          "id": "12:1771476964443055907",
+          "name": "isSaved",
+          "type": 1
         }
       ],
       "relations": []

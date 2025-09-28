@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_offline_sync/src/data/models/data_entity.dart';
 
 class DataUploadMap {
@@ -122,8 +120,7 @@ class Parser {
     List<DataEntity> remoteUpdates,
   ) {
     return remoteUpdates.map((remoteData) {
-      final decoded = jsonDecode(remoteData.data);
-      return MapEntry(remoteData.entity, decoded);
+      return MapEntry(remoteData.entity, remoteData.toDataJson());
     }).toList();
   }
 }

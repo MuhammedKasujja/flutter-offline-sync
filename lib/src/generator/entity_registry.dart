@@ -12,6 +12,7 @@ typedef FetchEntityIdsFunction =
 
 typedef MarkEntitySyncedFunction =
     int Function(Store store, DateTime lastSyncDate);
+typedef SaveRelationsFunction = int Function(Store store, Map<String, dynamic> json);
 
 class EntityHandler {
   final BoxFactory boxFactory;
@@ -20,6 +21,7 @@ class EntityHandler {
   final FetchFunction fetchFunction;
   final FetchEntityIdsFunction fetchUpdatedIdsFunction;
   final MarkEntitySyncedFunction makeEntitiesAsSyncronizedFunction;
+  final SaveRelationsFunction saveRelationsFunction;
 
   const EntityHandler({
     required this.boxFactory,
@@ -28,6 +30,7 @@ class EntityHandler {
     required this.fetchFunction,
     required this.fetchUpdatedIdsFunction,
     required this.makeEntitiesAsSyncronizedFunction,
+    required this.saveRelationsFunction,
   });
 }
 
@@ -62,6 +65,10 @@ abstract class EntityRegistry {
   
   int markAsSynced(String entityName, DateTime lastSyncDate) =>
       get(entityName)?.makeEntitiesAsSyncronizedFunction(store, lastSyncDate) ??
+      (throw Exception("Handler not found for $entityName"));
+
+  int saveRelations(String entityName, Map<String, dynamic> json) =>
+      get(entityName)?.saveRelationsFunction(store, json) ??
       (throw Exception("Handler not found for $entityName"));
 }
 

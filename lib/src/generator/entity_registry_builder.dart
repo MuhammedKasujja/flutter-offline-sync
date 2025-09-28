@@ -153,6 +153,27 @@ class EntityRegistryBuilder implements Builder {
       buffer.writeln("   entity.isSynced = true;");
       buffer.writeln("      return box.put(entity);");
       buffer.writeln("    },");
+      buffer.writeln("    saveRelationsFunction: (store, json) {");
+      buffer.writeln(''' 
+         final box = store.box<$entity>();\n
+
+         final query = box.query(${entity}_.uuid.equals(json['uuid'])).build();\n
+
+         $entity? entity = query.findFirst();\n
+
+         query.close();
+
+         if(entity != null) { 
+             if(json['relations'] != null) { 
+                entity = entity.applyJsonRelationships(store, json['relations'] ?? {});
+             }
+             // Ensure isSynced is set to true to avoid sync issues
+             entity.isSynced = true;
+             return box.put(entity);
+        }
+        return 0;
+      },
+      ''');
       buffer.writeln("  ),");
     }
 
@@ -234,22 +255,13 @@ class EntityRegistryBuilder implements Builder {
           buffer.writeln(
             "    if (json.containsKey('$name') && json['$name'] != null) {",
           );
-          buffer.writeln("  final ${name}Box = store.box<$relatedType>();\n");
+          buffer.writeln("  final ${name}Box = store.box<$relatedType>();");
           buffer.writeln(
-            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(json['$name']['uuid'])).build();\n",
+            "  final query = ${name}Box.query(${relatedType}_.uuid.equals(json['$name']['uuid'])).build();",
           );
-          buffer.writeln("  final data = query.findFirst();\n");
-          buffer.writeln("  if(json['$name']['is_synced']){");
+          buffer.writeln("  final data = query.findFirst();");
           buffer.writeln("  if(data != null) { $name.targetId = data.id;}");
-          buffer.writeln("  }");
-          buffer.writeln("  else{");
-          buffer.writeln(
-            "  final ${name}Entity = $relatedType.fromJson(json['$name']);\n",
-          );
-          buffer.writeln("  if(data != null) { ${name}Entity.id = data.id;}");
-          buffer.writeln("  else{ ${name}Box.put(${name}Entity);}");
           buffer.writeln("  query.close();");
-          buffer.writeln("  $name.target = ${name}Entity;}");
           buffer.writeln(" }\n");
         } else if (typeStr.startsWith('ToMany<')) {
           buffer.writeln("    if (json.containsKey('$name')) {");

@@ -93,6 +93,28 @@ final Map<String, EntityHandler> _generatedRegistry = {
       entity.isSynced = true;
       return box.put(entity);
     },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<RoleModel>();
+
+      final query = box.query(RoleModel_.uuid.equals(json['uuid'])).build();
+
+      RoleModel? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
+    },
   ),
   'UserModel': EntityHandler(
     boxFactory: (store) => store.box<UserModel>(),
@@ -169,6 +191,28 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       entity.isSynced = true;
       return box.put(entity);
+    },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<UserModel>();
+
+      final query = box.query(UserModel_.uuid.equals(json['uuid'])).build();
+
+      UserModel? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
     },
   ),
   'PostModel': EntityHandler(
@@ -247,6 +291,28 @@ final Map<String, EntityHandler> _generatedRegistry = {
       entity.isSynced = true;
       return box.put(entity);
     },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<PostModel>();
+
+      final query = box.query(PostModel_.uuid.equals(json['uuid'])).build();
+
+      PostModel? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
+    },
   ),
   'CommentModel': EntityHandler(
     boxFactory: (store) => store.box<CommentModel>(),
@@ -323,6 +389,28 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       entity.isSynced = true;
       return box.put(entity);
+    },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<CommentModel>();
+
+      final query = box.query(CommentModel_.uuid.equals(json['uuid'])).build();
+
+      CommentModel? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
     },
   ),
 };
@@ -459,54 +547,26 @@ extension PostModelRelationJson on PostModel {
     // Apply relations from JSON
     if (json.containsKey('user') && json['user'] != null) {
       final userBox = store.box<UserModel>();
-
       final query = userBox
           .query(UserModel_.uuid.equals(json['user']['uuid']))
           .build();
-
       final data = query.findFirst();
-
-      if (json['user']['is_synced']) {
-        if (data != null) {
-          user.targetId = data.id;
-        }
-      } else {
-        final userEntity = UserModel.fromJson(json['user']);
-
-        if (data != null) {
-          userEntity.id = data.id;
-        } else {
-          userBox.put(userEntity);
-        }
-        query.close();
-        user.target = userEntity;
+      if (data != null) {
+        user.targetId = data.id;
       }
+      query.close();
     }
 
     if (json.containsKey('comment') && json['comment'] != null) {
       final commentBox = store.box<CommentModel>();
-
       final query = commentBox
           .query(CommentModel_.uuid.equals(json['comment']['uuid']))
           .build();
-
       final data = query.findFirst();
-
-      if (json['comment']['is_synced']) {
-        if (data != null) {
-          comment.targetId = data.id;
-        }
-      } else {
-        final commentEntity = CommentModel.fromJson(json['comment']);
-
-        if (data != null) {
-          commentEntity.id = data.id;
-        } else {
-          commentBox.put(commentEntity);
-        }
-        query.close();
-        comment.target = commentEntity;
+      if (data != null) {
+        comment.targetId = data.id;
       }
+      query.close();
     }
 
     return this;
@@ -553,28 +613,14 @@ extension CommentModelRelationJson on CommentModel {
     // Apply relations from JSON
     if (json.containsKey('user') && json['user'] != null) {
       final userBox = store.box<UserModel>();
-
       final query = userBox
           .query(UserModel_.uuid.equals(json['user']['uuid']))
           .build();
-
       final data = query.findFirst();
-
-      if (json['user']['is_synced']) {
-        if (data != null) {
-          user.targetId = data.id;
-        }
-      } else {
-        final userEntity = UserModel.fromJson(json['user']);
-
-        if (data != null) {
-          userEntity.id = data.id;
-        } else {
-          userBox.put(userEntity);
-        }
-        query.close();
-        user.target = userEntity;
+      if (data != null) {
+        user.targetId = data.id;
       }
+      query.close();
     }
 
     return this;

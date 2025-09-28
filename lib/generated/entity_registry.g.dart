@@ -95,6 +95,30 @@ final Map<String, EntityHandler> _generatedRegistry = {
       entity.isSynced = true;
       return box.put(entity);
     },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<RemoteUpdateEntity>();
+
+      final query = box
+          .query(RemoteUpdateEntity_.uuid.equals(json['uuid']))
+          .build();
+
+      RemoteUpdateEntity? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
+    },
   ),
   'DataEntity': EntityHandler(
     boxFactory: (store) => store.box<DataEntity>(),
@@ -171,6 +195,28 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       entity.isSynced = true;
       return box.put(entity);
+    },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<DataEntity>();
+
+      final query = box.query(DataEntity_.uuid.equals(json['uuid'])).build();
+
+      DataEntity? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
     },
   ),
   'ConfigurationEntity': EntityHandler(
@@ -251,6 +297,30 @@ final Map<String, EntityHandler> _generatedRegistry = {
       entity.isSynced = true;
       return box.put(entity);
     },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<ConfigurationEntity>();
+
+      final query = box
+          .query(ConfigurationEntity_.uuid.equals(json['uuid']))
+          .build();
+
+      ConfigurationEntity? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
+    },
   ),
   'SyncDeviceEntity': EntityHandler(
     boxFactory: (store) => store.box<SyncDeviceEntity>(),
@@ -329,6 +399,30 @@ final Map<String, EntityHandler> _generatedRegistry = {
 
       entity.isSynced = true;
       return box.put(entity);
+    },
+    saveRelationsFunction: (store, json) {
+      final box = store.box<SyncDeviceEntity>();
+
+      final query = box
+          .query(SyncDeviceEntity_.uuid.equals(json['uuid']))
+          .build();
+
+      SyncDeviceEntity? entity = query.findFirst();
+
+      query.close();
+
+      if (entity != null) {
+        if (json['relations'] != null) {
+          entity = entity.applyJsonRelationships(
+            store,
+            json['relations'] ?? {},
+          );
+        }
+        // Ensure isSynced is set to true to avoid sync issues
+        entity.isSynced = true;
+        return box.put(entity);
+      }
+      return 0;
     },
   ),
 };

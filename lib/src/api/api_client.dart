@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_offline_sync/src/api/api_response.dart';
 import 'package:flutter_offline_sync/src/data/services/network_exception.dart';
+import 'package:flutter_offline_sync/src/utils/formatting.dart';
 import 'package:flutter_offline_sync/src/utils/logger.dart';
 
 class ApiClient {
@@ -44,6 +47,11 @@ class ApiClient {
       if (response.statusCode == 200) {
         return ApiResponse<T>.success(response.data);
       }
+      logger.error({
+        'Response size': formatSize(
+          utf8.encode(jsonEncode(response.data)).length,
+        ),
+      });
       return ApiResponse.fromError(response.data);
     } catch (error, stackTrace) {
       logger.error({'Error': error, 'StackTrace': stackTrace});
@@ -54,6 +62,7 @@ class ApiClient {
       );
     }
   }
+
   /// Handle all `Get List` requests using this method
   Future<ApiResponse<List<T>>> getList<T>({
     required String url,

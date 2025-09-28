@@ -25,7 +25,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 8095617417935777367),
     name: 'DataEntity',
-    lastPropertyId: const obx_int.IdUid(11, 8996818882446366634),
+    lastPropertyId: const obx_int.IdUid(12, 1771476964443055907),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -94,6 +94,12 @@ final _entities = <obx_int.ModelEntity>[
         type: 9,
         flags: 2080,
         indexId: const obx_int.IdUid(2, 3979365755674980984),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 1771476964443055907),
+        name: 'isSaved',
+        type: 1,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -433,7 +439,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final uuidOffset = object.uuid == null
             ? null
             : fbb.writeString(object.uuid!);
-        fbb.startTable(12);
+        fbb.startTable(13);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, dataOffset);
         fbb.addOffset(2, tableNameOffset);
@@ -445,6 +451,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(8, object.createdAt?.millisecondsSinceEpoch);
         fbb.addInt64(9, object.deletedAt?.millisecondsSinceEpoch);
         fbb.addOffset(10, uuidOffset);
+        fbb.addBool(11, object.isSaved);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -496,6 +503,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           16,
           false,
         );
+        final isSavedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          26,
+          false,
+        );
         final updatedAtParam = updatedAtValue == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(updatedAtValue);
@@ -514,6 +527,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           operation: operationParam,
           entity: entityParam,
           isSynced: isSyncedParam,
+          isSaved: isSavedParam,
           updatedAt: updatedAtParam,
           createdAt: createdAtParam,
           deletedAt: deletedAtParam,
@@ -964,6 +978,11 @@ class DataEntity_ {
   /// See [DataEntity.uuid].
   static final uuid = obx.QueryStringProperty<DataEntity>(
     _entities[0].properties[10],
+  );
+
+  /// See [DataEntity.isSaved].
+  static final isSaved = obx.QueryBooleanProperty<DataEntity>(
+    _entities[0].properties[11],
   );
 }
 
