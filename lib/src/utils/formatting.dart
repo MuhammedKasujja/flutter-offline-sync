@@ -74,3 +74,13 @@ String formatSize(int size) {
       ? '${round(size / 1000000, 1).toInt()} MB'
       : '${round(size / 1000, 0).toInt()} KB';
 }
+
+String formatError(dynamic error) {
+  if (error == null || (error is String && error.isEmpty)) {
+    return 'Unknown error occured';
+  }
+  if (error is Exception || (error is String && error.contains('Exception'))) {
+    return error.toString().replaceFirst('Exception: ', '');
+  }
+  return error.toString();
+}

@@ -30,7 +30,7 @@ class _DeviceUserEditState extends State<DeviceUserEdit> {
       if (response.isSuccess) {
         context.toast.success('Device saved successfully');
       } else {
-        context.toast.error('${response.error}');
+        context.toast.error(response.error);
       }
     } catch (error) {
       context.toast.error('Error saving device: $error');

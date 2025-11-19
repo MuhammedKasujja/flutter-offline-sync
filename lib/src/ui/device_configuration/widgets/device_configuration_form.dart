@@ -58,7 +58,7 @@ class _DeviceConfigurationFormState
       success: (message, configStep) {
         context.read<RemoteUpdatesBloc>().add(FetchRemotePendingUpdates());
       },
-      error: (configStep, error) => context.toast.error(error.toString()),
+      error: (configStep, error) => context.toast.error(error),
     );
   }
 

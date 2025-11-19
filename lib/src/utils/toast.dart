@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_offline_sync/src/utils/formatting.dart';
 
 class ToastNotification {
   final BuildContext context;
   ToastNotification(this.context);
 
   void error(dynamic error) {
-    if (error == null || error.toString().isEmpty) return;
+    final message = formatError(error);
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text(error.toString())));
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   void success(String? message) {
