@@ -42,3 +42,38 @@ Note
 
  objectbox: ^4.3.0 required
  objectbox_flutter_libs: 4.3.0
+
+ ### Example Usage:
+```dart 
+ import 'package:example/data/objectbox.dart';
+ import 'package:example/generated/entity_registry.g.dart';
+ import 'package:example/ui/users_screen.dart';
+ import 'package:flutter/material.dart';
+ import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+
+ void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+   await ObjectBox.create(databaseName: 'users_db');
+
+   await FlutterSync.init(
+     registry: ObjectboxSyncRegistry(ObjectBox.instance.store),
+     initEntityChecker: null,
+   );
+   runApp(const MainApp());
+ }
+
+ class MainApp extends StatelessWidget {
+   const MainApp({super.key});
+
+   @override
+   Widget build(BuildContext context) {
+     return FlutterSyncProvider(
+       syncBaseUrl: 'http://192.168.1.4:3000/api/',
+       child: const MaterialApp(
+         debugShowCheckedModeBanner: false,
+         home: UsersScreen(),
+       ),
+     );
+   }
+ }
+```

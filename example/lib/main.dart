@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterSyncProvider(
-      syncBaseUrl: 'http://192.168.1.4:3000/api/',
+      syncBaseUrl: 'http://192.168.1.3:3000/api/',
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: UsersScreen(),
