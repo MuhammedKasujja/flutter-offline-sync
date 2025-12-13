@@ -4,10 +4,33 @@ import 'package:uuid/uuid.dart';
 import 'package:flutter_offline_sync/src/constants.dart';
 import 'package:flutter_offline_sync/src/data/models/models.dart';
 import 'package:flutter_offline_sync/src/utils/data.dart';
+import 'package:flutter_offline_sync/src/utils/formatting.dart';
 
 final int _settingsId = 1;
 
 class ConfigService {
+  /// Initialize app configuration settings with default values
+  static Future<ConfigurationEntity?> initSettings({
+    required String syncBaseUrl,
+  }) async {
+    var config = await getSettings();
+
+    config ??= ConfigurationEntity();
+
+    config = config.syncIfNull(
+      currentDeviceId: Uuid().v4(),
+      baseUrl: formatApiBaseUrl(syncBaseUrl),
+      accountKey: kDebugMode ? kDemoAccountKey : null,
+      remoteEndpoint: kDemoRemoteDownloadUrl,
+      localEndpoint: kDemoRemoteUploadUrl,
+      addSyncDeviceEndpoint: kDemoRemoteAddSyncDeviceUrl,
+      connectAccountEndpoint: kDemoConnectAccountEndpoint,
+      syncDeviceListEndpoint: kDemoRemoteAccountSyncDevicesUrl,
+    );
+
+    return saveSettings(config);
+  }
+
   static Future<ConfigurationEntity?> getSettings() async {
     return getBox<ConfigurationEntity>().get(_settingsId);
   }

@@ -29,10 +29,60 @@ import 'data/services/configuration_service.dart';
 //   }
 // }
 
+/// FlutterSyncProvider: A widget that initializes sync configuration and provides
+/// 
+/// necessary capabilities for offline synchronization functionality.
+/// 
+/// this must wrap the main application widget, usually the root `MaterialApp` or `CupertinoApp`.
+/// 
+/// 
+/// ```dart 
+/// import 'package:example/data/objectbox.dart';
+/// import 'package:example/generated/entity_registry.g.dart';
+/// import 'package:example/ui/users_screen.dart';
+/// import 'package:flutter/material.dart';
+/// import 'package:flutter_offline_sync/flutter_offline_sync.dart';
+///
+/// void main() async {
+///   WidgetsFlutterBinding.ensureInitialized();
+///   await ObjectBox.create(databaseName: 'users_db');
+///
+///   await FlutterSync.init(
+///     registry: ObjectboxSyncRegistry(ObjectBox.instance.store),
+///     initEntityChecker: null,
+///   );
+///   runApp(const MainApp());
+/// }
+///
+/// class MainApp extends StatelessWidget {
+///   const MainApp({super.key});
+///
+///   @override
+///   Widget build(BuildContext context) {
+///     return FlutterSyncProvider(
+///       syncBaseUrl: 'http://192.168.1.4:3000/api/',
+///       child: const MaterialApp(
+///         debugShowCheckedModeBanner: false,
+///         home: UsersScreen(),
+///       ),
+///     );
+///   }
+/// }
+/// ```
+/// 
 class FlutterSyncProvider extends StatefulWidget {
-  const FlutterSyncProvider({super.key, required this.child});
-
+  const FlutterSyncProvider({
+    super.key,
+    required this.child,
+    required this.syncBaseUrl,
+  });
+  
+  /// Main application widget to wrap with sync capabilities 
+  /// 
+  /// usually the root `MaterialApp` or `CupertinoApp`
   final Widget child;
+  /// Base URL for sync API endpoints
+  final String syncBaseUrl;
 
   @override
   State<FlutterSyncProvider> createState() => _FlutterSyncProviderState();
@@ -41,12 +91,12 @@ class FlutterSyncProvider extends StatefulWidget {
 class _FlutterSyncProviderState extends State<FlutterSyncProvider> {
   @override
   void initState() {
-    setup();
+    _setup();
     super.initState();
   }
 
-  Future setup() async {
-    await ConfigService.saveCurrentDeviceId();
+  Future _setup() async {
+    await ConfigService.initSettings(syncBaseUrl: widget.syncBaseUrl);
     await AppConfig.instance.init();
   }
 
