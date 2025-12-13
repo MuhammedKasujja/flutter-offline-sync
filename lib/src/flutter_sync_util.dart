@@ -5,8 +5,6 @@ import 'package:flutter_offline_sync/src/data/services/app_config.dart';
 // import 'package:flutter_offline_sync/src/providers/sync_manager.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'data/services/configuration_service.dart';
-
 // class FlutterSyncUtil extends ConsumerWidget {
 //   const FlutterSyncUtil({super.key, required this.child});
 
@@ -49,6 +47,7 @@ class FlutterSyncProvider extends StatefulWidget {
   ///   await ObjectBox.create(databaseName: 'users_db');
   ///
   ///   await FlutterSync.init(
+  ///     syncBaseUrl: 'http://192.168.1.4:3000/api/',
   ///     registry: ObjectboxSyncRegistry(ObjectBox.instance.store),
   ///     initEntityChecker: null,
   ///   );
@@ -61,7 +60,6 @@ class FlutterSyncProvider extends StatefulWidget {
   ///   @override
   ///   Widget build(BuildContext context) {
   ///     return FlutterSyncProvider(
-  ///       syncBaseUrl: 'http://192.168.1.4:3000/api/',
   ///       child: const MaterialApp(
   ///         debugShowCheckedModeBanner: false,
   ///         home: UsersScreen(),
@@ -74,16 +72,12 @@ class FlutterSyncProvider extends StatefulWidget {
   const FlutterSyncProvider({
     super.key,
     required this.child,
-    required this.syncBaseUrl,
   });
 
   /// Main application widget to wrap with sync capabilities
   ///
   /// usually the root `MaterialApp` or `CupertinoApp`
   final Widget child;
-
-  /// Base URL for sync API endpoints
-  final String syncBaseUrl;
 
   @override
   State<FlutterSyncProvider> createState() => _FlutterSyncProviderState();
@@ -97,7 +91,6 @@ class _FlutterSyncProviderState extends State<FlutterSyncProvider> {
   }
 
   Future _setup() async {
-    await ConfigService.initSettings(syncBaseUrl: widget.syncBaseUrl);
     await AppConfig.instance.init();
   }
 

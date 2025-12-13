@@ -10,6 +10,7 @@ void main() async {
   await ObjectBox.create(databaseName: 'offline_sync_example');
 
   await FlutterSync.init(
+    syncBaseUrl: 'http://192.168.1.3:3000/api/',
     registry: ObjectboxSyncRegistry(ObjectBox.instance.store),
     initEntityChecker: null,
   );
@@ -22,7 +23,6 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterSyncProvider(
-      syncBaseUrl: 'http://192.168.1.3:3000/api/',
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: UsersScreen(),

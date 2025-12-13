@@ -84,3 +84,13 @@ String formatError(dynamic error) {
   }
   return error.toString();
 }
+
+
+bool isValidUrl(String url) {
+  try {
+    final uri = Uri.parse(url);
+    return uri.hasScheme && uri.host.isNotEmpty;
+  } catch (e) {
+    return false;
+  }
+}

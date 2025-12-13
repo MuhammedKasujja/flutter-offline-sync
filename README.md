@@ -56,6 +56,7 @@ Note
    await ObjectBox.create(databaseName: 'users_db');
 
    await FlutterSync.init(
+     syncBaseUrl: 'http://192.168.1.4:3000/api/',
      registry: ObjectboxSyncRegistry(ObjectBox.instance.store),
      initEntityChecker: null,
    );
@@ -68,7 +69,6 @@ Note
    @override
    Widget build(BuildContext context) {
      return FlutterSyncProvider(
-       syncBaseUrl: 'http://192.168.1.4:3000/api/',
        child: const MaterialApp(
          debugShowCheckedModeBanner: false,
          home: UsersScreen(),
